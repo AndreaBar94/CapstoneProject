@@ -73,7 +73,7 @@ public class CommentService {
                 .orElseThrow(() -> new NotFoundException("User not found"));
         
         // Verifica se l'utente autenticato è l'autore del commento
-        if (!existingComment.getUser().getEmail().equals(authentication.getName())) {
+        if (!existingComment.getUser().getEmail().equals(((User) authentication.getPrincipal()).getEmail())) {
         	//passo le info dello user non autorizzato al messaggio di errore
             throw new UnauthorizedException(user.getFirstname() + " is not authorized to update this comment");
         }
@@ -89,7 +89,7 @@ public class CommentService {
                 .orElseThrow(() -> new NotFoundException("User not found"));
         
         // Verifica se l'utente autenticato è l'autore del commento
-        if (!comment.getUser().getEmail().equals(authentication.getName())) {
+        if (!comment.getUser().getEmail().equals(((User) authentication.getPrincipal()).getEmail())) {
             throw new UnauthorizedException(user.getFirstname() + " is not authorized to delete this comment");
         }
 
