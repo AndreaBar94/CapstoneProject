@@ -1,15 +1,22 @@
 package AndreaBarocchi.CapstoneProject.entities;
 
-import java.security.Timestamp;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
-
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "articles")
+@Data
+@NoArgsConstructor
 public class Article {
 	
 	@Id
@@ -24,12 +31,26 @@ public class Article {
 	@ManyToOne
 	private User user; //author
 	
-	@ManyToOne
+	@OneToMany(mappedBy = "article")
 	private List<Comment> comments;
 	
-//	@OneToMany
-//	private List<Like> likes; article's likes, nice to have
+	@OneToMany(mappedBy = "article")
+	private List<Like> likes; //article's likes, nice to have
 	
 	@ManyToOne
 	private Category category;
+
+	public Article(String title, String content, LocalDate publicationDate, User user, List<Comment> comments,
+			List<Like> likes, Category category) {
+		super();
+		this.title = title;
+		this.content = content;
+		this.publicationDate = publicationDate;
+		this.user = user;
+		this.comments = comments;
+		this.likes = likes;
+		this.category = category;
+	}
+	
+	
 }

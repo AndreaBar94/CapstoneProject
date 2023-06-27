@@ -3,10 +3,19 @@ package AndreaBarocchi.CapstoneProject.entities;
 import java.util.List;
 import java.util.UUID;
 
+import AndreaBarocchi.CapstoneProject.enums.UserRole;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "categories")
+@Data
+@NoArgsConstructor
 public class Category {
 	
 	@Id
@@ -15,7 +24,7 @@ public class Category {
 	
 	private String categoryName;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "category")
 	private List<Article> articles;
 	
 }
