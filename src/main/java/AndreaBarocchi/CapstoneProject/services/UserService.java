@@ -48,9 +48,8 @@ public class UserService {
     public User updateUser(UUID userId, UserRegistrationPayload uPld, Authentication authentication)
             throws NotFoundException {
         User foundUser = this.findUserById(userId);
-        String authenticatedUserEmail = authentication.getName();
-
-        if (!foundUser.getEmail().equals(authenticatedUserEmail)) {
+        String authenticatedUserEmail = ((User) authentication.getPrincipal()).getEmail();
+        if (!foundUser.getEmail().equals(authenticatedUserEmail.toString())) {
             throw new UnauthorizedException("Unauthorized to update this user");
         }
 

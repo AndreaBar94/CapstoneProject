@@ -57,6 +57,7 @@ public class User implements UserDetails{
 		this.lastname = lastname;
 		this.email = email;
 		this.password = password;
+		this.role = UserRole.USER;
 	}
 
 	@Override

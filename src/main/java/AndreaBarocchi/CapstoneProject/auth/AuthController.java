@@ -31,7 +31,7 @@ public class AuthController {
 	@Autowired
 	private PasswordEncoder bcrypt;
 	
-	@PostMapping("/registration")
+	@PostMapping("/signup")
 	public ResponseEntity<User> register(@RequestBody @Validated UserRegistrationPayload body) {
 		body.setPassword(bcrypt.encode(body.getPassword()));
 
@@ -51,7 +51,7 @@ public class AuthController {
 		String hashedPW = user.getPassword(); 
 		
 		if (!bcrypt.matches(plainPW, hashedPW))
-			throw new UnauthorizedException("Credenziali non valide");
+			throw new UnauthorizedException("Invalid credentials");
 		//se corrisponde creo token
 		String token = JWTTools.createToken(user);
 		
