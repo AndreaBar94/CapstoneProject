@@ -40,7 +40,7 @@ public class CategoryService {
 
 	public Category findCategoryById(UUID categoryId) throws NotFoundException {
 		return categoryRepo.findById(categoryId)
-				.orElseThrow(() -> new NotFoundException("Category not found with ID: " + categoryId));
+				.orElseThrow(() -> new NotFoundException("Category not found for ID: " + categoryId));
 	}
 
 	public Category updateCategory(UUID categoryId, CategoryPayload categoryPayload) throws NotFoundException {

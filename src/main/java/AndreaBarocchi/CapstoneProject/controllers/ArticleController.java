@@ -1,6 +1,5 @@
 package AndreaBarocchi.CapstoneProject.controllers;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,42 +19,43 @@ import AndreaBarocchi.CapstoneProject.services.ArticleService;
 @RequestMapping("/articles")
 public class ArticleController {
 
-	@Autowired
-	private ArticleService articleService;
+    @Autowired
+    private ArticleService articleService;
 
-	@GetMapping
-	public ResponseEntity<Page<Article>> getArticles(
-			@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "10") int size,
-			@RequestParam(defaultValue = "publicationDate") String sortBy) {
-		Page<Article> articles = articleService.findAllArticles(page, size, sortBy);
-		return ResponseEntity.ok(articles);
-	}
+    @GetMapping
+    public ResponseEntity<Page<Article>> getArticles(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "publicationDate") String sortBy) {
+        Page<Article> articles = articleService.findAllArticles(page, size, sortBy);
+        return ResponseEntity.ok(articles);
+    }
 
-	@PostMapping("")
-	public ResponseEntity<Article> createArticle(Authentication authentication, @RequestBody ArticlePayload articlePayload) throws NotFoundException {
-	    User user = (User) authentication.getPrincipal();
-	    Article newArticle = articleService.createArticle(user, articlePayload);
-	    return ResponseEntity.status(HttpStatus.CREATED).body(newArticle);
-	}
+    @PostMapping("")
+    public ResponseEntity<Article> createArticle(Authentication authentication,
+            @RequestBody ArticlePayload articlePayload) throws NotFoundException {
+        User user = (User) authentication.getPrincipal();
+        Article newArticle = articleService.createArticle(user, articlePayload);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newArticle);
+    }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Article> getArticleById(@PathVariable UUID id) throws NotFoundException {
+        Article article = articleService.findArticleById(id);
+        return ResponseEntity.ok(article);
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Article> getArticleById(@PathVariable UUID id) throws NotFoundException {
-		Article article = articleService.findArticleById(id);
-		return ResponseEntity.ok(article);
-	}
+    @PutMapping("/{id}")
+    public ResponseEntity<Article> updateArticle(@PathVariable UUID id, @RequestBody ArticlePayload articlePayload,
+            Authentication authentication) throws NotFoundException {
+        Article updatedArticle = articleService.updateArticle(id, articlePayload, authentication);
+        return ResponseEntity.ok(updatedArticle);
+    }
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Article> updateArticle(@PathVariable UUID id, @RequestBody ArticlePayload articlePayload)
-			throws NotFoundException {
-		Article updatedArticle = articleService.updateArticle(id, articlePayload);
-		return ResponseEntity.ok(updatedArticle);
-	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteArticle(@PathVariable UUID id) throws NotFoundException {
-		articleService.deleteArticle(id);
-		return ResponseEntity.noContent().build();
-	}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable UUID id, Authentication authentication)
+            throws NotFoundException {
+        articleService.deleteArticle(id, authentication);
+        return ResponseEntity.noContent().build();
+    }
 }

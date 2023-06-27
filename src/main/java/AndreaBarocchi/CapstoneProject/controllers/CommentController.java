@@ -32,13 +32,13 @@ public class CommentController {
 
 
 	@PostMapping("/article/{articleId}")
-	public ResponseEntity<Comment> createComment(
-	        @PathVariable UUID articleId,
-	        @RequestBody CommentPayload commentPayload,
-	        Authentication authentication) throws NotFoundException {
-	    Comment newComment = commentService.createComment(articleId, commentPayload, authentication);
-	    return ResponseEntity.status(HttpStatus.CREATED).body(newComment);
-	}
+    public ResponseEntity<Comment> createComment(
+            @PathVariable UUID articleId,
+            @RequestBody CommentPayload commentPayload,
+            Authentication authentication) throws NotFoundException {
+        Comment newComment = commentService.createComment(articleId, commentPayload, authentication);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newComment);
+    }
 
 
 	@GetMapping("/{id}")
@@ -48,15 +48,16 @@ public class CommentController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Comment> updateComment(@PathVariable UUID id, @RequestBody CommentPayload commentPayload)
-			throws NotFoundException {
-		Comment updatedComment = commentService.updateComment(id, commentPayload);
-		return ResponseEntity.ok(updatedComment);
-	}
+    public ResponseEntity<Comment> updateComment(@PathVariable UUID id, @RequestBody CommentPayload commentPayload,
+                                                 Authentication authentication) throws NotFoundException {
+        Comment updatedComment = commentService.updateComment(id, commentPayload, authentication);
+        return ResponseEntity.ok(updatedComment);
+    }
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteComment(@PathVariable UUID id) throws NotFoundException {
-		commentService.deleteComment(id);
-		return ResponseEntity.noContent().build();
-	}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteComment(@PathVariable UUID id, Authentication authentication)
+            throws NotFoundException {
+        commentService.deleteComment(id, authentication);
+        return ResponseEntity.noContent().build();
+    }
 }

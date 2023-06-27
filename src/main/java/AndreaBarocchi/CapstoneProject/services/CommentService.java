@@ -15,6 +15,7 @@ import AndreaBarocchi.CapstoneProject.entities.Article;
 import AndreaBarocchi.CapstoneProject.entities.Comment;
 import AndreaBarocchi.CapstoneProject.entities.User;
 import AndreaBarocchi.CapstoneProject.exceptions.NotFoundException;
+import AndreaBarocchi.CapstoneProject.exceptions.UnauthorizedException;
 import AndreaBarocchi.CapstoneProject.payloads.CommentPayload;
 import AndreaBarocchi.CapstoneProject.repositories.ArticleRepository;
 import AndreaBarocchi.CapstoneProject.repositories.CommentRepository;
@@ -31,21 +32,22 @@ public class CommentService {
     private UserRepository userRepo;
 
 
-	public Comment createComment(UUID articleId, CommentPayload commentPayload, Authentication authentication) throws NotFoundException {
-	    Article article = articleRepo.findById(articleId)
-	            .orElseThrow(() -> new NotFoundException("Article not found with ID: " + articleId));
-	    
-	    User user = userRepo.findByEmail(authentication.getName())
-	            .orElseThrow(() -> new NotFoundException("User not found"));
+	public Comment createComment(UUID articleId, CommentPayload commentPayload, Authentication authentication)
+            throws NotFoundException {
+        Article article = articleRepo.findById(articleId)
+                .orElseThrow(() -> new NotFoundException("Article not found with ID: " + articleId));
 
-	    Comment comment = new Comment();
-	    comment.setContent(commentPayload.getContent());
-	    comment.setPublicationDate(LocalDate.now());
-	    comment.setUser(user);
-	    comment.setArticle(article);
+        User user = userRepo.findByEmail(authentication.getName())
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
-	    return commentRepo.save(comment);
-	}
+        Comment comment = new Comment();
+        comment.setContent(commentPayload.getContent());
+        comment.setPublicationDate(LocalDate.now());
+        comment.setUser(user);
+        comment.setArticle(article);
+
+        return commentRepo.save(comment);
+    }
 
 
     public Comment findCommentById(UUID commentId) throws NotFoundException {
@@ -62,16 +64,34 @@ public class CommentService {
     	return commentRepo.findAllByArticleArticleId(articleId, pageable);
     }
     
-    public Comment updateComment(UUID commentId, CommentPayload commentPayload) throws NotFoundException {
+    public Comment updateComment(UUID commentId, CommentPayload commentPayload, Authentication authentication)
+            throws NotFoundException {
+    	//trovo il commento
         Comment existingComment = findCommentById(commentId);
+        //trovo lo user che sta tentando la modifica
+        User user = userRepo.findByEmail(authentication.getName())
+                .orElseThrow(() -> new NotFoundException("User not found"));
+        
+        // Verifica se l'utente autenticato è l'autore del commento
+        if (!existingComment.getUser().getEmail().equals(authentication.getName())) {
+        	//passo le info dello user non autorizzato al messaggio di errore
+            throw new UnauthorizedException(user.getFirstname() + " is not authorized to update this comment");
+        }
+        
         existingComment.setContent(commentPayload.getContent());
         return commentRepo.save(existingComment);
     }
 
-    
-    public void deleteComment(UUID commentId) throws NotFoundException {
-        Comment comment = commentRepo.findById(commentId)
-                .orElseThrow(() -> new NotFoundException("Comment not found with ID: " + commentId));
+    public void deleteComment(UUID commentId, Authentication authentication) throws NotFoundException {
+        Comment comment = findCommentById(commentId);
+        
+        User user = userRepo.findByEmail(authentication.getName())
+                .orElseThrow(() -> new NotFoundException("User not found"));
+        
+        // Verifica se l'utente autenticato è l'autore del commento
+        if (!comment.getUser().getEmail().equals(authentication.getName())) {
+            throw new UnauthorizedException(user.getFirstname() + " is not authorized to delete this comment");
+        }
 
         commentRepo.delete(comment);
     }
