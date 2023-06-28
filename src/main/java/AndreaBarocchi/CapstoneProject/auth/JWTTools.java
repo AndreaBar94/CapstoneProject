@@ -12,6 +12,18 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import java.net.URL;
+import java.security.GeneralSecurityException;
+import java.security.KeyFactory;
+import java.security.PublicKey;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
+import org.apache.commons.io.IOUtils;
+
+import io.jsonwebtoken.io.IOException;
+import io.jsonwebtoken.security.SignatureException;
+
+import io.jsonwebtoken.Claims;
 
 @Component
 @Slf4j
@@ -41,19 +53,44 @@ public class JWTTools {
 	}
 
 	static public void isTokenValid(String token) {
-		try {
-			Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(secret.getBytes())).build().parse(token);
+        try {
+            String publicKeyUrl = "https://www.googleapis.com/oauth2/v3/certs";
+            String publicKey = getPublicKey(publicKeyUrl);
 
-		} catch (MalformedJwtException e) {
-			throw new UnauthorizedException("Invalid Token");
-		} catch (ExpiredJwtException e) {
-			throw new UnauthorizedException("Expired Token");
-		} catch (Exception e) {
-			throw new UnauthorizedException("Problems with token, please login again");
-		}
-	}
+            PublicKey key = stringToPublicKey(publicKey);
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            Jwts.parserBuilder()
+                    .setSigningKey(Keys.hmacShaKeyFor(secret.getBytes()))
+                    .build()
+                    .parseClaimsJws(token);
+
+        } catch (MalformedJwtException e) {
+            throw new UnauthorizedException("Invalid token");
+        } catch (ExpiredJwtException e) {
+            throw new UnauthorizedException("Token is out of date");
+        } catch (SignatureException e) {
+            throw new UnauthorizedException("Invalid token signature");
+        } catch (Exception e) {
+            throw new UnauthorizedException("There has been a problem with your token, please try to log in again.");
+        }
+    }
 	
-	
+	private static String getPublicKey(String url) throws IOException, java.io.IOException {
+        URL publicKeyUrl = new URL(url);
+        return IOUtils.toString(publicKeyUrl, "UTF-8");
+    }
+
+    private static PublicKey stringToPublicKey(String publicKey) throws GeneralSecurityException {
+        byte[] keyBytes = Base64.getDecoder().decode(publicKey);
+        X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        return keyFactory.generatePublic(spec);
+    }
 	//utilizzo la mail come subject dell'utente
 	static public String extractSubject(String token) { 
 		return Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(secret.getBytes())).build().parseClaimsJws(token)

@@ -33,7 +33,7 @@ public class JWTAuthFilter extends OncePerRequestFilter{
 		//questo metodo verrà lanciato ad ogni request
 		//si inizia estraendo il token dall'header della richiesta
 		String authHeader = request.getHeader("Authorization");
-		
+		System.out.println(" TOKEN HERE--------------------------------> " + authHeader);
 		//controllo validità del token
 		if(authHeader == null || !authHeader.startsWith("Bearer ")) throw new UnauthorizedException("Remember to include the token in the request");
 		
@@ -73,7 +73,10 @@ public class JWTAuthFilter extends OncePerRequestFilter{
 	//questo serve ad evitare che il filtro venga eseguito per ogni richiesta
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) {
-		return new AntPathMatcher().match("/auth/**", request.getServletPath());
+	    String servletPath = request.getServletPath();
+	    return new AntPathMatcher().match("/auth/**", servletPath)
+	            || servletPath.equals("/google/authorization-url");
 	}
+
 	
 }

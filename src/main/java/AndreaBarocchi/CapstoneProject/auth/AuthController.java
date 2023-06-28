@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import AndreaBarocchi.CapstoneProject.entities.User;
 import AndreaBarocchi.CapstoneProject.exceptions.NotFoundException;
@@ -34,7 +40,6 @@ public class AuthController {
 	@PostMapping("/signup")
 	public ResponseEntity<User> register(@RequestBody @Validated UserRegistrationPayload body) {
 		body.setPassword(bcrypt.encode(body.getPassword()));
-
 		User createdUser = userService.createUser(body);
 		return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
 	}
@@ -46,7 +51,6 @@ public class AuthController {
 		User user = userService.findUserByEmail(body.getEmail());
 		
 		//se la trovo faccio il check sulla password, se non corrisponde lancio errore 401
-		//if(!body.getPassword().matches(user.getPassword())) throw new UnauthorizedException("Credenziali non valide");
 		String plainPW = body.getPassword();
 		String hashedPW = user.getPassword(); 
 		
@@ -58,6 +62,5 @@ public class AuthController {
 		return new ResponseEntity<>(new AuthenticationSuccessfullPayload(token), HttpStatus.OK);
 	}
 	
-
-
+	
 }

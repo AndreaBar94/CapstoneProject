@@ -1,5 +1,6 @@
 package AndreaBarocchi.CapstoneProject.services;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepo;
-
+    
     public Page<User> findAllUsers(int page, int size, String sortBy) {
         if (size < 0)
             size = 10;

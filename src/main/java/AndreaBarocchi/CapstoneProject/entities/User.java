@@ -9,7 +9,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import AndreaBarocchi.CapstoneProject.enums.UserRole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

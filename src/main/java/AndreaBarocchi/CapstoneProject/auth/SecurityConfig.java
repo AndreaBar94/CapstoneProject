@@ -1,9 +1,11 @@
 package AndreaBarocchi.CapstoneProject.auth;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.security.config.Customizer.*;
 import AndreaBarocchi.CapstoneProject.exceptions.ExceptionHandlerFilter;
 
 
@@ -26,17 +29,30 @@ public class SecurityConfig {
 	CorsFilter corsFilter;
 	@Autowired
 	ExceptionHandlerFilter exceptionHandlerFilter;
-
 	
 	
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
 		http.csrf(c -> c.disable());
 		
-		http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll());
+		//work in progress, trying to implement login with Google
+		http
+        .authorizeHttpRequests(auth -> {
+            auth.requestMatchers("/").permitAll();
+            auth.requestMatchers("/secured").authenticated();
+        })
+        .oauth2Login(withDefaults())
+        .formLogin(withDefaults());
+
 		
-		//autorizzazioni user
+		
+		http.authorizeHttpRequests(auth -> {
+			auth.requestMatchers("/auth/**", "/login/**", "/login/oauth2/**")
+			.permitAll();
+			});
+		
+		
+		//auth user
 		http.authorizeHttpRequests(auth -> {
 			auth.requestMatchers(HttpMethod.GET, "/users").hasAnyAuthority("USER", "ADMIN");
 			auth.requestMatchers(HttpMethod.PUT, "/users/**").hasAnyAuthority("USER", "ADMIN");
@@ -44,19 +60,19 @@ public class SecurityConfig {
 			auth.requestMatchers("/users/**").hasAnyAuthority("USER", "ADMIN");
 		});
 		
-		//autorizzazioni articles
+		//auth articles
 		http.authorizeHttpRequests(auth -> {
 			auth.requestMatchers(HttpMethod.GET, "/articles").hasAnyAuthority("USER", "ADMIN");
 			auth.requestMatchers("/articles/**").hasAnyAuthority("USER", "ADMIN");
 		});
 
-		//autorizzazioni comment
+		//auth comment
 		http.authorizeHttpRequests(auth -> {
 			auth.requestMatchers(HttpMethod.GET, "/comments").hasAnyAuthority("USER", "ADMIN");
 			auth.requestMatchers("/comments/**").hasAnyAuthority("USER", "ADMIN");
 		});
 		
-		//autorizzazioni category
+		//auth category
 		http.authorizeHttpRequests(auth -> {
 			auth.requestMatchers(HttpMethod.GET, "/categories").hasAnyAuthority("USER", "ADMIN");
 			auth.requestMatchers("/categories/**").hasAuthority("ADMIN");
@@ -73,6 +89,7 @@ public class SecurityConfig {
 
 		return http.build();
 	}
+
 
 	@Bean
 	PasswordEncoder pwEncoder() {
