@@ -6,31 +6,34 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 const Profile = () => {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.userReducer.currentUser);
-
+    //console.log(currentUser);
     useEffect(() => {
         dispatch(getUser());
     }, [dispatch]);
 
     return (
-        <Container>
-        <Row>
-            <Col>
-            <Card>
-                <Card.Body>
-                <Card.Title>Profile</Card.Title>
-                {currentUser && (
-                    <div>
-                    <p>Username: {currentUser.username}</p>
-                    <p>First Name: {currentUser.firstname}</p>
-                    <p>Last Name: {currentUser.lastname}</p>
-                    <p>Email: {currentUser.email}</p>
-                    </div>
-                )}
-                </Card.Body>
-            </Card>
-            </Col>
-        </Row>
-        </Container>
+        <>
+            <Container>
+                <Row>
+                    <Col>
+                    <Card>
+                        <Card.Body>
+                        <Card.Title>Fellow Player, here is your profile!</Card.Title>
+                        {currentUser && (
+                            <div>
+                                <p>Username: {currentUser.username}</p>
+                                <p>First Name: {currentUser.firstname}</p>
+                                <p>Last Name: {currentUser.lastname}</p>
+                                <p>Email: {currentUser.email}</p>
+                            </div>
+                        )}
+                        </Card.Body>
+                    </Card>
+                    </Col>
+                </Row>
+            </Container>
+        </>
+        
     );
 };
 
