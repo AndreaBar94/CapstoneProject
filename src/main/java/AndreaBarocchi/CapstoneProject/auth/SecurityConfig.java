@@ -55,6 +55,7 @@ public class SecurityConfig {
 		//auth user
 		http.authorizeHttpRequests(auth -> {
 			auth.requestMatchers(HttpMethod.GET, "/users").hasAnyAuthority("USER", "ADMIN");
+			auth.requestMatchers(HttpMethod.GET, "/users/me").authenticated();
 			auth.requestMatchers(HttpMethod.PUT, "/users/**").hasAnyAuthority("USER", "ADMIN");
 			auth.requestMatchers(HttpMethod.DELETE, "/users/**").hasAnyAuthority("USER", "ADMIN");
 			auth.requestMatchers("/users/**").hasAnyAuthority("USER", "ADMIN");

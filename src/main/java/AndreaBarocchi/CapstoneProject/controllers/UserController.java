@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import AndreaBarocchi.CapstoneProject.entities.User;
@@ -35,7 +36,17 @@ public class UserController {
         User newUser = userService.createUser(userPayload);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
+    
+    @GetMapping("/me")
+    public ResponseEntity<User> getCurrentUser(Authentication authentication) throws NotFoundException {
+        User userDetails = (User) authentication.getPrincipal();
+        UUID userId = userDetails.getUserId();
+        User currentUser = userService.findUserById(userId);
+        return ResponseEntity.ok(currentUser);
+    }
 
+
+    
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable UUID id) throws NotFoundException {
         User user = userService.findUserById(id);

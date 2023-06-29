@@ -53,32 +53,17 @@ public class JWTTools {
 	}
 
 	static public void isTokenValid(String token) {
-        try {
-            String publicKeyUrl = "https://www.googleapis.com/oauth2/v3/certs";
-            String publicKey = getPublicKey(publicKeyUrl);
+		try {
+			Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(secret.getBytes())).build().parse(token);
 
-            PublicKey key = stringToPublicKey(publicKey);
-            Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-
-            Jwts.parserBuilder()
-                    .setSigningKey(Keys.hmacShaKeyFor(secret.getBytes()))
-                    .build()
-                    .parseClaimsJws(token);
-
-        } catch (MalformedJwtException e) {
-            throw new UnauthorizedException("Invalid token");
-        } catch (ExpiredJwtException e) {
-            throw new UnauthorizedException("Token is out of date");
-        } catch (SignatureException e) {
-            throw new UnauthorizedException("Invalid token signature");
-        } catch (Exception e) {
-            throw new UnauthorizedException("There has been a problem with your token, please try to log in again.");
-        }
-    }
+		} catch (MalformedJwtException e) {
+			throw new UnauthorizedException("Token not valid");
+		} catch (ExpiredJwtException e) {
+			throw new UnauthorizedException("Expired token");
+		} catch (Exception e) {
+			throw new UnauthorizedException("There has been a problem with your token, please try to log in again.");
+		}
+	}
 	
 	private static String getPublicKey(String url) throws IOException, java.io.IOException {
         URL publicKeyUrl = new URL(url);
