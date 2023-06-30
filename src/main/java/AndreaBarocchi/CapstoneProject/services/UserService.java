@@ -1,5 +1,7 @@
 package AndreaBarocchi.CapstoneProject.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,9 +14,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import AndreaBarocchi.CapstoneProject.entities.Article;
 import AndreaBarocchi.CapstoneProject.entities.User;
 import AndreaBarocchi.CapstoneProject.exceptions.EmailAlreadyExistsException;
 import AndreaBarocchi.CapstoneProject.exceptions.UnauthorizedException;
+import AndreaBarocchi.CapstoneProject.payloads.ArticlePayload;
 import AndreaBarocchi.CapstoneProject.payloads.UserRegistrationPayload;
 import AndreaBarocchi.CapstoneProject.repositories.UserRepository;
 
@@ -37,11 +41,23 @@ public class UserService {
         userRepo.findByEmail(uPld.getEmail()).ifPresent(user -> {
             throw new EmailAlreadyExistsException("Email " + user.getEmail() + " already exists");
         });
+        List<Article> articles = convertToArticles(uPld.getArticles());
         User newUser = new User(uPld.getUsername(), uPld.getFirstname(), uPld.getLastname(), uPld.getEmail(),
-                uPld.getPassword());
+                uPld.getPassword(), articles);
         return userRepo.save(newUser);
     }
 
+    private List<Article> convertToArticles(List<ArticlePayload> articlePayloads) {
+        List<Article> articles = new ArrayList<>();
+        if (articlePayloads != null) {
+            for (ArticlePayload payload : articlePayloads) {
+                Article article = new Article(payload.getTitle(), payload.getContent(), payload.getPublicationDate(), null, null, null, null);
+                articles.add(article);
+            }
+        }
+        return articles;
+    }
+    
     public User findUserById(UUID id) throws NotFoundException {
         return userRepo.findById(id).orElseThrow(() -> new NotFoundException());
     }

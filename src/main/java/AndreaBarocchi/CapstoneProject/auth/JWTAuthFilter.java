@@ -33,7 +33,6 @@ public class JWTAuthFilter extends OncePerRequestFilter{
 		//questo metodo verrà lanciato ad ogni request
 		//si inizia estraendo il token dall'header della richiesta
 		String authHeader = request.getHeader("Authorization");
-		System.out.println(" TOKEN HERE--------------------------------> " + authHeader);
 		//controllo validità del token
 		if(authHeader == null || !authHeader.startsWith("Bearer ")) throw new UnauthorizedException("Remember to include the token in the request");
 		

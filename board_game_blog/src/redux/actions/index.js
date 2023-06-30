@@ -1,11 +1,14 @@
 const loginEndpoint = 'http://localhost:3142/auth/login';
 const signUpEndpoint = 'http://localhost:3142/auth/signup';
-//const getAllArticlesEndpoint = 'http://localhost:3142/articles';
+const getAllArticlesEndpoint = 'http://localhost:3142/articles';
 const getLoggedUserEndpoint = 'http://localhost:3142/users/me';
+const postArticleEndpoint = 'http://localhost:3142/articles';
 
 export const SET_TOKEN = 'SET_TOKEN';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const SET_ALL_ARTICLES = 'SET_ALL_ARTICLES';
 
+//login endpoint
 export const login = (formData, navigate) => {
 	return async (dispatch) => {
 		try {
@@ -31,6 +34,7 @@ export const login = (formData, navigate) => {
 	};
 };
 
+//signup endpoint
 export const signUp = (formData, navigateToLogin) => {
 	return async (dispatch) => {
 		try {
@@ -54,11 +58,11 @@ export const signUp = (formData, navigateToLogin) => {
 	};
 };
 
+//current user endpoint
 export const getUser = () => {
 	return async (dispatch, getState) => {
 		try {
 			const token = getState().loginToken.token;
-			//console.log(token);
 			const response = await fetch(getLoggedUserEndpoint, {
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -66,11 +70,55 @@ export const getUser = () => {
 			});
 			if (response.ok) {
 				const user = await response.json();
-				//console.log(user);
 				dispatch({ type: SET_CURRENT_USER, payload: user }); // Memorizza l'utente nello stato
 			} else {
 				// Gestisci il caso in cui la richiesta non sia andata a buon fine
-				console.log("Errore nella richiesta di ottenere l'utente");
+				console.log('Error trying to fetch user');
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
+//get all articles endpoint
+export const getArticles = () => {
+	return async (dispatch, getState) => {
+		try {
+			const token = getState().loginToken.token;
+			const response = await fetch(getAllArticlesEndpoint, {
+				headers: {
+					Authorization: 'Bearer ' + token,
+				},
+			});
+			if (response.ok) {
+				const articles = await response.json();
+				console.log(articles);
+				dispatch({ type: SET_ALL_ARTICLES, payload: articles });
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
+//post an article
+export const postArticle = (articleData) => {
+	return async (dispatch, getState) => {
+		try {
+			const token = getState().loginToken.token;
+			const response = await fetch(postArticleEndpoint, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + token,
+				},
+				body: JSON.stringify(articleData),
+			});
+			if (response.ok) {
+				const newArticle = await response.json();
+				dispatch({ type: SET_ALL_ARTICLES, payload: [newArticle] });
+				dispatch(getArticles());
 			}
 		} catch (error) {
 			console.log(error);

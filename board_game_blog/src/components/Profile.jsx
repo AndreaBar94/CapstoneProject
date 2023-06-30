@@ -6,7 +6,7 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 const Profile = () => {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.userReducer.currentUser);
-    //console.log(currentUser);
+    console.log(currentUser);
     useEffect(() => {
         dispatch(getUser());
     }, [dispatch]);

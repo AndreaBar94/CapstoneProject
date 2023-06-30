@@ -1,78 +1,58 @@
-import React, { useState } from "react";
-import { Container, Form, Button } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Container, Card, Row, Col } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { getArticles } from "../redux/actions";
 import Navbar from "./Navbar";
+import SubmitArticle from "./SubmitArticle";
+import HeroSection from "./HeroSection";
+import Article from "./Article";
 
 const HomePage = () => {
-  const [articleData, setArticleData] = useState({
-    title: "",
-    content: "",
-  });
+  const articles = useSelector((state) => state.articlesReducer.articles);
+  const dispatch = useDispatch();
 
-  const handleInputChange = (event) => {
-    setArticleData({
-      ...articleData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleArticleSubmit = async (event) => {
-    event.preventDefault();
-    // Effettua la richiesta POST al backend per pubblicare l'articolo
-    try {
-      const response = await fetch("API_URL/articles", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(articleData),
-      });
-      if (response.ok) {
-        // Articolo pubblicato con successo
-        console.log("Articolo pubblicato");
-        // Resetta i dati dell'articolo
-        setArticleData({
-          title: "",
-          content: "",
-        });
-      } else {
-        console.log("Errore nella pubblicazione dell'articolo");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    dispatch(getArticles());
+  }, [dispatch]);
 
   return (
     <>
       <Navbar />
       <Container>
-        <p>Share your passions!</p>
-        <Form onSubmit={handleArticleSubmit}>
-          <Form.Group controlId="formTitle">
-            <Form.Label>Title</Form.Label>
-            <Form.Control
-              type="text"
-              name="title"
-              value={articleData.title}
-              onChange={handleInputChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="formContent">
-            <Form.Label>Content</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              name="content"
-              value={articleData.content}
-              onChange={handleInputChange}
-              required
-            />
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Publish Article
-          </Button>
-        </Form>
+        <Row>
+          <Col className="text-bg-success" xs={2}>
+            <div>LEFT COLUMN</div>
+          </Col>
+          <Col xs={8}>
+            <p>Share your passions!</p>
+            <HeroSection />
+            <SubmitArticle />
+            <Container className="text-bg-info">
+              <Row className="mt-4 g-3">
+                {articles &&
+                  articles.content &&
+                  articles.content.map((article) => (
+                    <Col key={article.articleId} xs={4}>
+                      <Card className="article-card">
+                        <Card.Body>
+                          <Card.Title>{article.title}</Card.Title>
+                          <Card.Text className="article-preview">
+                            {article.content.substring(0, 100)}...
+                          </Card.Text>
+                          <Card.Link href={`/article/${article.articleId}`}>
+                            Read More
+                          </Card.Link>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  ))}
+              </Row>
+            </Container>
+          </Col>
+          <Col className="text-bg-success" xs={2}>
+            <div>RIGHT COLUMN</div>
+          </Col>
+        </Row>
       </Container>
     </>
   );

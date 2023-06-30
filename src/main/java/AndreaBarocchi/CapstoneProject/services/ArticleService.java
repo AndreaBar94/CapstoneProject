@@ -1,5 +1,7 @@
 package AndreaBarocchi.CapstoneProject.services;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,22 +18,35 @@ import AndreaBarocchi.CapstoneProject.exceptions.NotFoundException;
 import AndreaBarocchi.CapstoneProject.exceptions.UnauthorizedException;
 import AndreaBarocchi.CapstoneProject.payloads.ArticlePayload;
 import AndreaBarocchi.CapstoneProject.repositories.ArticleRepository;
+import AndreaBarocchi.CapstoneProject.repositories.UserRepository;
 
 @Service
 public class ArticleService {
 
     @Autowired
     private ArticleRepository articleRepo;
+    @Autowired 
+    private UserRepository userRepo;
+//    public Article createArticle(User user, ArticlePayload articlePayload) {
+//        Article article = new Article();
+//        article.setUser(user);
+//        article.setTitle(articlePayload.getTitle());
+//        article.setContent(articlePayload.getContent());
+//        article.setPublicationDate(articlePayload.getPublicationDate());
+//        return articleRepo.save(article);
+//    }
+    
+    public Article createArticle(User user, ArticlePayload payload) throws NotFoundException {
+        Article article = new Article(payload.getTitle(), payload.getContent(), LocalDate.now(), user,
+                new ArrayList<>(), new ArrayList<>(), payload.getCategory());
 
-    public Article createArticle(User user, ArticlePayload articlePayload) {
-        Article article = new Article();
-        article.setUser(user);
-        article.setTitle(articlePayload.getTitle());
-        article.setContent(articlePayload.getContent());
-        article.setPublicationDate(articlePayload.getPublicationDate());
-        return articleRepo.save(article);
+        Article savedArticle = articleRepo.save(article);
+
+        user.addArticle(savedArticle);
+
+        return savedArticle;
     }
-
+    
     public Page<Article> findAllArticles(int page, int size, String sortBy) {
         if (size < 0)
             size = 10;
