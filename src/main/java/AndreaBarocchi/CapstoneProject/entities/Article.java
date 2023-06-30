@@ -6,9 +6,12 @@ import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -36,11 +39,13 @@ public class Article {
 	@ManyToOne
 	private User user; //author
 	
-	@OneToMany(mappedBy = "article")
-	private List<Comment> comments;
-	
-	@OneToMany(mappedBy = "article")
-	private List<Like> likes; //article's likes, nice to have
+	@OneToMany(mappedBy = "article", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("article")
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "article")
+    private List<Like> likes; // article's likes, nice to have
+
 	
 	@ManyToOne
 	private Category category;

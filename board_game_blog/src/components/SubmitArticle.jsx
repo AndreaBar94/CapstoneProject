@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Container, Form, Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { postArticle } from '../redux/actions';
+import { getArticles, postArticle } from '../redux/actions';
 
 const SubmitArticle = () => {
     const [showModal, setShowModal] = useState(false);
@@ -23,17 +23,23 @@ const SubmitArticle = () => {
     };
 
     const handleArticleSubmit = (event) => {
-    event.preventDefault();
-    const currentDate = getCurrentDate();
-    const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1)
-        .toString()
-        .padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
-    dispatch(postArticle({ ...articleData, publicationDate: formattedDate }));
-    setArticleData({
-        title: '',
-        content: '',
-    });
-    setShowModal(false);
+        event.preventDefault();
+        const currentDate = getCurrentDate();
+        const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1)
+            .toString()
+            .padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
+            dispatch(postArticle({ ...articleData, publicationDate: formattedDate }))
+            .then(() => {
+                dispatch(getArticles());
+                setArticleData({
+                title: '',
+                content: '',
+                });
+                setShowModal(false);
+            })
+            .catch((error) => {
+                console.log("Error posting article:", error);
+            });
     };
     
 

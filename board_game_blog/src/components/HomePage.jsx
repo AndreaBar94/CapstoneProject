@@ -12,7 +12,7 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(getArticles());
-  }, [dispatch, articles]);
+  }, [dispatch]);
 
   return (
     <>

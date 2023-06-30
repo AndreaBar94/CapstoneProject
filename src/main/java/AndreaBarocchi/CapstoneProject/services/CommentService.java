@@ -36,8 +36,8 @@ public class CommentService {
             throws NotFoundException {
         Article article = articleRepo.findById(articleId)
                 .orElseThrow(() -> new NotFoundException("Article not found with ID: " + articleId));
-
-        User user = userRepo.findByEmail(authentication.getName())
+        System.out.println(authentication.getName());
+        User user = userRepo.findByUsername(authentication.getName())
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
         Comment comment = new Comment();
