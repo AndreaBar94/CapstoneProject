@@ -49,10 +49,18 @@ const Article = () => {
     const handleCommentSubmit = () => {
       const commentData = {
         content: commentContent,
+        userId: currentUser.userId,
       };
-      dispatch(postComment(articleId, commentData));
-      dispatch(getArticleById(articleId));
+      dispatch(postComment(articleId, commentData))
+        .then(() => {
+          dispatch(getArticleById(articleId));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
+    
+    
     //----------------------------------------------------------------Articles section      
     const handleInputChange = (event) => {
         setArticleData({

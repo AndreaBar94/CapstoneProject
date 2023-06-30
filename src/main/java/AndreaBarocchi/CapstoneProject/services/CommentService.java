@@ -33,21 +33,21 @@ public class CommentService {
 
 
 	public Comment createComment(UUID articleId, CommentPayload commentPayload, Authentication authentication)
-            throws NotFoundException {
-        Article article = articleRepo.findById(articleId)
-                .orElseThrow(() -> new NotFoundException("Article not found with ID: " + articleId));
-        System.out.println(authentication.getName());
-        User user = userRepo.findByUsername(authentication.getName())
-                .orElseThrow(() -> new NotFoundException("User not found"));
+	        throws NotFoundException {
+	    Article article = articleRepo.findById(articleId)
+	            .orElseThrow(() -> new NotFoundException("Article not found with ID: " + articleId));
+	    System.out.println(authentication.getName());
+	    User user = userRepo.findByUsername(authentication.getName())
+	            .orElseThrow(() -> new NotFoundException("User not found"));
 
-        Comment comment = new Comment();
-        comment.setContent(commentPayload.getContent());
-        comment.setPublicationDate(LocalDate.now());
-        comment.setUser(user);
-        comment.setArticle(article);
+	    Comment comment = new Comment();
+	    comment.setContent(commentPayload.getContent());
+	    comment.setPublicationDate(LocalDate.now());
+	    comment.setUser(user);
+	    comment.setArticle(article);
 
-        return commentRepo.save(comment);
-    }
+	    return commentRepo.save(comment);
+	}
 
 
     public Comment findCommentById(UUID commentId) throws NotFoundException {

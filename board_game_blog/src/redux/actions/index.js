@@ -194,11 +194,13 @@ export const deleteArticle = (articleId, navigate) => {
 	};
 };
 
-//post a comment
+// post a comment
 export const postComment = (articleId, commentData) => {
 	return async (dispatch, getState) => {
 		try {
 			const token = getState().loginToken.token;
+			const userId = getState().userReducer.currentUser.userId; // Ottieni l'ID dell'utente corrente
+			commentData.userId = userId; // Aggiungi l'ID dell'utente corrente ai dati del commento
 			const response = await fetch(commentsEndpoint + `/article/${articleId}`, {
 				method: 'POST',
 				headers: {

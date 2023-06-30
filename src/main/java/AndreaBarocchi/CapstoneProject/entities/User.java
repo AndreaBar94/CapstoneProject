@@ -50,6 +50,7 @@ public class User implements UserDetails{
 	private List<Article> articles;
 	
 	@OneToMany(fetch = FetchType.EAGER)
+	@JsonIgnoreProperties("user")
 	private List<Comment> comments;
 
 	public User(String username, String firstname, String lastname, String email, String password, List<Article> articles) {
