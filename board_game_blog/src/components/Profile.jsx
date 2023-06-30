@@ -16,24 +16,39 @@ const Profile = () => {
             <Container>
                 <Row>
                     <Col>
-                    <Card>
-                        <Card.Body>
-                        <Card.Title>Fellow Player, here is your profile!</Card.Title>
-                        {currentUser && (
-                            <div>
-                                <p>Username: {currentUser.username}</p>
-                                <p>First Name: {currentUser.firstname}</p>
-                                <p>Last Name: {currentUser.lastname}</p>
-                                <p>Email: {currentUser.email}</p>
-                            </div>
-                        )}
-                        </Card.Body>
-                    </Card>
+                        <Card>
+                            <Card.Body>
+                                <Card.Title>Fellow Player, here is your profile!</Card.Title>
+                                {currentUser && (
+                                    <div>
+                                        <p>Username: {currentUser.username}</p>
+                                        <p>First Name: {currentUser.firstname}</p>
+                                        <p>Last Name: {currentUser.lastname}</p>
+                                        <p>Email: {currentUser.email}</p>
+                                    </div>
+                                )}
+                            </Card.Body>
+                        </Card>
                     </Col>
                 </Row>
+                {currentUser && currentUser.articles && (
+                    <Row>
+                        <Col>
+                            <h2>Articles</h2>
+                            {currentUser.articles.map((article) => (
+                                <Card key={article.articleId}>
+                                    <Card.Body>
+                                        <Card.Title>{article.title}</Card.Title>
+                                        <Card.Text>{article.content}</Card.Text>
+                                        <Card.Text>Publication Date: {article.publicationDate}</Card.Text>
+                                    </Card.Body>
+                                </Card>
+                            ))}
+                        </Col>
+                    </Row>
+                )}
             </Container>
         </>
-        
     );
 };
 

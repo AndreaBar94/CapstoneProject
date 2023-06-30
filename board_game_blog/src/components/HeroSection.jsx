@@ -4,12 +4,9 @@ import { Container } from 'react-bootstrap'
 const HeroSection = () => {
   return (
     <Container>
-        <h1>Welcome to our Website</h1>
+        <h1>Welcome to BoardGameBlog</h1>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut hendrerit
-        augue risus, id finibus ipsum mollis a. In hac habitasse platea dictumst.
-        Fusce luctus leo a sagittis ultricies. Sed rutrum, mi sed ultrices iaculis,
-        quam ipsum vehicula tellus, non congue elit metus id tellus.
+      BoardGameBlog is a platform for board game enthusiasts to share and discuss articles about various tabletop games. Whether you're into strategy games, card games, or role-playing adventures, this is the place to dive deep into the world of board gaming.
       </p>
     </Container>
   )

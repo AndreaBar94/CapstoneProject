@@ -25,7 +25,7 @@ public class ArticleController {
     @GetMapping
     public ResponseEntity<Page<Article>> getArticles(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "100") int size,
             @RequestParam(defaultValue = "publicationDate") String sortBy) {
         Page<Article> articles = articleService.findAllArticles(page, size, sortBy);
         return ResponseEntity.ok(articles);

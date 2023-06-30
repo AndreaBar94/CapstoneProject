@@ -5,7 +5,6 @@ import { getArticles } from "../redux/actions";
 import Navbar from "./Navbar";
 import SubmitArticle from "./SubmitArticle";
 import HeroSection from "./HeroSection";
-import Article from "./Article";
 
 const HomePage = () => {
   const articles = useSelector((state) => state.articlesReducer.articles);
@@ -13,7 +12,7 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(getArticles());
-  }, [dispatch]);
+  }, [dispatch, articles]);
 
   return (
     <>
@@ -24,13 +23,17 @@ const HomePage = () => {
             <div>LEFT COLUMN</div>
           </Col>
           <Col xs={8}>
-            <p>Share your passions!</p>
             <HeroSection />
+            <Container>
+              <p>Share your passion with us, write your first article!</p>
             <SubmitArticle />
-            <Container className="text-bg-info">
+            </Container>
+            <Container className="">
               <Row className="mt-4 g-3">
+                {/* article card */}
                 {articles &&
                   articles.content &&
+                  Array.isArray(articles.content) &&
                   articles.content.map((article) => (
                     <Col key={article.articleId} xs={4}>
                       <Card className="article-card">

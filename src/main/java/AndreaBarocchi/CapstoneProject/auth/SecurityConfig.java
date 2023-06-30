@@ -64,12 +64,16 @@ public class SecurityConfig {
 		//auth articles
 		http.authorizeHttpRequests(auth -> {
 			auth.requestMatchers(HttpMethod.GET, "/articles").hasAnyAuthority("USER", "ADMIN");
+			auth.requestMatchers(HttpMethod.PUT, "/articles/**").hasAnyAuthority("USER", "ADMIN");
+			auth.requestMatchers(HttpMethod.DELETE, "/articles/**").hasAnyAuthority("USER", "ADMIN");
 			auth.requestMatchers("/articles/**").hasAnyAuthority("USER", "ADMIN");
 		});
 
 		//auth comment
 		http.authorizeHttpRequests(auth -> {
 			auth.requestMatchers(HttpMethod.GET, "/comments").hasAnyAuthority("USER", "ADMIN");
+			auth.requestMatchers(HttpMethod.PUT, "/comments/**").hasAnyAuthority("USER", "ADMIN");
+			auth.requestMatchers(HttpMethod.DELETE, "/comments/**").hasAnyAuthority("USER", "ADMIN");
 			auth.requestMatchers("/comments/**").hasAnyAuthority("USER", "ADMIN");
 		});
 		

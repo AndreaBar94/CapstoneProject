@@ -1,13 +1,13 @@
 const loginEndpoint = 'http://localhost:3142/auth/login';
 const signUpEndpoint = 'http://localhost:3142/auth/signup';
-const getAllArticlesEndpoint = 'http://localhost:3142/articles';
+const articlesEndpoint = 'http://localhost:3142/articles';
 const getLoggedUserEndpoint = 'http://localhost:3142/users/me';
-const postArticleEndpoint = 'http://localhost:3142/articles';
 
 export const SET_TOKEN = 'SET_TOKEN';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const SET_ALL_ARTICLES = 'SET_ALL_ARTICLES';
-
+export const UPDATE_ARTICLE = 'UPDATE_ARTICLE';
+export const SET_ARTICLE = 'SET_ARTICLE';
 //login endpoint
 export const login = (formData, navigate) => {
 	return async (dispatch) => {
@@ -86,7 +86,7 @@ export const getArticles = () => {
 	return async (dispatch, getState) => {
 		try {
 			const token = getState().loginToken.token;
-			const response = await fetch(getAllArticlesEndpoint, {
+			const response = await fetch(articlesEndpoint, {
 				headers: {
 					Authorization: 'Bearer ' + token,
 				},
@@ -102,12 +102,32 @@ export const getArticles = () => {
 	};
 };
 
+//get article by id
+export const getArticleById = (articleId) => {
+	return async (dispatch, getState) => {
+		try {
+			const token = getState().loginToken.token;
+			const response = await fetch(articlesEndpoint + `/${articleId}`, {
+				headers: {
+					Authorization: 'Bearer ' + token,
+				},
+			});
+			if (response.ok) {
+				const article = await response.json();
+				dispatch({ type: SET_ARTICLE, payload: article });
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
 //post an article
 export const postArticle = (articleData) => {
 	return async (dispatch, getState) => {
 		try {
 			const token = getState().loginToken.token;
-			const response = await fetch(postArticleEndpoint, {
+			const response = await fetch(articlesEndpoint, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -119,6 +139,29 @@ export const postArticle = (articleData) => {
 				const newArticle = await response.json();
 				dispatch({ type: SET_ALL_ARTICLES, payload: [newArticle] });
 				dispatch(getArticles());
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
+//edit an article
+export const editArticle = (articleId, articleData) => {
+	return async (dispatch, getState) => {
+		try {
+			const token = getState().loginToken.token;
+			const response = await fetch(articlesEndpoint + `/${articleId}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + token,
+				},
+				body: JSON.stringify(articleData),
+			});
+			if (response.ok) {
+				const editedArticle = await response.json();
+				dispatch({ type: UPDATE_ARTICLE, payload: [editedArticle] });
 			}
 		} catch (error) {
 			console.log(error);

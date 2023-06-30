@@ -46,7 +46,7 @@ const SubmitArticle = () => {
     };
 
     return (
-        <Container className='text-bg-warning'>
+        <Container>
             <Button variant="primary" onClick={handleModalOpen}>
                 Add Article
             </Button>
