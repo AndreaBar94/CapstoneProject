@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -29,11 +30,12 @@ public class Comment {
 	private LocalDate publicationDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("comments")
+    @JsonBackReference
+    @JsonIgnoreProperties("hibernateLazyInitializer")
     private Article article;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("articles")
+    @JsonIgnoreProperties({"comments","hibernateLazyInitializer" })
     private User user;
 
 

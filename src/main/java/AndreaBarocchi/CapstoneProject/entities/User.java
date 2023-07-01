@@ -45,13 +45,13 @@ public class User implements UserDetails{
 	@OneToMany(fetch = FetchType.EAGER)
 	private List<Like> likes;// nice to have
 	
-	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
-	@JsonIgnoreProperties("user")
-	private List<Article> articles;
-	
-	@OneToMany(fetch = FetchType.EAGER)
-	@JsonIgnoreProperties("user")
-	private List<Comment> comments;
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"user", "comments"})
+    private List<Article> articles;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"user", "comments"})
+    private List<Comment> comments;
 
 	public User(String username, String firstname, String lastname, String email, String password, List<Article> articles) {
 		super();
