@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import AndreaBarocchi.CapstoneProject.entities.Category;
 import AndreaBarocchi.CapstoneProject.payloads.CategoryPayload;
+import AndreaBarocchi.CapstoneProject.repositories.CategoryRepository;
 import AndreaBarocchi.CapstoneProject.services.CategoryService;
 
 @RestController
@@ -20,6 +21,8 @@ public class CategoryController {
 
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private CategoryRepository categoryRepo;
 
 	@GetMapping
 	public ResponseEntity<Page<Category>> getCategories(
@@ -29,7 +32,13 @@ public class CategoryController {
 		Page<Category> categories = categoryService.findAllCategories(page, size, sortBy);
 		return ResponseEntity.ok(categories);
 	}
-
+	
+	@GetMapping("/name/{categoryName}")
+	public ResponseEntity<Category> getCategoryByName(@PathVariable String categoryName) throws NotFoundException {
+	    Category category = categoryRepo.findByCategoryName(categoryName);
+	    return ResponseEntity.ok(category);
+	}
+	
 	@PostMapping
 	public ResponseEntity<Category> createCategory(@RequestBody CategoryPayload categoryPayload) {
 		Category newCategory = categoryService.createCategory(categoryPayload);

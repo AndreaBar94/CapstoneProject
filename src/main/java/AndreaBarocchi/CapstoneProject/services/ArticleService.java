@@ -2,6 +2,7 @@ package AndreaBarocchi.CapstoneProject.services;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import AndreaBarocchi.CapstoneProject.entities.Article;
+import AndreaBarocchi.CapstoneProject.entities.Category;
 import AndreaBarocchi.CapstoneProject.entities.User;
 import AndreaBarocchi.CapstoneProject.exceptions.NotFoundException;
 import AndreaBarocchi.CapstoneProject.exceptions.UnauthorizedException;
 import AndreaBarocchi.CapstoneProject.payloads.ArticlePayload;
 import AndreaBarocchi.CapstoneProject.repositories.ArticleRepository;
+import AndreaBarocchi.CapstoneProject.repositories.CategoryRepository;
 import AndreaBarocchi.CapstoneProject.repositories.UserRepository;
 
 @Service
@@ -27,18 +30,18 @@ public class ArticleService {
     private ArticleRepository articleRepo;
     @Autowired 
     private UserRepository userRepo;
-//    public Article createArticle(User user, ArticlePayload articlePayload) {
-//        Article article = new Article();
-//        article.setUser(user);
-//        article.setTitle(articlePayload.getTitle());
-//        article.setContent(articlePayload.getContent());
-//        article.setPublicationDate(articlePayload.getPublicationDate());
-//        return articleRepo.save(article);
-//    }
+    @Autowired
+    private CategoryRepository categoryRepo;
     
     public Article createArticle(User user, ArticlePayload payload) throws NotFoundException {
+
+        Category category = categoryRepo.findByCategoryName(payload.getCategoryName());
+        if (category == null) {
+            throw new NotFoundException("Category not found");
+        }
+        
         Article article = new Article(payload.getTitle(), payload.getContent(), LocalDate.now(), user,
-                new ArrayList<>(), new ArrayList<>(), payload.getCategory());
+                new ArrayList<>(), new ArrayList<>(), category);
 
         Article savedArticle = articleRepo.save(article);
 
@@ -46,6 +49,7 @@ public class ArticleService {
 
         return savedArticle;
     }
+
     
     public Page<Article> findAllArticles(int page, int size, String sortBy) {
         if (size < 0)
@@ -60,7 +64,19 @@ public class ArticleService {
         return articleRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException("Article with ID " + id + " not found"));
     }
+    
+    public List<Article> searchByTitle(String keyword) {
+        return articleRepo.findByTitleContainingIgnoreCase(keyword);
+    }
 
+    public List<Article> searchByUser(String keyword) {
+        return articleRepo.findByUserUsernameContainingIgnoreCase(keyword);
+    }
+
+    public List<Article> searchByCategory(String keyword) {
+        return articleRepo.findByCategoryCategoryNameContainingIgnoreCase(keyword);
+    }
+    
     public Article updateArticle(UUID articleId, ArticlePayload articlePayload, Authentication authentication)
             throws NotFoundException {
         Article existingArticle = findArticleById(articleId);

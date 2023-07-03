@@ -9,5 +9,5 @@ import AndreaBarocchi.CapstoneProject.entities.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, UUID>{
-
+	  Category findByCategoryName(String categoryName);
 }

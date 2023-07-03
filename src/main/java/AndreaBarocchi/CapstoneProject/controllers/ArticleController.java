@@ -1,5 +1,7 @@
 package AndreaBarocchi.CapstoneProject.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +40,25 @@ public class ArticleController {
         Article newArticle = articleService.createArticle(user, articlePayload);
         return ResponseEntity.status(HttpStatus.CREATED).body(newArticle);
     }
+    
+    @GetMapping("/search/{filter}/{keyword}")
+    public ResponseEntity<List<Article>> searchArticles(@PathVariable String filter, @PathVariable String keyword) {
+        List<Article> articles;
 
+        if (filter.equalsIgnoreCase("title")) {
+            articles = articleService.searchByTitle(keyword);
+        } else if (filter.equalsIgnoreCase("user")) {
+            articles = articleService.searchByUser(keyword);
+        } else if (filter.equalsIgnoreCase("category")) {
+            articles = articleService.searchByCategory(keyword);
+        } else {
+            articles = new ArrayList<>();
+        }
+
+        return ResponseEntity.ok(articles);
+    }
+
+    
     @GetMapping("/{id}")
     public ResponseEntity<Article> getArticleById(@PathVariable UUID id) throws NotFoundException {
         Article article = articleService.findArticleById(id);

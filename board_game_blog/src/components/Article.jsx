@@ -116,6 +116,7 @@ const Article = () => {
         <h4 className='fw-bold'>{article && article.title}</h4>
         <p>Author: {article && article.user.username}</p>
         <p>{article && article.content}</p>
+        <p className='text-muted font-monospace small'>Category: {article && article.category && article.category.categoryName}</p>
         <p className='text-muted font-monospace small'>Publication Date: {article && article.publicationDate}</p>
         {isAuthor && (
           <>

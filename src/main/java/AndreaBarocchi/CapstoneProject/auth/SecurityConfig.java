@@ -47,7 +47,7 @@ public class SecurityConfig {
 		
 		
 		http.authorizeHttpRequests(auth -> {
-			auth.requestMatchers("/auth/**", "/login/**", "/login/oauth2/**")
+			auth.requestMatchers("/auth/**", "/login/**")
 			.permitAll();
 			});
 		
@@ -63,11 +63,13 @@ public class SecurityConfig {
 		
 		//auth articles
 		http.authorizeHttpRequests(auth -> {
-			auth.requestMatchers(HttpMethod.GET, "/articles").hasAnyAuthority("USER", "ADMIN");
-			auth.requestMatchers(HttpMethod.PUT, "/articles/**").hasAnyAuthority("USER", "ADMIN");
-			auth.requestMatchers(HttpMethod.DELETE, "/articles/**").hasAnyAuthority("USER", "ADMIN");
-			auth.requestMatchers("/articles/**").hasAnyAuthority("USER", "ADMIN");
+		    auth.requestMatchers(HttpMethod.GET, "/articles").hasAnyAuthority("USER", "ADMIN");
+		    auth.requestMatchers(HttpMethod.GET, "/articles/**").hasAnyAuthority("USER", "ADMIN");
+		    auth.requestMatchers(HttpMethod.PUT, "/articles/**").hasAnyAuthority("USER", "ADMIN");
+		    auth.requestMatchers(HttpMethod.DELETE, "/articles/**").hasAnyAuthority("USER", "ADMIN");
+		    auth.requestMatchers("/articles/**").hasAnyAuthority("USER", "ADMIN");
 		});
+
 
 		//auth comment
 		http.authorizeHttpRequests(auth -> {
@@ -80,6 +82,8 @@ public class SecurityConfig {
 		//auth category
 		http.authorizeHttpRequests(auth -> {
 			auth.requestMatchers(HttpMethod.GET, "/categories").hasAnyAuthority("USER", "ADMIN");
+			auth.requestMatchers(HttpMethod.GET, "/categories/name/**").hasAnyAuthority("USER", "ADMIN");
+			auth.requestMatchers(HttpMethod.GET, "/categories/**").hasAnyAuthority("USER", "ADMIN");
 			auth.requestMatchers("/categories/**").hasAuthority("ADMIN");
 		});
 		

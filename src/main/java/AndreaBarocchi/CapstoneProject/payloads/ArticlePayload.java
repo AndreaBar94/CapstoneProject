@@ -9,8 +9,10 @@ import lombok.Data;
 public class ArticlePayload {
 	
 	private String title;
+	
 	private String content;
 	
 	private LocalDate publicationDate;
-	private Category category;
+	
+	private String categoryName;
 }

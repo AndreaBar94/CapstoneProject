@@ -1,5 +1,6 @@
 package AndreaBarocchi.CapstoneProject.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -47,7 +48,7 @@ public class User implements UserDetails{
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"user", "comments"})
-    private List<Article> articles;
+    private List<Article> articles = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"user", "comments"})

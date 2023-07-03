@@ -48,6 +48,7 @@ public class Article {
 	
 	
     @OneToMany(mappedBy = "article")
+    @JsonIgnore
     private List<Like> likes; // article's likes, nice to have
 
 	

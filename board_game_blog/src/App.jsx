@@ -10,6 +10,7 @@ import SignUpPage from './components/SignUpPage';
 import Profile from './components/Profile';
 import Article from './components/Article';
 import { Container } from 'react-bootstrap';
+import ArticlesResultPage from './components/ArticlesResultPage';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
               <Route path="/SignUp" element={<SignUpPage />} />
               <Route path="/HomePage" element={<HomePage />} />
               <Route path="/Profile" element={<Profile />} />
+              <Route path="/articles" element={<ArticlesResultPage />} />
               <Route path="/article/:articleId" element={<Article />} />
             </Routes>
           </Router>

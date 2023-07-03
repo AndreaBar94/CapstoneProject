@@ -35,7 +35,7 @@ body {
 	z-index: 100;
 	background-color: transparent;
 	transition: 0.5s ease-in-out;
-	font-size: 1.5rem;
+	font-size: 1rem;
 	background: rgb(247, 160, 114);
 	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
 }

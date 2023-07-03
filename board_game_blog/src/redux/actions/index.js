@@ -1,8 +1,11 @@
+import { useNavigate } from 'react-router';
+
 const loginEndpoint = 'http://localhost:3142/auth/login';
 const signUpEndpoint = 'http://localhost:3142/auth/signup';
 const articlesEndpoint = 'http://localhost:3142/articles';
 const getLoggedUserEndpoint = 'http://localhost:3142/users/me';
 const commentsEndpoint = 'http://localhost:3142/comments';
+const categoriesEndpoint = 'http://localhost:3142/categories';
 
 export const SET_TOKEN = 'SET_TOKEN';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
@@ -10,6 +13,7 @@ export const SET_ALL_ARTICLES = 'SET_ALL_ARTICLES';
 export const UPDATE_ARTICLE = 'UPDATE_ARTICLE';
 export const SET_ARTICLE = 'SET_ARTICLE';
 export const SET_COMMENT = 'SET_COMMENT';
+export const SET_ALL_CATEGORIES = 'SET_ALL_CATEGORIES';
 
 //login
 export const login = (formData, navigate) => {
@@ -98,6 +102,28 @@ export const getArticles = () => {
 				const articles = await response.json();
 				console.log(articles);
 				dispatch({ type: SET_ALL_ARTICLES, payload: articles });
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
+//search article with filter
+export const searchArticleWithFilter = (filter, searchKeyword, navigate) => {
+	return async (dispatch, getState) => {
+		try {
+			const token = getState().loginToken.token;
+			const response = await fetch(articlesEndpoint + `/search/${filter}/${searchKeyword}`, {
+				headers: {
+					Authorization: 'Bearer ' + token,
+				},
+			});
+			if (response.ok) {
+				const articles = await response.json();
+				console.log(articles);
+				dispatch({ type: SET_ALL_ARTICLES, payload: articles });
+				navigate('/articles');
 			}
 		} catch (error) {
 			console.log(error);
@@ -213,6 +239,27 @@ export const postComment = (articleId, commentData) => {
 				const newComment = await response.json();
 				dispatch({ type: SET_COMMENT, payload: [newComment] });
 				dispatch(getArticles());
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
+//get categories
+export const getCategories = () => {
+	return async (dispatch, getState) => {
+		try {
+			const token = getState().loginToken.token;
+			const response = await fetch(categoriesEndpoint, {
+				headers: {
+					Authorization: 'Bearer ' + token,
+				},
+			});
+			if (response.ok) {
+				const categories = await response.json();
+				console.log(categories);
+				dispatch({ type: SET_ALL_CATEGORIES, payload: categories });
 			}
 		} catch (error) {
 			console.log(error);

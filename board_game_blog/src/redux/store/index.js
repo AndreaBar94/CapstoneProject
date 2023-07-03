@@ -7,6 +7,7 @@ import loginTokenReducer from '../reducers/LoginTokenReducer';
 import userReducer from '../reducers/UserReducer';
 import articlesReducer from '../reducers/ArticlesReducer';
 import commentsReducer from '../reducers/CommentReducer';
+import categoriesReducer from '../reducers/CategoriesReducer';
 
 const persistConfig = {
 	key: 'root',
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
 	userReducer: userReducer,
 	articlesReducer: articlesReducer,
 	commentsReducer: commentsReducer,
+	categoriesReducer: categoriesReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
