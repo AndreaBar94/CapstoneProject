@@ -53,17 +53,18 @@ const SubmitArticle = () => {
 
     return (
         <Container>
-            <Button variant="primary" onClick={handleModalOpen}>
+            <Button className='bg-dark border-dark' onClick={handleModalOpen}>
                 Add Article
             </Button>
-            <Modal show={showModal} onHide={handleModalClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add Article</Modal.Title>
+            <Modal show={showModal} onHide={handleModalClose} className='p-5'>
+                <Container className='p-5 publishArticleModal'>
+                    <Modal.Header closeButton>
+                    <Modal.Title className='fw-bold'>Add Your Article!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleArticleSubmit}>
-                        <Form.Group controlId="formTitle">
-                            <Form.Label>Title</Form.Label>
+                        <Form.Group controlId="formTitle" className='pb-3'>
+                            <Form.Label>Title:</Form.Label>
                             <Form.Control
                             type="text"
                             name="title"
@@ -72,8 +73,8 @@ const SubmitArticle = () => {
                             required
                             />
                         </Form.Group>
-                        <Form.Group controlId="formContent">
-                            <Form.Label>Content</Form.Label>
+                        <Form.Group controlId="formContent" className='pb-3'>
+                            <Form.Label>Content:</Form.Label>
                             <Form.Control
                             as="textarea"
                             rows={3}
@@ -83,11 +84,13 @@ const SubmitArticle = () => {
                             required
                             />
                         </Form.Group>
-                        <Button variant="primary" type="submit">
-                            Publish Article
+                        <Button variant="dark" type="submit">
+                            Publish Article!
                         </Button>
                     </Form>
                 </Modal.Body>
+                </Container>
+                
             </Modal>
         </Container>
         

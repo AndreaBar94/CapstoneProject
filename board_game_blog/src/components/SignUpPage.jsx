@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signUp } from "../redux/actions";
+import { Button, Container } from "react-bootstrap";
 
 const SignUp = () => {
 
@@ -35,9 +36,9 @@ const SignUp = () => {
 
   return (
     <>
-      <div className="container mt-4 p-3 border border-3 border-primary rounded-4 shadow">
+      <Container className="mt-5 p-3 border border-1 rounded-2 border-dark shadow signUpContainer">
         <div className="d-flex justify-content-between">
-          <h2>Registration</h2>
+          <h2 className="fw-bold">Registration</h2>
         </div>
         <form onSubmit={handleRegistrationSubmit}>
           <div className="form-group">
@@ -45,7 +46,7 @@ const SignUp = () => {
             <input
               required
               type="text"
-              className="form-control shadow mb-3 border border-2 border-primary"
+              className="form-control shadow mb-3 border border-1 border-dark"
               name="username"
               placeholder="Enter username"
               value={formData.username}
@@ -57,7 +58,7 @@ const SignUp = () => {
             <input
               required
               type="text"
-              className="form-control shadow mb-3 border border-2 border-primary"
+              className="form-control shadow mb-3 border border-1 border-dark"
               name="firstname"
               placeholder="Enter name"
               value={formData.firstname}
@@ -69,7 +70,7 @@ const SignUp = () => {
             <input
               required
               type="text"
-              className="form-control shadow mb-3 border border-2 border-primary"
+              className="form-control shadow mb-3 border border-1 border-dark"
               name="lastname"
               placeholder="Enter surname"
               value={formData.lastname}
@@ -81,7 +82,7 @@ const SignUp = () => {
             <input
               required
               type="email"
-              className="form-control shadow mb-3 border border-2 border-primary"
+              className="form-control shadow mb-3 border border-1 border-dark"
               name="email"
               placeholder="Enter email"
               value={formData.email}
@@ -93,7 +94,7 @@ const SignUp = () => {
             <input
               required
               type="password"
-              className="form-control shadow border border-2 border-primary"
+              className="form-control shadow mb-3 border border-1 border-dark"
               name="password"
               placeholder="Enter password (at least 8 characters, one digit, one letter, and one special character)"
               value={formData.password}
@@ -102,7 +103,7 @@ const SignUp = () => {
           </div>
           <button
             type="submit"
-            className="btn-form btn btn-primary shadow mt-3"
+            className="btn-form btn btn-dark mt-3 shadow fs-5"
           >
             SignUp
           </button>
@@ -113,7 +114,7 @@ const SignUp = () => {
             Login Page
           </Link>
         </p>
-      </div>
+      </Container>
     </>
   );
 };

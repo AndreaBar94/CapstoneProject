@@ -9,21 +9,24 @@ import HomePage from './components/HomePage';
 import SignUpPage from './components/SignUpPage';
 import Profile from './components/Profile';
 import Article from './components/Article';
+import { Container } from 'react-bootstrap';
 
 const App = () => {
   return (
     <>
-      <Provider store={store}>
-        <Router>
-          <Routes>
-            <Route path="/" element={<LoginPage />} />
-            <Route path="/SignUp" element={<SignUpPage />} />
-            <Route path="/HomePage" element={<HomePage />} />
-            <Route path="/Profile" element={<Profile />} />
-            <Route path="/article/:articleId" element={<Article />} />
-          </Routes>
-        </Router>
-      </Provider>
+      <Container className='app'>
+        <Provider store={store}>
+          <Router>
+            <Routes>
+              <Route path="/" element={<LoginPage />} />
+              <Route path="/SignUp" element={<SignUpPage />} />
+              <Route path="/HomePage" element={<HomePage />} />
+              <Route path="/Profile" element={<Profile />} />
+              <Route path="/article/:articleId" element={<Article />} />
+            </Routes>
+          </Router>
+        </Provider>
+      </Container>
     </>
     
   );

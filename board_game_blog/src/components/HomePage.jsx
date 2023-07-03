@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import { Container, Card, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getArticles } from "../redux/actions";
-import Navbar from "./Navbar";
 import SubmitArticle from "./SubmitArticle";
 import HeroSection from "./HeroSection";
+import PageNavbar from "./PageNavbar";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const articles = useSelector((state) => state.articlesReducer.articles);
@@ -16,44 +17,41 @@ const HomePage = () => {
 
   return (
     <>
-      <Navbar />
+      <PageNavbar/>
       <Container>
         <Row>
-          <Col className="text-bg-success" xs={2}>
-            <div>LEFT COLUMN</div>
-          </Col>
-          <Col xs={8}>
+          <Col >
             <HeroSection />
-            <Container>
-              <p>Share your passion with us, write your first article!</p>
+            <Container className="submitArticleSection rounded-2">
+              <p>Want to share your passion with us? Write your first article!</p>
             <SubmitArticle />
             </Container>
-            <Container className="">
+            <Container className="articlesContainer mb-3">
+              <h4 className='fw-bold mt-4'>Our Reader's articles:</h4>
               <Row className="mt-4 g-3">
                 {/* article card */}
                 {articles &&
                   articles.content &&
                   Array.isArray(articles.content) &&
                   articles.content.map((article) => (
-                    <Col key={article.articleId} xs={4}>
-                      <Card className="article-card">
-                        <Card.Body>
-                          <Card.Title>{article.title}</Card.Title>
-                          <Card.Text className="article-preview">
-                            {article.content.substring(0, 100)}...
-                          </Card.Text>
-                          <Card.Link href={`/article/${article.articleId}`}>
-                            Read More
-                          </Card.Link>
-                        </Card.Body>
-                      </Card>
+                    <Col key={article.articleId} xs={12}>
+                      <Link to={`/article/${article.articleId}`} className="text-decoration-none text-dark">
+                        <Card className="article-card pb-2">
+                          <Card.Body>
+                            <Card.Title className="fw-bold">{article.title}</Card.Title>
+                            <Card.Text className="article-preview">
+                              {article.content.substring(0, 100)}...
+                            </Card.Text>
+                            <Container className="text-end">
+                              Read more...
+                            </Container>
+                          </Card.Body>
+                        </Card>
+                      </Link>
                     </Col>
                   ))}
               </Row>
             </Container>
-          </Col>
-          <Col className="text-bg-success" xs={2}>
-            <div>RIGHT COLUMN</div>
           </Col>
         </Row>
       </Container>

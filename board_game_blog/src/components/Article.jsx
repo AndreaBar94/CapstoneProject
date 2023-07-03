@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Container, Form, Modal } from 'react-bootstrap';
 import { deleteArticle, editArticle, getArticleById, postComment } from '../redux/actions';
+import PageNavbar from './PageNavbar';
 
 const Article = () => {
   const { articleId } = useParams();
@@ -108,37 +109,45 @@ const Article = () => {
   };
 
   return (
-    <div>
-      <h1>Title: {article && article.title}</h1>
-      <p>Content: {article && article.content}</p>
-      <p>Author: {article && article.user.username}</p>
-      <p>Date: {article && article.publicationDate}</p>
-      <Form.Group controlId="formComment">
-        <Form.Label>Add a Comment</Form.Label>
-        <Form.Control
-          as="textarea"
-          rows={3}
-          value={commentContent}
-          onChange={handleCommentInputChange}
-        />
-      </Form.Group>
-      <Button variant="primary" onClick={handleCommentSubmit}>
-        Submit Comment
-      </Button>
-      {comments.map((comment) => (
-        <div key={comment.commentId}>
-          <p>Author: {comment.user.username}</p>
-          <p>Comment: {comment.content}</p>
-        </div>
-      ))}
-      {isAuthor && (
-        <>
-          <Button onClick={handleEdit}>Edit Article</Button>
-          <Button onClick={handleDelete} className="bg-danger border-danger">
-            Delete Article
-          </Button>
-        </>
-      )}
+    <>
+    <PageNavbar />
+    <Container >
+      <Container className='articlePage rounded p-4'>
+        <h4 className='fw-bold'>{article && article.title}</h4>
+        <p>Author: {article && article.user.username}</p>
+        <p>{article && article.content}</p>
+        <p className='text-muted font-monospace small'>Publication Date: {article && article.publicationDate}</p>
+        {isAuthor && (
+          <>
+          <Container className='d-flex justify-content-between'>
+            <Button onClick={handleEdit} className='actionButton'>Edit Article</Button>
+            <Button onClick={handleDelete} className="bg-danger border-danger">
+              Delete Article
+            </Button>
+          </Container>
+          </>
+        )}
+      </Container>
+      <Container className='commentSection rounded p-4 mt-3'>
+        <Form.Group controlId="formComment">
+          <Form.Label className='fw-bold'>Add your Comment</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            value={commentContent}
+            onChange={handleCommentInputChange}
+          />
+        </Form.Group>
+        <Button className='actionButton mt-2' onClick={handleCommentSubmit}>
+          Submit Comment
+        </Button>
+        {comments.map((comment) => (
+          <div key={comment.commentId} className='singleCommentBox rounded p-3 m-2'>
+            <p>"{comment.content}"</p>
+            <p className='text-muted font-monospace small'>Author: {comment.user.username}</p>
+          </div>
+        ))}
+      </Container>
 
       <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)}>
         <Modal.Header closeButton>
@@ -193,7 +202,9 @@ const Article = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </Container>
+    </>
+    
   );
 };
 

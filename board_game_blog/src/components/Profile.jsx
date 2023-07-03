@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from '../redux/actions/index';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Card } from 'react-bootstrap';
+import PageNavbar from './PageNavbar';
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -13,39 +15,42 @@ const Profile = () => {
 
     return (
         <>
-            <Container>
-                <Row>
-                    <Col>
-                        <Card>
+            <PageNavbar/>
+            <Container >
+                        <Card className='profilePage'>
                             <Card.Body>
-                                <Card.Title>Fellow Player, here is your profile!</Card.Title>
+                                <Card.Title className='fs-3'>Fellow Player, here is your profile!</Card.Title>
                                 {currentUser && (
-                                    <div>
-                                        <p>Username: {currentUser.username}</p>
-                                        <p>First Name: {currentUser.firstname}</p>
-                                        <p>Last Name: {currentUser.lastname}</p>
-                                        <p>Email: {currentUser.email}</p>
-                                    </div>
+                                    <div className='mt-5'>
+                                    <p className='fw-bold'>Username:</p>
+                                    <p>{currentUser.username}</p>
+                                    <p className='fw-bold'>First Name:</p>
+                                    <p>{currentUser.firstname}</p>
+                                    <p className='fw-bold'>Last Name:</p>
+                                    <p>{currentUser.lastname}</p>
+                                    <p className='fw-bold'>Email:</p>
+                                    <p>{currentUser.email}</p>
+                                </div>
+                            
                                 )}
                             </Card.Body>
                         </Card>
-                    </Col>
-                </Row>
                 {currentUser && currentUser.articles && (
-                    <Row>
-                        <Col>
-                            <h2>Articles</h2>
-                            {currentUser.articles.map((article) => (
-                                <Card key={article.articleId}>
-                                    <Card.Body>
+                    <>
+                    <Container className='mt-4 profilePage border rounded'>
+                        <h2>Articles</h2>
+                        {currentUser.articles.map((article) => (
+                            <Link key={article.articleId} to={`/article/${article.articleId}`} className='text-decoration-none text-dark'>
+                                <Card>
+                                    <Card.Body className='singleCommentBox rounded shadow'>
                                         <Card.Title>{article.title}</Card.Title>
-                                        <Card.Text>{article.content}</Card.Text>
-                                        <Card.Text>Publication Date: {article.publicationDate}</Card.Text>
+                                        <Card.Text className='text-muted font-monospace small'>Publication Date: {article.publicationDate}</Card.Text>
                                     </Card.Body>
                                 </Card>
-                            ))}
-                        </Col>
-                    </Row>
+                            </Link>
+                        ))}
+                    </Container>
+                </>
                 )}
             </Container>
         </>

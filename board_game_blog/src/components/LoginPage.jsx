@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../redux/actions";
+import { Button, Container } from "react-bootstrap";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -24,51 +25,54 @@ const LoginPage = () => {
     event.preventDefault();
 
     try {
-      dispatch(login(formData, navigate)); // Chiamata all'azione login con i dati del modulo
+      dispatch(login(formData, navigate));
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <div className="container mt-4 p-3 border border-3 border-primary rounded-4 shadow">
-      <div className="d-flex justify-content-between">
-        <h2>Login</h2>
-      </div>
-      <form onSubmit={handleLoginSubmit}>
-        <div className="form-group">
-          <label>Email:</label>
-          <input
-            type="email"
-            className="form-control shadow mb-3 border border-2 border-primary"
-            name="email"
-            placeholder="Enter email"
-            value={formData.email}
-            onChange={handleInputChange}
-          />
+    <>
+      <Container className="p-3 border border-1 rounded-2 border-dark shadow loginContainer">
+        <div className="d-flex justify-content-between">
+          <h2 className="fw-bold">Login</h2>
         </div>
-        <div className="form-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            className="form-control shadow border border-2 border-primary"
-            name="password"
-            placeholder="Enter password"
-            value={formData.password}
-            onChange={handleInputChange}
-          />
-        </div>
-        <button type="submit" className="btn-form btn btn-primary mt-3 shadow">
-          Login
-        </button>
-        <p className="mt-4">
-          You don't have an account?{" "}
-          <Link className="text-decoration-none fw-bold" to="/SignUp">
-            Register
-          </Link>
-        </p>
-      </form>
-    </div>
+        <form onSubmit={handleLoginSubmit}>
+          <div className="form-group">
+            <label>Email:</label>
+            <input
+              type="email"
+              className="form-control shadow mb-3 border border-1 border-dark"
+              name="email"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Password:</label>
+            <input
+              type="password"
+              className="form-control shadow border border-1 border-dark"
+              name="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleInputChange}
+            />
+          </div>
+          <Button type="submit" className="btn-form btn btn-dark mt-3 shadow fs-5">
+            Login
+          </Button>
+          <p className="mt-4">
+            You don't have an account?{" "}
+            <Link className="text-decoration-none fw-bold" to="/SignUp">
+              Register here!
+            </Link>
+          </p>
+        </form>
+      </Container>
+    </>
+    
   );
 };
 
