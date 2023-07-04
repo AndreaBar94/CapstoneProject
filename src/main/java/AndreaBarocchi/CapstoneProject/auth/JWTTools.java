@@ -11,7 +11,6 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
-import lombok.extern.slf4j.Slf4j;
 import java.net.URL;
 import java.security.GeneralSecurityException;
 import java.security.KeyFactory;
@@ -21,22 +20,16 @@ import java.util.Base64;
 import org.apache.commons.io.IOUtils;
 
 import io.jsonwebtoken.io.IOException;
-import io.jsonwebtoken.security.SignatureException;
-
-import io.jsonwebtoken.Claims;
 
 @Component
-@Slf4j
 public class JWTTools {
 
-	//trucco per usare i value dall'env 
 	private static String secret;
 	private static int expiration;
 	
 	@Value("${spring.application.jwt.secret}")
 	public void setSecret(String secretKey) {
 		secret = secretKey;
-		//log.info(secret); controllo se il token viene letto
 	}
 
 	@Value("${spring.application.jwt.expirationindays}")

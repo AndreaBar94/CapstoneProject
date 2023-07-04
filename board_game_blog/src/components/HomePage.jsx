@@ -6,6 +6,7 @@ import SubmitArticle from "./SubmitArticle";
 import HeroSection from "./HeroSection";
 import PageNavbar from "./PageNavbar";
 import { Link } from "react-router-dom";
+import Footer from "./Footer";
 
 const HomePage = () => {
   const articles = useSelector((state) => state.articlesReducer.articles);
@@ -55,6 +56,7 @@ const HomePage = () => {
           </Col>
         </Row>
       </Container>
+      <Footer/>
     </>
   );
 };
