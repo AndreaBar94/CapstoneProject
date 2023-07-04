@@ -2,12 +2,12 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { encryptTransform } from 'redux-persist-transform-encrypt';
-import authReducer from '../reducers/AuthReducer';
 import loginTokenReducer from '../reducers/LoginTokenReducer';
 import userReducer from '../reducers/UserReducer';
 import articlesReducer from '../reducers/ArticlesReducer';
 import commentsReducer from '../reducers/CommentReducer';
 import categoriesReducer from '../reducers/CategoriesReducer';
+import AuthSliceReducer from '../reducers/AuthSliceReducer';
 
 const persistConfig = {
 	key: 'root',
@@ -20,7 +20,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-	auth: authReducer,
+	auth: AuthSliceReducer,
 	loginToken: loginTokenReducer,
 	userReducer: userReducer,
 	articlesReducer: articlesReducer,

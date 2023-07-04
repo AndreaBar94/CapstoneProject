@@ -5,7 +5,7 @@ const initialState = {
 	isAuthenticated: false,
 };
 
-const authReducer = createSlice({
+const authSlice = createSlice({
 	name: 'auth',
 	initialState,
 	reducers: {
@@ -20,5 +20,5 @@ const authReducer = createSlice({
 	},
 });
 
-export const { loginSuccess, logout } = authReducer.actions;
-export default authReducer;
+export const { loginSuccess, logout } = authSlice.actions;
+export default authSlice.reducer;

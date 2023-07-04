@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { loginSuccess } from '../reducers/AuthSliceReducer';
 
 const loginEndpoint = 'http://localhost:3142/auth/login';
 const signUpEndpoint = 'http://localhost:3142/auth/signup';
@@ -9,6 +9,7 @@ const categoriesEndpoint = 'http://localhost:3142/categories';
 
 export const SET_TOKEN = 'SET_TOKEN';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const SET_AUTHENTICATED = 'SET_AUTHENTICATED';
 export const SET_ALL_ARTICLES = 'SET_ALL_ARTICLES';
 export const UPDATE_ARTICLE = 'UPDATE_ARTICLE';
 export const SET_ARTICLE = 'SET_ARTICLE';
@@ -29,9 +30,9 @@ export const login = (formData, navigate) => {
 			});
 			const data = await response.json();
 			if (response.ok) {
-				//console.log(data.accessToken); //check in console if the token is ok
 				dispatch({ type: SET_TOKEN, payload: data.accessToken });
-				navigate('/HomePage');
+				dispatch(loginSuccess(data));
+				navigate('/home');
 			} else {
 				alert(data.message);
 			}
@@ -55,7 +56,7 @@ export const signUp = (formData, navigateToLogin) => {
 			});
 			const data = await response.json();
 			if (response.ok) {
-				navigateToLogin('/');
+				navigateToLogin('/login');
 			} else {
 				alert(data.message);
 			}
@@ -100,7 +101,6 @@ export const getArticles = () => {
 			});
 			if (response.ok) {
 				const articles = await response.json();
-				console.log(articles);
 				dispatch({ type: SET_ALL_ARTICLES, payload: articles });
 			}
 		} catch (error) {
@@ -121,7 +121,6 @@ export const searchArticleWithFilter = (filter, searchKeyword, navigate) => {
 			});
 			if (response.ok) {
 				const articles = await response.json();
-				console.log(articles);
 				dispatch({ type: SET_ALL_ARTICLES, payload: articles });
 				navigate('/articles');
 			}
@@ -143,7 +142,6 @@ export const getArticleById = (articleId) => {
 			});
 			if (response.ok) {
 				const article = await response.json();
-				console.log(article);
 				dispatch({ type: SET_ARTICLE, payload: article });
 			}
 		} catch (error) {
@@ -212,7 +210,7 @@ export const deleteArticle = (articleId, navigate) => {
 				},
 			});
 			if (response.ok) {
-				navigate('/HomePage');
+				navigate('/home');
 			}
 		} catch (error) {
 			console.log(error);
@@ -258,7 +256,6 @@ export const getCategories = () => {
 			});
 			if (response.ok) {
 				const categories = await response.json();
-				console.log(categories);
 				dispatch({ type: SET_ALL_CATEGORIES, payload: categories });
 			}
 		} catch (error) {

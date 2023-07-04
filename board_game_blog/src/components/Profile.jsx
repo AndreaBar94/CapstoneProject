@@ -1,17 +1,25 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from '../redux/actions/index';
-import { Container, Card } from 'react-bootstrap';
+import { Container, Card, Button } from 'react-bootstrap';
 import PageNavbar from './PageNavbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { logout } from '../redux/reducers/AuthSliceReducer';
 
 const Profile = () => {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.userReducer.currentUser);
-    console.log(currentUser);
+    const navigate = useNavigate();
     useEffect(() => {
         dispatch(getUser());
     }, [dispatch]);
+
+    const handleLogout = () => {
+        // Esegui le operazioni necessarie per il logout dell'utente
+        // ad esempio, pulisci il token di autenticazione o elimina i dati utente dallo stato
+        dispatch(logout());
+        navigate("/")
+      };
 
     return (
         <>
@@ -31,8 +39,10 @@ const Profile = () => {
                                     <p className='fw-bold'>Email:</p>
                                     <p>{currentUser.email}</p>
                                 </div>
-                            
                                 )}
+                                <Button variant='warning' onClick={handleLogout}>
+                                    Logout
+                                </Button>
                             </Card.Body>
                         </Card>
                 {currentUser && currentUser.articles && (

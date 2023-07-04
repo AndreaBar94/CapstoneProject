@@ -65,7 +65,7 @@ const LoginPage = () => {
           </Button>
           <p className="mt-4">
             You don't have an account?{" "}
-            <Link className="text-decoration-none fw-bold" to="/SignUp">
+            <Link className="text-decoration-none fw-bold" to="/signUp">
               Register here!
             </Link>
           </p>

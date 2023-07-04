@@ -55,7 +55,7 @@ const PageNavbar = () => {
     <>
       <Navbar expand="lg" className={`py-2 pageNavbar ${scrolled ? 'scrolled' : ''}`} fixed="top">
         <Container fluid>
-          <Link to="/HomePage" className="text-decoration-none ps-4">
+          <Link to="/home" className="text-decoration-none ps-4">
             <Navbar.Brand>
               <img src={logo} alt="logo" /> BoardGameBlog
             </Navbar.Brand>
@@ -63,17 +63,17 @@ const PageNavbar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mx-auto">
-              <Link className="text-decoration-none mx-3 text-dark" to="/Profile">
+              <Link className="text-decoration-none mx-3 text-dark" to="/profile">
                 Profile
               </Link>
-              <Link className="text-decoration-none mx-3 text-dark" to="/HomePage">
+              <Link className="text-decoration-none mx-3 text-dark" to="/home">
                 Home
-              </Link>
-              <Link className="text-decoration-none mx-3 text-dark" to="/Settings">
-                Search By:
               </Link>
             </Nav>
             <Form className="d-flex align-items-center" onSubmit={handleSearchSubmit}>
+              <span className="me-2">
+                Search:
+              </span>
               <Form.Select className="me-2" value={selectedFilter} onChange={handleFilterChange}>
                 {filterOptions.map((filter) => (
                   <option key={filter} value={filter}>

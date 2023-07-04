@@ -101,12 +101,12 @@ const SignUp = () => {
               onChange={handleInputChange}
             />
           </div>
-          <button
+          <Button
             type="submit"
             className="btn-form btn btn-dark mt-3 shadow fs-5"
           >
             SignUp
-          </button>
+          </Button>
         </form>
         <p className="mt-4">
           Return to{" "}
