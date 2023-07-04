@@ -4,6 +4,7 @@ body {
 	background-color: #d9e5d6;
 	font-family: 'Montserrat', sans-serif;
 }
+
 /* ------------------------------------------------UTILITIES--------------------------------------------------------------- */
 .actionButton {
 	background-color: #a5dfef;
@@ -134,4 +135,8 @@ body {
 	padding: 2rem;
 	background: rgb(247, 160, 114);
 	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
+}
+/* ------------------------------------------------FOOTER--------------------------------------------------------------- */
+.footerContainer {
+	width: 100%;
 }

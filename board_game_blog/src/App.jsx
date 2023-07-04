@@ -16,7 +16,7 @@ const App = () => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   return (
-    <Container className='app'>
+    <Container fluid className='app px-0'>
       <Provider store={store}>
         <Router>
           <Routes>
