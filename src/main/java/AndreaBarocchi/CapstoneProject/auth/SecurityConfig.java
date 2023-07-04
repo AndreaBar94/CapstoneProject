@@ -87,6 +87,10 @@ public class SecurityConfig {
 			auth.requestMatchers("/categories/**").hasAuthority("ADMIN");
 		});
 		
+		//auth likes
+		http.authorizeHttpRequests(auth -> {
+			auth.requestMatchers(HttpMethod.POST, "/likes/**").hasAnyAuthority("USER", "ADMIN");
+		});
 		
 		http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class);
 

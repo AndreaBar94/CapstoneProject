@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import AndreaBarocchi.CapstoneProject.enums.UserRole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,8 +28,16 @@ public class Like {
 	private LocalDate interactionDate;
 	
 	@ManyToOne
+	@JsonIgnore
 	private User user;
 	
 	@ManyToOne
+	@JsonBackReference
 	private Article article;
+	
+	 public Like(LocalDate interactionDate, User user, Article article) {
+	        this.interactionDate = interactionDate;
+	        this.user = user;
+	        this.article = article;
+	    }
 }

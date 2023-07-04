@@ -263,3 +263,25 @@ export const getCategories = () => {
 		}
 	};
 };
+
+//set likes
+export const setLikes = (like) => {
+	return async (dispatch, getState) => {
+		try {
+			const token = getState().loginToken.token;
+			const response = await fetch(`http://localhost:3142/likes/${like.article}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + token,
+				},
+				body: JSON.stringify(like),
+			});
+			if (response.ok) {
+				dispatch(getArticleById(like.article));
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Container, Form, Modal } from 'react-bootstrap';
-import { deleteArticle, editArticle, getArticleById, postComment } from '../redux/actions';
+import { deleteArticle, editArticle, getArticleById, postComment, setLikes } from '../redux/actions';
 import PageNavbar from './PageNavbar';
+import LikeButton from './LikeButton';
 
 const Article = () => {
   const { articleId } = useParams();
@@ -31,6 +32,35 @@ const Article = () => {
   // Utils
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  //state for likes
+  const [likes, setArticleLikes] = useState(article.likes);
+
+  const getCurrentDate = () => {
+    return new Date();
+  };
+
+  const handleLike = async (articleId) => {
+    const currentDate = getCurrentDate();
+    const interactionDate = `${currentDate.getFullYear()}-${(
+      currentDate.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
+  
+    const likeData = {
+      user: currentUser.userId,
+      article: articleId,
+      date: interactionDate,
+    };
+  
+    try {
+      dispatch(setLikes(likeData));
+      setArticleLikes(likes + 1);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     dispatch(getArticleById(articleId));
@@ -118,6 +148,8 @@ const Article = () => {
         <p>{article && article.content}</p>
         <p className='text-muted font-monospace small'>Category: {article && article.category && article.category.categoryName}</p>
         <p className='text-muted font-monospace small'>Publication Date: {article && article.publicationDate}</p>
+        <LikeButton articleId={article.articleId} handleLike={handleLike} />
+        <p>{article && article.likes && article.likes.length}</p>
         {isAuthor && (
           <>
           <Container className='d-flex justify-content-between'>

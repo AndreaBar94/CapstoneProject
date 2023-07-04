@@ -48,7 +48,7 @@ public class Article {
 	
 	
     @OneToMany(mappedBy = "article")
-    @JsonIgnore
+    @JsonManagedReference
     private List<Like> likes; // article's likes, nice to have
 
 	
@@ -69,5 +69,8 @@ public class Article {
 		this.category = category;
 	}
 	
+	public Article(String articleId) {
+	    this.articleId = UUID.fromString(articleId);
+	}
 	
 }
