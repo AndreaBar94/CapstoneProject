@@ -15,11 +15,9 @@ const Profile = () => {
     }, [dispatch]);
 
     const handleLogout = () => {
-        // Esegui le operazioni necessarie per il logout dell'utente
-        // ad esempio, pulisci il token di autenticazione o elimina i dati utente dallo stato
         dispatch(logout());
         navigate("/")
-      };
+    };
 
     return (
         <>
