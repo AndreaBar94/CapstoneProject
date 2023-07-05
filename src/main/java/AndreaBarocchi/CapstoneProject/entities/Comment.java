@@ -29,13 +29,13 @@ public class Comment {
 	private String content;
 	private LocalDate publicationDate;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
     @JsonIgnoreProperties("hibernateLazyInitializer")
     private Article article;
 
     @ManyToOne
-    @JsonIgnoreProperties({"comments" })
+    @JsonIgnoreProperties({"comments"})
     private User user;
 
 	public Comment(String content, LocalDate publicationDate, Article article, User user) {

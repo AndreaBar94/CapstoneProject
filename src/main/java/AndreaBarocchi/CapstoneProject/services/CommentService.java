@@ -67,14 +67,12 @@ public class CommentService {
             throws NotFoundException {
     	//trovo il commento
         Comment existingComment = findCommentById(commentId);
-        //trovo lo user che sta tentando la modifica
-        User user = userRepo.findByEmail(authentication.getName())
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        User authenticatedUser = (User) authentication.getPrincipal();
         
         // Verifica se l'utente autenticato è l'autore del commento
         if (!existingComment.getUser().getEmail().equals(((User) authentication.getPrincipal()).getEmail())) {
         	//passo le info dello user non autorizzato al messaggio di errore
-            throw new UnauthorizedException(user.getFirstname() + " is not authorized to update this comment");
+            throw new UnauthorizedException(authenticatedUser.getFirstname() + " is not authorized to update this comment");
         }
         
         existingComment.setContent(commentPayload.getContent());
@@ -84,12 +82,11 @@ public class CommentService {
     public void deleteComment(UUID commentId, Authentication authentication) throws NotFoundException {
         Comment comment = findCommentById(commentId);
         
-        User user = userRepo.findByEmail(authentication.getName())
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        User authenticatedUser = (User) authentication.getPrincipal();
         
         // Verifica se l'utente autenticato è l'autore del commento
         if (!comment.getUser().getEmail().equals(((User) authentication.getPrincipal()).getEmail())) {
-            throw new UnauthorizedException(user.getFirstname() + " is not authorized to delete this comment");
+            throw new UnauthorizedException(authenticatedUser.getFirstname() + " is not authorized to delete this comment");
         }
 
         commentRepo.delete(comment);

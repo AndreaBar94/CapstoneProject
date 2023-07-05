@@ -223,8 +223,6 @@ export const postComment = (articleId, commentData) => {
 	return async (dispatch, getState) => {
 		try {
 			const token = getState().loginToken.token;
-			const userId = getState().userReducer.currentUser.userId; // Ottieni l'ID dell'utente corrente
-			commentData.userId = userId; // Aggiungi l'ID dell'utente corrente ai dati del commento
 			const response = await fetch(commentsEndpoint + `/article/${articleId}`, {
 				method: 'POST',
 				headers: {
@@ -236,7 +234,6 @@ export const postComment = (articleId, commentData) => {
 			if (response.ok) {
 				const newComment = await response.json();
 				dispatch({ type: SET_COMMENT, payload: [newComment] });
-				dispatch(getArticles());
 			}
 		} catch (error) {
 			console.log(error);
@@ -279,6 +276,50 @@ export const setLikes = (like) => {
 			});
 			if (response.ok) {
 				dispatch(getArticleById(like.article));
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
+//edit comment
+export const editedComment = (commentId, commentData) => {
+	return async (dispatch, getState) => {
+		try {
+			const token = getState().loginToken.token;
+			const response = await fetch(commentsEndpoint + `/${commentId}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + token,
+				},
+				body: JSON.stringify(commentData),
+			});
+			if (response.ok) {
+				const newComment = await response.json();
+				dispatch({ type: SET_COMMENT, payload: [newComment] });
+				dispatch(getArticles());
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+//delete comment
+export const deleteComment = (commentId, articleId) => {
+	return async (dispatch, getState) => {
+		try {
+			const token = getState().loginToken.token;
+			const response = await fetch(commentsEndpoint + `/${commentId}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + token,
+				},
+			});
+			if (response.ok) {
+				dispatch(getArticleById(articleId));
 			}
 		} catch (error) {
 			console.log(error);
