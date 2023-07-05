@@ -43,15 +43,16 @@ public class User implements UserDetails{
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 	
-	@OneToMany(fetch = FetchType.EAGER)
-	private List<Like> likes;// nice to have
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"user", "comments", "likes"})
+	private List<Like> likes;
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"user", "comments"})
     private List<Article> articles = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties({"user", "comments"})
+    @JsonIgnoreProperties({"user"})
     private List<Comment> comments;
 
 	public User(String username, String firstname, String lastname, String email, String password, List<Article> articles) {

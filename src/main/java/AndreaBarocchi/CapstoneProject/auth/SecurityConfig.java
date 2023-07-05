@@ -90,6 +90,7 @@ public class SecurityConfig {
 		//auth likes
 		http.authorizeHttpRequests(auth -> {
 			auth.requestMatchers(HttpMethod.POST, "/likes/**").hasAnyAuthority("USER", "ADMIN");
+			auth.requestMatchers(HttpMethod.DELETE, "/likes/**").hasAnyAuthority("USER", "ADMIN");
 		});
 		
 		http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class);

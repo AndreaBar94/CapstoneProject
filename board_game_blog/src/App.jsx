@@ -11,6 +11,7 @@ import Profile from './components/Profile';
 import Article from './components/Article';
 import { Container } from 'react-bootstrap';
 import ArticlesResultPage from './components/ArticlesResultPage';
+import NotFoundPage from './components/NotFoundPage';
 
 const App = () => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
@@ -34,6 +35,7 @@ const App = () => {
             {isAuthenticated && (
               <Route path='/article/:articleId' element={<Article />} />
             )}
+            <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </Router>
       </Provider>

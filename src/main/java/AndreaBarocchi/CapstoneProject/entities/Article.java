@@ -47,9 +47,9 @@ public class Article {
     private List<Comment> comments;
 	
 	
-    @OneToMany(mappedBy = "article")
-    @JsonManagedReference
-    private List<Like> likes; // article's likes, nice to have
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "article-likes")
+    private List<Like> likes;
 
 	
     @ManyToOne

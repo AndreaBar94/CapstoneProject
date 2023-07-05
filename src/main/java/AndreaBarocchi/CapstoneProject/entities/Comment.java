@@ -34,9 +34,17 @@ public class Comment {
     @JsonIgnoreProperties("hibernateLazyInitializer")
     private Article article;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"comments","hibernateLazyInitializer" })
+    @ManyToOne
+    @JsonIgnoreProperties({"comments" })
     private User user;
 
+	public Comment(String content, LocalDate publicationDate, Article article, User user) {
+		super();
+		this.content = content;
+		this.publicationDate = publicationDate;
+		this.article = article;
+		this.user = user;
+	}
 
+    
 }

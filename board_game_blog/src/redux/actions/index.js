@@ -269,7 +269,7 @@ export const setLikes = (like) => {
 	return async (dispatch, getState) => {
 		try {
 			const token = getState().loginToken.token;
-			const response = await fetch(`http://localhost:3142/likes/${like.article}`, {
+			const response = await fetch(`http://localhost:3142/likes/${like.article}/${like.user}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

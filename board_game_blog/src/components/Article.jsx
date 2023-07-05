@@ -5,6 +5,7 @@ import { Button, Container, Form, Modal } from 'react-bootstrap';
 import { deleteArticle, editArticle, getArticleById, postComment, setLikes } from '../redux/actions';
 import PageNavbar from './PageNavbar';
 import LikeButton from './LikeButton';
+import Footer from './Footer';
 
 const Article = () => {
   const { articleId } = useParams();
@@ -32,14 +33,14 @@ const Article = () => {
   // Utils
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  
+  //----------------------------------------------------------------HANDLE LIKE SECTION----------------------------------------------------------------//
   //state for likes
-  const [likes, setArticleLikes] = useState(article.likes);
+  const likeCount = article && article.likes ? article.likes.length : 0;
 
   const getCurrentDate = () => {
     return new Date();
   };
-
   const handleLike = async (articleId) => {
     const currentDate = getCurrentDate();
     const interactionDate = `${currentDate.getFullYear()}-${(
@@ -53,15 +54,15 @@ const Article = () => {
       article: articleId,
       date: interactionDate,
     };
-  
-    try {
-      dispatch(setLikes(likeData));
-      setArticleLikes(likes + 1);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
+      try {
+        dispatch(setLikes(likeData));
+
+      } catch (error) {
+        console.log(error);
+      }
+  };
+//----------------------------------------------------------------HANDLE COMMENT SECTION----------------------------------------------------------------//
   useEffect(() => {
     dispatch(getArticleById(articleId));
   }, [dispatch, articleId]);
@@ -83,6 +84,9 @@ const Article = () => {
   };
 
   const handleCommentSubmit = () => {
+    if (commentContent.trim() === '') {
+      return alert('Please enter a comment');
+    }
     const commentData = {
       content: commentContent,
       userId: currentUser.userId,
@@ -98,12 +102,13 @@ const Article = () => {
           .catch((error) => {
             console.log(error);
           });
+        setCommentContent("");
       })
       .catch((error) => {
         console.log(error);
       });
   };
-
+//----------------------------------------------------------------HANDLE ARTICLE SECTION----------------------------------------------------------------//
   const handleInputChange = (event) => {
     setArticleData({
       ...articleData,
@@ -141,18 +146,19 @@ const Article = () => {
   return (
     <>
     <PageNavbar />
-    <Container >
+    <Container className='pb-3'>
       <Container className='articlePage rounded p-4'>
         <h4 className='fw-bold'>{article && article.title}</h4>
         <p className='text-muted font-monospace small'>Author: {article && article.user.username}</p>
         <p>{article && article.content}</p>
         <p className='text-muted font-monospace small'>Category: {article && article.category && article.category.categoryName}</p>
         <p className='text-muted font-monospace small'>Publication Date: {article && article.publicationDate}</p>
-        <LikeButton articleId={article.articleId} handleLike={handleLike} />
-        <p>{article && article.likes && article.likes.length}</p>
+        <Container className='d-flex align-items-center my-2 p-0'>
+          <LikeButton articleId={article.articleId} handleLike={handleLike} likes={likeCount}/>
+        </Container>
         {isAuthor && (
           <>
-          <Container className='d-flex justify-content-between'>
+          <Container className='d-flex justify-content-between p-0'>
             <Button onClick={handleEdit} className='actionButton'>Edit Article</Button>
             <Button onClick={handleDelete} className="bg-danger border-danger">
               Delete Article
@@ -167,6 +173,7 @@ const Article = () => {
           <Form.Control
             as="textarea"
             rows={3}
+            required
             value={commentContent}
             onChange={handleCommentInputChange}
           />
@@ -236,6 +243,7 @@ const Article = () => {
         </Modal.Footer>
       </Modal>
     </Container>
+    <Footer/>
     </>
     
   );

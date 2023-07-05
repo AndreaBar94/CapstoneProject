@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,7 +35,7 @@ public class Like {
 	private User user;
 	
 	@ManyToOne
-	@JsonBackReference
+	@JsonBackReference(value = "article-likes")
 	private Article article;
 	
 	 public Like(LocalDate interactionDate, User user, Article article) {
