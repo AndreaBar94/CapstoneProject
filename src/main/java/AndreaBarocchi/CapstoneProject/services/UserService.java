@@ -64,7 +64,7 @@ public class UserService {
 
     public User updateUser(UUID userId, UserRegistrationPayload uPld, Authentication authentication)
             throws NotFoundException {
-        User foundUser = this.findUserById(userId);
+        User foundUser = findUserById(userId);
         String authenticatedUserEmail = ((User) authentication.getPrincipal()).getEmail();
         if (!foundUser.getEmail().equals(authenticatedUserEmail.toString())) {
             throw new UnauthorizedException("Unauthorized to update this user");
@@ -78,10 +78,10 @@ public class UserService {
     }
 
     public void deleteUser(UUID userId, Authentication authentication) throws NotFoundException {
-        User foundUser = this.findUserById(userId);
-        String authenticatedUserEmail = authentication.getName();
+        User foundUser = findUserById(userId);
+        User authenticatedUser = (User) authentication.getPrincipal();
 
-        if (!foundUser.getEmail().equals(authenticatedUserEmail)) {
+        if (!foundUser.getEmail().equals(authenticatedUser.getEmail())) {
             throw new UnauthorizedException("Unauthorized to delete this user");
         }
 
@@ -89,8 +89,14 @@ public class UserService {
     }
 
     public User findUserByEmail(String email) throws NotFoundException {
-        return userRepo.findByEmail(email).orElseThrow(() -> new NotFoundException());
+        Optional<User> userOptional = userRepo.findByEmail(email);
+        if (userOptional.isPresent()) {
+            return userOptional.get();
+        } else {
+            throw new NotFoundException();
+        }
     }
+
 
     public void deleteAllUsers() {
         userRepo.deleteAll();

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from '../redux/actions/index';
 import { Container, Card, Button } from 'react-bootstrap';
@@ -6,19 +6,23 @@ import PageNavbar from './PageNavbar';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../redux/reducers/AuthSliceReducer';
 import Footer from './Footer';
+import EditProfileModal from './EditProfileModal';
 
 const Profile = () => {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.userReducer.currentUser);
     const navigate = useNavigate();
+    const [showEditModal, setShowEditModal] = useState(false);
+
     useEffect(() => {
-        dispatch(getUser());
+    dispatch(getUser());
     }, [dispatch]);
 
     const handleLogout = () => {
-        dispatch(logout());
-        navigate("/")
+    dispatch(logout());
+    navigate('/');
     };
+
 
     return (
         <>
@@ -26,7 +30,16 @@ const Profile = () => {
             <Container className='pb-3'>
                         <Card className='profilePage'>
                             <Card.Body>
-                                <Card.Title className='fs-3'>Fellow Player, here is your profile!</Card.Title>
+                                <div className='d-flex justify-content-between align-items-center'>
+                                    <Card.Title className='fs-3'>Fellow Player, here is your profile!</Card.Title>
+                                    <Button onClick={() => setShowEditModal(true)}>
+                                        Edit
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-pencil ms-2" viewBox="0 0 16 16">
+                                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                        </svg>
+                                    </Button>
+                                </div>
+                                
                                 {currentUser && (
                                     <div className='mt-5'>
                                     <p className='fw-bold'>Username:</p>
@@ -69,6 +82,7 @@ const Profile = () => {
                             </Link>
                         ))}
                     </Container>
+                    <EditProfileModal show={showEditModal} onHide={() => setShowEditModal(false)} user={currentUser}/>
                 </>
                 )}
             </Container>

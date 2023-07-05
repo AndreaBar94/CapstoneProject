@@ -4,6 +4,7 @@ const loginEndpoint = 'http://localhost:3142/auth/login';
 const signUpEndpoint = 'http://localhost:3142/auth/signup';
 const articlesEndpoint = 'http://localhost:3142/articles';
 const getLoggedUserEndpoint = 'http://localhost:3142/users/me';
+const userEndpoint = 'http://localhost:3142/users';
 const commentsEndpoint = 'http://localhost:3142/comments';
 const categoriesEndpoint = 'http://localhost:3142/categories';
 
@@ -82,6 +83,50 @@ export const getUser = () => {
 			} else {
 				// Gestisci il caso in cui la richiesta non sia andata a buon fine
 				console.log('Error trying to fetch user');
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
+//edit user
+export const updateUser = (userData, userId) => {
+	return async (dispatch, getState) => {
+		try {
+			const token = getState().loginToken.token;
+			const response = await fetch(userEndpoint + `/${userId}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + token,
+				},
+				body: JSON.stringify(userData),
+			});
+			if (response.ok) {
+				const editedUser = await response.json();
+				dispatch({ type: SET_CURRENT_USER, payload: editedUser });
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
+//delete user
+export const deleteUser = (userId, navigate) => {
+	return async (getState) => {
+		try {
+			const token = getState().loginToken.token;
+			const response = await fetch(userEndpoint + `/${userId}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + token,
+				},
+			});
+			if (response.ok) {
+				navigate('/');
 			}
 		} catch (error) {
 			console.log(error);
