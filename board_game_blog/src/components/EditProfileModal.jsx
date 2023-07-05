@@ -33,7 +33,6 @@ const EditProfileModal = ({ show, onHide, user }) => {
     };
 
     const handleDeleteUser = () => {
-        alert("Are you sure you want to delete your profile?");
         dispatch(deleteUser(user.userId, navigate));
         onHide();
     };
