@@ -32,7 +32,7 @@ const EditProfileModal = ({ show, onHide, user }) => {
         onHide();
     };
 
-    const handleDeleteUser = () => {
+    const handleDeleteUser = () => {    
         dispatch(deleteUser(user.userId, navigate));
         onHide();
     };

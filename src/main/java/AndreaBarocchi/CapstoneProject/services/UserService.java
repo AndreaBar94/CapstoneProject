@@ -15,11 +15,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import AndreaBarocchi.CapstoneProject.entities.Article;
+import AndreaBarocchi.CapstoneProject.entities.Comment;
+import AndreaBarocchi.CapstoneProject.entities.Like;
 import AndreaBarocchi.CapstoneProject.entities.User;
 import AndreaBarocchi.CapstoneProject.exceptions.EmailAlreadyExistsException;
 import AndreaBarocchi.CapstoneProject.exceptions.UnauthorizedException;
 import AndreaBarocchi.CapstoneProject.payloads.ArticlePayload;
 import AndreaBarocchi.CapstoneProject.payloads.UserRegistrationPayload;
+import AndreaBarocchi.CapstoneProject.repositories.CommentRepository;
+import AndreaBarocchi.CapstoneProject.repositories.LikeRepository;
 import AndreaBarocchi.CapstoneProject.repositories.UserRepository;
 
 @Service
@@ -27,6 +31,10 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepo;
+    @Autowired
+    private CommentRepository commentRepo;
+    @Autowired
+    private LikeRepository likeRepo;
     
     public Page<User> findAllUsers(int page, int size, String sortBy) {
         if (size < 0)
@@ -78,13 +86,19 @@ public class UserService {
     }
 
     public void deleteUser(UUID userId, Authentication authentication) throws NotFoundException {
+    	
         User foundUser = findUserById(userId);
         User authenticatedUser = (User) authentication.getPrincipal();
 
         if (!foundUser.getEmail().equals(authenticatedUser.getEmail())) {
             throw new UnauthorizedException("Unauthorized to delete this user");
         }
-
+        // Recupera tutti i commenti dell'utente
+        List<Comment> comments = commentRepo.findByUserUserId(userId);
+        List<Like> likes = likeRepo.findByUserUserId(userId);
+        // Elimina i commenti
+        commentRepo.deleteAll(comments);
+        likeRepo.deleteAll(likes);
         userRepo.delete(foundUser);
     }
 

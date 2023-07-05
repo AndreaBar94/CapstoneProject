@@ -34,6 +34,7 @@ export const login = (formData, navigate) => {
 				dispatch({ type: SET_TOKEN, payload: data.accessToken });
 				dispatch(loginSuccess(data));
 				navigate('/home');
+				dispatch(getUser(data.accessToken));
 			} else {
 				alert(data.message);
 			}
@@ -115,7 +116,7 @@ export const updateUser = (userData, userId) => {
 
 //delete user
 export const deleteUser = (userId, navigate) => {
-	return async (getState) => {
+	return async (dipatch, getState) => {
 		try {
 			const token = getState().loginToken.token;
 			const response = await fetch(userEndpoint + `/${userId}`, {
