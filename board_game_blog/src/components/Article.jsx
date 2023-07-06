@@ -202,7 +202,7 @@ useEffect(() => {
         <p className='text-muted font-monospace small'>Category: {article && article.category && article.category.categoryName}</p>
         <p className='text-muted font-monospace small'>Publication Date: {article && article.publicationDate}</p>
         <Container className='d-flex align-items-center my-2 p-0'>
-          <LikeButton articleId={article.articleId} handleLike={handleLike} likes={likeCount}/>
+          <LikeButton articleId={article && article.articleId} handleLike={handleLike} likes={likeCount}/>
         </Container>
         {isAuthor && (
           <>
