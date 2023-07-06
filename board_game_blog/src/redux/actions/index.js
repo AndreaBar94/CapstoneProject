@@ -188,6 +188,7 @@ export const getArticleById = (articleId) => {
 			});
 			if (response.ok) {
 				const article = await response.json();
+				console.log(article);
 				dispatch({ type: SET_ARTICLE, payload: article });
 			}
 		} catch (error) {
