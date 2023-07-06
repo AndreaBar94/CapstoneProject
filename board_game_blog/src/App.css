@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Condensed:wght@300;700&family=Roboto:wght@300;700&display=swap');
+
+body {
+	background-color: #d9e5d6;
+	font-family: 'Montserrat', sans-serif;
+}
+
+/* ------------------------------------------------UTILITIES--------------------------------------------------------------- */
+.actionButton {
+	background-color: #a5dfef;
+	color: #000;
+	border: 1px solid #a5dfef;
+}
+.actionButton:hover {
+	background-color: #44bfe1;
+	color: #000;
+	border: 1px solid #a5dfef;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+/* ------------------------------------------------LOGIN/SIGNUP PAGE--------------------------------------------------------------- */
+.loginContainer {
+	margin-top: 20vh;
+	background: rgb(247, 160, 114);
+	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
+}
+.signUpContainer {
+	background: rgb(247, 160, 114);
+	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
+}
+/* ------------------------------------------------NAVBAR--------------------------------------------------------------- */
+.pageNavbar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 100;
+	background-color: transparent;
+	transition: 0.5s ease-in-out;
+	font-size: 1rem;
+	background: rgb(247, 160, 114);
+	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
+}
+.pageNavbar.scrolled {
+	margin-top: 1rem;
+	background: rgb(247, 160, 114);
+	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
+	border: 1px solid rgb(247, 160, 114);
+}
+/* ------------------------------------------------HERO SECTION--------------------------------------------------------------- */
+.heroSection {
+	position: relative;
+	margin-top: 6rem;
+	padding-bottom: 15rem;
+	background-image: url(./assets/imgs/heroSectionBg.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	color: aliceblue;
+	font-size: xx-large;
+}
+
+.heroSection::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+	filter: blur(2px);
+	opacity: 0.8;
+}
+
+.heroSection > * {
+	position: relative;
+	z-index: 1;
+}
+
+/* ------------------------------------------------HOMEPAGE--------------------------------------------------------------- */
+.articlesContainer {
+	background-color: #d9e5d6;
+}
+/* ------------------------------------------------SUBMIT ARTICLE LINE--------------------------------------------------------------- */
+.submitArticleSection {
+	margin-block: 3rem;
+	padding: 2rem;
+	border: 1px solid #e0ca71;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	font-size: larger;
+	background: rgb(247, 160, 114);
+	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
+}
+.publishArticleModal {
+	background-color: #ffeb9bb7;
+	border-radius: 10px;
+}
+/* ------------------------------------------------ARTICLE PAGE--------------------------------------------------------------- */
+.article-card {
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	border: 1px solid #000;
+	transition: box-shadow 0.3s ease-in-out;
+	background: rgb(247, 160, 114);
+	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
+}
+
+.article-card:hover {
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.articlePage {
+	margin-top: 6rem;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	border: 1px solid #000;
+	background: rgb(247, 160, 114);
+	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
+}
+.commentSection {
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	border: 1px solid #000;
+	background: rgb(247, 160, 114);
+	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
+}
+.singleCommentBox {
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	background-color: #d9e5d6;
+}
+/* ------------------------------------------------PROFILE PAGE--------------------------------------------------------------- */
+.profilePage {
+	margin-top: 6rem;
+	padding: 2rem;
+	background: rgb(247, 160, 114);
+	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
+}
+/* ------------------------------------------------FOOTER--------------------------------------------------------------- */
+.footerContainer {
+	width: 100%;
+}
