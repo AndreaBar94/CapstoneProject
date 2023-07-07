@@ -74,6 +74,10 @@ public class User implements UserDetails{
     public void removeArticle(Article article) {
         this.articles.remove(article);
         article.setUser(null);
+
+        article.getComments().clear();
+
+        article.getLikes().clear();
     }
     
 	@Override

@@ -37,4 +37,5 @@ public class Like {
 	        this.user = user;
 	        this.article = article;
 	    }
+
 }

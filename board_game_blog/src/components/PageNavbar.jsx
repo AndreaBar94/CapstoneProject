@@ -57,14 +57,19 @@ const PageNavbar = () => {
         <Container fluid>
           <Link to="/home" className="text-decoration-none ps-4">
             <Navbar.Brand>
-              <img src={logo} alt="logo" /> BoardGameBlog
+              <img src={logo} alt="logo" /> <span>BoardGameBlog</span>
             </Navbar.Brand>
           </Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mx-auto align-items-center">
-              <Link className="text-decoration-none mx-5 text-dark" to="/home">
-                Home
+              <Link className="text-decoration-none mx-5 text-dark d-flex align-items-center homeBtn" to="/home">
+                <span>
+                  Home
+                </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-house mx-2" viewBox="0 0 16 16">
+                  <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
+                </svg>
               </Link>
               <Form className="d-flex align-items-center mx-5" onSubmit={handleSearchSubmit}>
                 <Form.Select className="me-2" value={selectedFilter} onChange={handleFilterChange}>
@@ -90,7 +95,7 @@ const PageNavbar = () => {
                 </Button>
               </Form>
             </Nav>
-              <Link className="text-decoration-none mx-3 text-dark" to="/profile">
+              <Link className="text-decoration-none mx-3 text-dark profileBtn" to="/profile">
                 Profile
               </Link>
           </Navbar.Collapse>

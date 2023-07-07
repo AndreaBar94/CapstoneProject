@@ -45,7 +45,7 @@ public class Article {
 	@ManyToOne
 	private User user; //author
 	
-	@OneToMany(mappedBy = "article", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "article", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Comment> comments;

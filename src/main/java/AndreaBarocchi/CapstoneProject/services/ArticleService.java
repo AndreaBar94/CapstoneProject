@@ -18,6 +18,7 @@ import AndreaBarocchi.CapstoneProject.entities.Category;
 import AndreaBarocchi.CapstoneProject.entities.Comment;
 import AndreaBarocchi.CapstoneProject.entities.Like;
 import AndreaBarocchi.CapstoneProject.entities.User;
+import AndreaBarocchi.CapstoneProject.enums.UserRole;
 import AndreaBarocchi.CapstoneProject.exceptions.NotFoundException;
 import AndreaBarocchi.CapstoneProject.exceptions.UnauthorizedException;
 import AndreaBarocchi.CapstoneProject.payloads.ArticlePayload;
@@ -89,7 +90,7 @@ public class ArticleService {
         Article existingArticle = findArticleById(articleId);
         User authenticatedUser = (User) authentication.getPrincipal();
 
-        if (!existingArticle.getUser().getUserId().equals(authenticatedUser.getUserId())) {
+        if (!existingArticle.getUser().getUserId().equals(authenticatedUser.getUserId()) && !authenticatedUser.getRole().equals(UserRole.ADMIN)) {
             throw new UnauthorizedException("Unauthorized to update this article");
         }
 
@@ -104,7 +105,7 @@ public class ArticleService {
         Article existingArticle = findArticleById(articleId);
         User authenticatedUser = (User) authentication.getPrincipal();
 
-        if (!existingArticle.getUser().getUserId().equals(authenticatedUser.getUserId())) {
+        if (!existingArticle.getUser().getUserId().equals(authenticatedUser.getUserId()) && !authenticatedUser.getRole().equals(UserRole.ADMIN)) {
             throw new UnauthorizedException("Unauthorized to delete this article");
         }
         // Remove pairing with comments

@@ -29,8 +29,8 @@ const Article = () => {
   // Selectors
   const currentUser = useSelector((state) => state.userReducer.currentUser);
   const article = useSelector((state) => state.articlesReducer.currentArticle);
-  const isAuthor = article && currentUser && article.user.userId === currentUser.userId;
-
+  const isAuthor = article && currentUser && article.user && article.user.userId === currentUser.userId;
+  const isAdmin = currentUser && currentUser.role === 'ADMIN';
   // Utils
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -199,7 +199,7 @@ useEffect(() => {
     <Container className='pb-3'>
       <Container className='articlePage rounded p-4'>
         <h4 className='fw-bold'>{article && article.title}</h4>
-        <p className='text-muted font-monospace small'>Author: {article && article.user.username}</p>
+        <p className='text-muted font-monospace small'>Author: {article && article.user && article.user.username}</p>
         <img src={article && article.imageUrl} alt="article-img" className='mb-3 img-fluid img-thumbnail'/>
         <p>{article && article.content}</p>
         <p className='text-muted font-monospace small'>Category: {article && article.category && article.category.categoryName}</p>
@@ -207,7 +207,7 @@ useEffect(() => {
         <Container className='d-flex align-items-center my-2 p-0'>
           <LikeButton articleId={article && article.articleId} handleLike={handleLike} likes={likeCount}/>
         </Container>
-        {isAuthor && (
+        {(isAuthor || isAdmin ) && (
           <>
           <Container className='d-flex justify-content-between p-0'>
             <Button onClick={handleArticleEdit} className='actionButton'>

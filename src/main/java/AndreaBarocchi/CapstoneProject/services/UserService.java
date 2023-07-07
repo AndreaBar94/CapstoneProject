@@ -25,6 +25,7 @@ import AndreaBarocchi.CapstoneProject.payloads.UserRegistrationPayload;
 import AndreaBarocchi.CapstoneProject.repositories.CommentRepository;
 import AndreaBarocchi.CapstoneProject.repositories.LikeRepository;
 import AndreaBarocchi.CapstoneProject.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserService {
@@ -84,7 +85,14 @@ public class UserService {
         foundUser.setEmail(uPld.getEmail());
         return userRepo.save(foundUser);
     }
+    
+    public User getDefaultUser() {
+        User defaultUser = userRepo.getUserByEmail("defaultUser@email.it");
+        return defaultUser;
+    }
 
+    
+    @Transactional
     public void deleteUser(UUID userId, Authentication authentication) throws NotFoundException {
     	
         User foundUser = findUserById(userId);
@@ -93,12 +101,25 @@ public class UserService {
         if (!foundUser.getEmail().equals(authenticatedUser.getEmail())) {
             throw new UnauthorizedException("Unauthorized to delete this user");
         }
-        // Recupera tutti i commenti dell'utente
-        List<Comment> comments = commentRepo.findByUserUserId(userId);
-        List<Like> likes = likeRepo.findByUserUserId(userId);
-        // Elimina i commenti
-        commentRepo.deleteAll(comments);
-        likeRepo.deleteAll(likes);
+        
+        User defaultUser = getDefaultUser();
+
+        for (Comment comment : foundUser.getComments()) {
+            comment.setUser(null);
+        }
+        foundUser.getComments().clear();
+
+        for (Like like : foundUser.getLikes()) {
+            like.setUser(null);
+        }
+        foundUser.getLikes().clear();
+        
+        for (Article article : foundUser.getArticles()) {
+        	article.setUser(defaultUser);
+        	defaultUser.addArticle(article);
+        }
+        foundUser.getArticles().clear();
+        
         userRepo.delete(foundUser);
     }
 

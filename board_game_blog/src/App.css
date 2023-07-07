@@ -46,6 +46,12 @@ body {
 	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
 	border: 1px solid rgb(247, 160, 114);
 }
+.homeBtn {
+	font-size: larger;
+}
+.profileBtn {
+	font-size: larger;
+}
 /* ------------------------------------------------HERO SECTION--------------------------------------------------------------- */
 .heroSection {
 	position: relative;
