@@ -88,6 +88,7 @@ public class CommentService {
         if (!comment.getUser().getEmail().equals(((User) authentication.getPrincipal()).getEmail())) {
             throw new UnauthorizedException(authenticatedUser.getFirstname() + " is not authorized to delete this comment");
         }
+        comment.getArticle().getComments().remove(comment);
 
         commentRepo.delete(comment);
     }

@@ -25,7 +25,7 @@ import AndreaBarocchi.CapstoneProject.repositories.ArticleRepository;
 import AndreaBarocchi.CapstoneProject.repositories.CategoryRepository;
 import AndreaBarocchi.CapstoneProject.repositories.CommentRepository;
 import AndreaBarocchi.CapstoneProject.repositories.LikeRepository;
-import AndreaBarocchi.CapstoneProject.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ArticleService {
@@ -94,10 +94,11 @@ public class ArticleService {
 
         existingArticle.setTitle(articlePayload.getTitle());
         existingArticle.setContent(articlePayload.getContent());
-        existingArticle.setPublicationDate(articlePayload.getPublicationDate());
+        existingArticle.setPublicationDate(existingArticle.getPublicationDate());
         return articleRepo.save(existingArticle);
     }
-
+    
+    @Transactional
     public void deleteArticle(UUID articleId, Authentication authentication) throws NotFoundException {
         Article existingArticle = findArticleById(articleId);
         User authenticatedUser = (User) authentication.getPrincipal();
@@ -105,11 +106,21 @@ public class ArticleService {
         if (!existingArticle.getUser().getUserId().equals(authenticatedUser.getUserId())) {
             throw new UnauthorizedException("Unauthorized to delete this article");
         }
-        List<Comment> comments = commentRepo.findByArticleArticleId(articleId);
-        List<Like> likes = likeRepo.findByArticleArticleId(articleId);
-        // Elimina i commenti
-        commentRepo.deleteAll(comments);
-        likeRepo.deleteAll(likes);
+     // Rimuovi l'associazione tra gli articoli e i commenti
+        for (Comment comment : existingArticle.getComments()) {
+            comment.setArticle(null);
+        }
+        existingArticle.getComments().clear();
+
+        // Rimuovi l'associazione tra gli articoli e i likes
+        for (Like like : existingArticle.getLikes()) {
+            like.setArticle(null);
+        }
+        existingArticle.getLikes().clear();
+        
+        existingArticle.getUser().getArticles().remove(existingArticle);
+        // Elimina l'articolo
         articleRepo.delete(existingArticle);
+
     }
 }
