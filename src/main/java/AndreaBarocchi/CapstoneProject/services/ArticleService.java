@@ -15,12 +15,16 @@ import org.springframework.stereotype.Service;
 
 import AndreaBarocchi.CapstoneProject.entities.Article;
 import AndreaBarocchi.CapstoneProject.entities.Category;
+import AndreaBarocchi.CapstoneProject.entities.Comment;
+import AndreaBarocchi.CapstoneProject.entities.Like;
 import AndreaBarocchi.CapstoneProject.entities.User;
 import AndreaBarocchi.CapstoneProject.exceptions.NotFoundException;
 import AndreaBarocchi.CapstoneProject.exceptions.UnauthorizedException;
 import AndreaBarocchi.CapstoneProject.payloads.ArticlePayload;
 import AndreaBarocchi.CapstoneProject.repositories.ArticleRepository;
 import AndreaBarocchi.CapstoneProject.repositories.CategoryRepository;
+import AndreaBarocchi.CapstoneProject.repositories.CommentRepository;
+import AndreaBarocchi.CapstoneProject.repositories.LikeRepository;
 import AndreaBarocchi.CapstoneProject.repositories.UserRepository;
 
 @Service
@@ -28,10 +32,12 @@ public class ArticleService {
 
     @Autowired
     private ArticleRepository articleRepo;
-    @Autowired 
-    private UserRepository userRepo;
     @Autowired
     private CategoryRepository categoryRepo;
+    @Autowired
+    private CommentRepository commentRepo;
+    @Autowired
+    private LikeRepository likeRepo;
     
     public Article createArticle(User user, ArticlePayload payload) throws NotFoundException {
 
@@ -99,7 +105,11 @@ public class ArticleService {
         if (!existingArticle.getUser().getUserId().equals(authenticatedUser.getUserId())) {
             throw new UnauthorizedException("Unauthorized to delete this article");
         }
-
+        List<Comment> comments = commentRepo.findByArticleArticleId(articleId);
+        List<Like> likes = likeRepo.findByArticleArticleId(articleId);
+        // Elimina i commenti
+        commentRepo.deleteAll(comments);
+        likeRepo.deleteAll(likes);
         articleRepo.delete(existingArticle);
     }
 }

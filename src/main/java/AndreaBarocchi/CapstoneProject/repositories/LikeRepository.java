@@ -14,4 +14,5 @@ import AndreaBarocchi.CapstoneProject.entities.User;
 public interface LikeRepository extends JpaRepository<Like, UUID>{
 	List<Like> findByUserUserId(UUID userId);
 	Like findByArticleArticleIdAndUserUserId(UUID article, UUID user);
+	List<Like> findByArticleArticleId(UUID articleId);
 }

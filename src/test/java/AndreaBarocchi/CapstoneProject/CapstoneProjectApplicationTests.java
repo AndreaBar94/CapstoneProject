@@ -351,10 +351,8 @@ class CapstoneProjectApplicationTests {
     
     @Test
     public void testDeleteArticle() {
-        // Chiamare il metodo deleteArticle
         UUID articleId = UUID.randomUUID();
 
-        // Configurare il comportamento del repository mock
         when(articleRepository.findById(articleId)).thenReturn(Optional.empty());
 
         User authenticatedUser = new User();
@@ -363,7 +361,6 @@ class CapstoneProjectApplicationTests {
         Authentication authentication = mock(Authentication.class);
         when(authentication.getPrincipal()).thenReturn(authenticatedUser);
 
-        // Verificare che il metodo delete del repository non venga chiamato
         assertThrows(NotFoundException.class, () -> {
             articleService.deleteArticle(articleId, authentication);
         });
