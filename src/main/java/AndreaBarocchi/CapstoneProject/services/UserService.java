@@ -59,7 +59,7 @@ public class UserService {
         List<Article> articles = new ArrayList<>();
         if (articlePayloads != null) {
             for (ArticlePayload payload : articlePayloads) {
-                Article article = new Article(payload.getTitle(), payload.getContent(), payload.getPublicationDate(), null, null, null, null);
+                Article article = new Article(payload.getTitle(), payload.getContent(), payload.getPublicationDate(), null, null, null, null, null);
                 articles.add(article);
             }
         }

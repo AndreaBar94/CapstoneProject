@@ -13,6 +13,7 @@ const Article = () => {
   const [articleData, setArticleData] = useState({
     title: '',
     content: '',
+    imageUrl: '',
   });
 
   // State for comments
@@ -81,6 +82,7 @@ useEffect(() => {
       setArticleData({
         title: article.title,
         content: article.content,
+        imageUrl: article.imageUrl,
       });
       if (article.comments) {
         setComments(article.comments);
@@ -198,6 +200,7 @@ useEffect(() => {
       <Container className='articlePage rounded p-4'>
         <h4 className='fw-bold'>{article && article.title}</h4>
         <p className='text-muted font-monospace small'>Author: {article && article.user.username}</p>
+        <img src={article && article.imageUrl} alt="article-img" className='mb-3 img-fluid img-thumbnail'/>
         <p>{article && article.content}</p>
         <p className='text-muted font-monospace small'>Category: {article && article.category && article.category.categoryName}</p>
         <p className='text-muted font-monospace small'>Publication Date: {article && article.publicationDate}</p>
@@ -294,6 +297,15 @@ useEffect(() => {
                 required
               />
             </Form.Group>
+            <Form.Group controlId="formImageUrl" className="pb-3">
+                <Form.Label>Image URL:</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="imageUrl"
+                  value={articleData.imageUrl}
+                  onChange={handleInputChange}
+                />
+              </Form.Group>
             <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
               Cancel
             </Button>

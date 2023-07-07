@@ -14,4 +14,7 @@ public class ArticlePayload {
 	private LocalDate publicationDate;
 	
 	private String categoryName;
+	
+	private String imageUrl;
+	
 }

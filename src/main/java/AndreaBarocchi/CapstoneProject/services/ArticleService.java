@@ -40,8 +40,15 @@ public class ArticleService {
             throw new NotFoundException("Category not found");
         }
         
-        Article article = new Article(payload.getTitle(), payload.getContent(), LocalDate.now(), user,
-                new ArrayList<>(), new ArrayList<>(), category);
+        Article article = new Article(
+        		payload.getTitle(),
+        		payload.getContent(),
+        		LocalDate.now(),
+        		user,
+                new ArrayList<>(),
+                new ArrayList<>(),
+                category,
+                payload.getImageUrl());
 
         Article savedArticle = articleRepo.save(article);
 

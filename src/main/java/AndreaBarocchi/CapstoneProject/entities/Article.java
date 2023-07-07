@@ -34,11 +34,14 @@ public class Article {
 	private UUID articleId;
 	
 	private String title;
+	
 	@Column(columnDefinition = "text")
 	private String content;
 	
 	private LocalDate publicationDate;
 	
+	@Column(columnDefinition = "text")
+	private String imageUrl;
 	@ManyToOne
 	private User user; //author
 	
@@ -59,7 +62,7 @@ public class Article {
 
 
 	public Article(String title, String content, LocalDate publicationDate, User user, List<Comment> comments,
-			List<Like> likes, Category category) {
+			List<Like> likes, Category category, String imageUrl) {
 		super();
 		this.title = title;
 		this.content = content;
@@ -68,6 +71,7 @@ public class Article {
 		this.comments = comments;
 		this.likes = likes;
 		this.category = category;
+		this.imageUrl = imageUrl;
 	}
 	
 	public Article(String articleId) {

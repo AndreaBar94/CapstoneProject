@@ -9,7 +9,9 @@ const SubmitArticle = () => {
     title: '',
     content: '',
     categoryName: '',
+    imageUrl: '',
   });
+  
   const categories = useSelector((state) => state.categoriesReducer.categories);
   const dispatch = useDispatch();
 
@@ -46,6 +48,7 @@ const SubmitArticle = () => {
           title: '',
           content: '',
           categoryName: '',
+          imageUrl: '',
         });
         setShowModal(false);
       })
@@ -114,6 +117,15 @@ const SubmitArticle = () => {
                   value={articleData.content}
                   onChange={handleInputChange}
                   required
+                />
+              </Form.Group>
+              <Form.Group controlId="formImageUrl" className="pb-3">
+                <Form.Label>Image URL:</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="imageUrl"
+                  value={articleData.imageUrl}
+                  onChange={handleInputChange}
                 />
               </Form.Group>
               <Button variant="dark" type="submit">
