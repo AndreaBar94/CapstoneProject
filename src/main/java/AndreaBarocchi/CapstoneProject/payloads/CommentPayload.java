@@ -1,7 +1,5 @@
 package AndreaBarocchi.CapstoneProject.payloads;
 
-import java.time.LocalDate;
-
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 

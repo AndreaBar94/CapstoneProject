@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,15 +23,20 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import AndreaBarocchi.CapstoneProject.entities.Article;
 import AndreaBarocchi.CapstoneProject.entities.Category;
+import AndreaBarocchi.CapstoneProject.entities.Comment;
+import AndreaBarocchi.CapstoneProject.entities.Like;
 import AndreaBarocchi.CapstoneProject.entities.User;
 import AndreaBarocchi.CapstoneProject.exceptions.UnauthorizedException;
 import AndreaBarocchi.CapstoneProject.payloads.ArticlePayload;
 import AndreaBarocchi.CapstoneProject.payloads.UserRegistrationPayload;
 import AndreaBarocchi.CapstoneProject.repositories.ArticleRepository;
 import AndreaBarocchi.CapstoneProject.repositories.CategoryRepository;
+import AndreaBarocchi.CapstoneProject.repositories.CommentRepository;
+import AndreaBarocchi.CapstoneProject.repositories.LikeRepository;
 import AndreaBarocchi.CapstoneProject.repositories.UserRepository;
 import AndreaBarocchi.CapstoneProject.services.ArticleService;
 import AndreaBarocchi.CapstoneProject.services.UserService;
@@ -43,6 +49,10 @@ class CapstoneProjectApplicationTests {
 
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private CommentRepository commentRepository;
+    @Mock
+    private LikeRepository likeRepository;
 
     @Mock
     private CategoryRepository categoryRepository;
@@ -165,14 +175,31 @@ class CapstoneProjectApplicationTests {
         foundUser.setUserId(userId);
         foundUser.setEmail("testuser@example.com");
 
+        Comment comment = new Comment();
+        comment.setCommentId(UUID.randomUUID());
+        comment.setContent("Test comment");
+        comment.setUser(foundUser);
+
+        Like like = new Like();
+        like.setLikeId(UUID.randomUUID());
+        like.setUser(foundUser);
+
+        foundUser.setComments(Collections.singletonList(comment));
+        foundUser.setLikes(Collections.singletonList(like));
+
         when(userRepository.findById(userId)).thenReturn(Optional.of(foundUser));
-        when(authentication.getName()).thenReturn("testuser@example.com");
+        when(commentRepository.findByUserUserId(userId)).thenReturn(Collections.singletonList(comment));
+        when(likeRepository.findByUserUserId(userId)).thenReturn(Collections.singletonList(like));
+
+        Authentication authentication = mock(Authentication.class);
+        when(authentication.getPrincipal()).thenReturn(foundUser);
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         userService.deleteUser(userId, authentication);
 
         verify(userRepository).delete(foundUser);
     }
-    
 
     @Test
     public void testDeleteUserUnauthorized() {
@@ -182,13 +209,17 @@ class CapstoneProjectApplicationTests {
         foundUser.setUserId(userId);
         foundUser.setEmail("testuser@example.com");
 
+        User unauthorizedUser = new User();
+        unauthorizedUser.setEmail("otheruser@example.com");
+
         when(userRepository.findById(userId)).thenReturn(Optional.of(foundUser));
-        when(authentication.getName()).thenReturn("otheruser@example.com");
+        when(authentication.getPrincipal()).thenReturn(unauthorizedUser);
 
         assertThrows(UnauthorizedException.class, () -> {
             userService.deleteUser(userId, authentication);
         });
     }
+
 
     
     @Test

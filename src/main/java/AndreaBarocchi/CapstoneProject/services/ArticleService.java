@@ -23,8 +23,6 @@ import AndreaBarocchi.CapstoneProject.exceptions.UnauthorizedException;
 import AndreaBarocchi.CapstoneProject.payloads.ArticlePayload;
 import AndreaBarocchi.CapstoneProject.repositories.ArticleRepository;
 import AndreaBarocchi.CapstoneProject.repositories.CategoryRepository;
-import AndreaBarocchi.CapstoneProject.repositories.CommentRepository;
-import AndreaBarocchi.CapstoneProject.repositories.LikeRepository;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -34,10 +32,6 @@ public class ArticleService {
     private ArticleRepository articleRepo;
     @Autowired
     private CategoryRepository categoryRepo;
-    @Autowired
-    private CommentRepository commentRepo;
-    @Autowired
-    private LikeRepository likeRepo;
     
     public Article createArticle(User user, ArticlePayload payload) throws NotFoundException {
 
@@ -106,20 +100,21 @@ public class ArticleService {
         if (!existingArticle.getUser().getUserId().equals(authenticatedUser.getUserId())) {
             throw new UnauthorizedException("Unauthorized to delete this article");
         }
-     // Rimuovi l'associazione tra gli articoli e i commenti
+        // Remove pairing with comments
         for (Comment comment : existingArticle.getComments()) {
             comment.setArticle(null);
         }
         existingArticle.getComments().clear();
 
-        // Rimuovi l'associazione tra gli articoli e i likes
+        // Remove pairing with likes
         for (Like like : existingArticle.getLikes()) {
             like.setArticle(null);
         }
         existingArticle.getLikes().clear();
         
+        //Remove pairing with user
         existingArticle.getUser().getArticles().remove(existingArticle);
-        // Elimina l'articolo
+       
         articleRepo.delete(existingArticle);
 
     }
