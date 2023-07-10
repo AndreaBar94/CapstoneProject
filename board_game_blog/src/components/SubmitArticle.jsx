@@ -101,7 +101,7 @@ const SubmitArticle = () => {
                     categories.content.map((category) => (
                       <option
                         key={category.categoryId}
-                        value={category.categoryName} // Utilizza l'ID della categoria come valore
+                        value={category.categoryName}
                       >
                         {category.categoryName}
                       </option>

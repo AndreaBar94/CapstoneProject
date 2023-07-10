@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/imgs/logo.png';
 import { Button, Form } from 'react-bootstrap';
 import { searchArticleWithFilter } from '../redux/actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const PageNavbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -15,6 +15,7 @@ const PageNavbar = () => {
   const filterOptions = ['title', 'user', 'category'];
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.userReducer.currentUser);
 
   const handleScroll = () => {
     const scrollTop = window.scrollY;
@@ -98,7 +99,7 @@ const PageNavbar = () => {
               </Nav>
               <div className='p-0 my-2 text-center'>
                 <Link className="text-decoration-none text-dark profileBtn" to="/profile">
-                  Profile
+                  <span className='d-none d-lg-inline'>Welcome back, {currentUser && currentUser.username}</span>
                   <img src="https://us.123rf.com/450wm/tarasdubov/tarasdubov2211/tarasdubov221100361/194637445-dadi-d20-per-giocare-a-dnd-gioco-da-tavolo-dungeon-e-draghi-tesori-spada-del-paladino.jpg?ver=6" alt="profileImg" width="40px" className='img-fluid rounded-circle mx-1'/>
                 </Link>
               </div>

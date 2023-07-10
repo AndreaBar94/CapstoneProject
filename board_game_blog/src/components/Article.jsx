@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Container, Form, Modal } from 'react-bootstrap';
+import { Button, Container, Form } from 'react-bootstrap';
 import { deleteArticle, deleteComment, editArticle, editedComment, getArticleById, postComment, setLikes } from '../redux/actions';
 import PageNavbar from './PageNavbar';
 import LikeButton from './LikeButton';
 import Footer from './Footer';
+import EditArticleModal from './EditArticleModal';
+import DeleteArticleModal from './DeleteArticleModal';
+import EditCommentModal from './EditCommentModal';
+import DeleteCommentModal from './DeleteCommentModal';
 
 const Article = () => {
+
   const { articleId } = useParams();
+
   // State for article data
   const [articleData, setArticleData] = useState({
     title: '',
@@ -25,12 +31,19 @@ const Article = () => {
   // States for modals
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteArticleModalOpen, setDeleteArticleModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [deleteCommentModalOpen, setDeleteCommentModalOpen] = useState(false);
+
+  // States for comments edit actions
+  const [editComment, setEditComment] = useState(null);
+  const [commentToDelete, setCommentToDelete] = useState(null);
 
   // Selectors
   const currentUser = useSelector((state) => state.userReducer.currentUser);
   const article = useSelector((state) => state.articlesReducer.currentArticle);
   const isAuthor = article && currentUser && article.user && article.user.userId === currentUser.userId;
   const isAdmin = currentUser && currentUser.role === 'ADMIN';
+
   // Utils
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -42,6 +55,7 @@ const Article = () => {
   const getCurrentDate = () => {
     return new Date();
   };
+  
   const handleLike = async (articleId) => {
     const currentDate = getCurrentDate();
     const interactionDate = `${currentDate.getFullYear()}-${(
@@ -49,7 +63,7 @@ const Article = () => {
     )
       .toString()
       .padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
-  
+
     const likeData = {
       user: currentUser.userId,
       article: articleId,
@@ -64,15 +78,6 @@ const Article = () => {
       }
   };
 //----------------------------------------------------------------HANDLE COMMENT SECTION----------------------------------------------------------------//
-// State for edit and delete modal visibility
-const [editModalOpen, setEditModalOpen] = useState(false);
-const [deleteCommentModalOpen, setDeleteCommentModalOpen] = useState(false);
-
-// Stato per la modifica del commento
-const [editComment, setEditComment] = useState(null);
-const [commentToDelete, setCommentToDelete] = useState(null);
-
-
 useEffect(() => {
     dispatch(getArticleById(articleId));
   }, [dispatch, articleId]);
@@ -198,6 +203,7 @@ useEffect(() => {
     <PageNavbar />
     <Container className='pb-3'>
       <Container className='articlePage rounded p-4'>
+        {/* ARTICLE DETAIL BOX */}
         <h4 className='fw-bold'>{article && article.title}</h4>
         <p className='text-muted font-monospace small'>Author: {article && article.user && article.user.username}</p>
         <img src={article && article.imageUrl} alt="article-img" className='mb-3 img-fluid img-thumbnail'/>
@@ -207,6 +213,7 @@ useEffect(() => {
         <Container className='d-flex align-items-center my-2 p-0'>
           <LikeButton articleId={article && article.articleId} handleLike={handleLike} likes={likeCount}/>
         </Container>
+        {/* IF YOYU ARE THE AUTHOR OR AN ADMIN CHECK FOR EDIT/DELETE ACTION */}
         {(isAuthor || isAdmin ) && (
           <>
           <Container className='d-flex justify-content-between p-0'>
@@ -227,6 +234,7 @@ useEffect(() => {
           </>
         )}
       </Container>
+      {/* COMMENT SUBMIT BOX */}
       <Container className='commentSection rounded p-4 mt-3'>
         <Form.Group controlId="formComment">
           <Form.Label className='fw-bold'>Add your Comment</Form.Label>
@@ -245,6 +253,7 @@ useEffect(() => {
             <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
           </svg>
         </Button>
+        {/* COMMENT MAP SECTION */}
         {comments.map((comment) => (
             <div key={comment.commentId} className='singleCommentBox rounded p-3 m-2'>
               <p>"{comment.content}"</p>
@@ -270,112 +279,33 @@ useEffect(() => {
           ))}
       </Container>
 {/* //----------------------------------------------------------------EDIT ARTICLE MODAL----------------------------------------------------------------// */}
-      <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Article</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formTitle">
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                type="text"
-                name="title"
-                value={articleData.title}
-                onChange={handleInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="formContent">
-              <Form.Label>Content</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                name="content"
-                value={articleData.content}
-                onChange={handleInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="formImageUrl" className="pb-3">
-                <Form.Label>Image URL:</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="imageUrl"
-                  value={articleData.imageUrl}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-            <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
-              Cancel
-            </Button>
-            <Button variant="primary" onClick={handleArticleUpdate}>
-              Save Changes
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
+<EditArticleModal
+        show={isModalOpen}
+        onHide={() => setIsModalOpen(false)}
+        articleData={articleData}
+        handleInputChange={handleInputChange}
+        handleArticleUpdate={handleArticleUpdate}
+      />
 {/* //----------------------------------------------------------------DELETE ARTICLE MODAL----------------------------------------------------------------// */}
-      <Modal show={deleteArticleModalOpen} onHide={() => setDeleteArticleModalOpen(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Are you sure you want to delete this article?</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setDeleteArticleModalOpen(false)}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={confirmArticleDelete}>
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+<DeleteArticleModal
+        show={deleteArticleModalOpen}
+        onHide={() => setDeleteArticleModalOpen(false)}
+        confirmArticleDelete={confirmArticleDelete}
+      />
 {/* //----------------------------------------------------------------EDIT COMMENT MODAL----------------------------------------------------------------// */}
-      <Modal show={editModalOpen} onHide={() => setEditModalOpen(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Comment</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formCommentContent">
-              <Form.Label>Content</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                name="content"
-                value={editComment ? editComment.content : ''}
-                onChange={(event) => setEditComment({ ...editComment, content: event.target.value })}
-                required
-              />
-            </Form.Group>
-            <Button variant="secondary" onClick={() => setEditModalOpen(false)}>
-              Cancel
-            </Button>
-            <Button variant="primary" onClick={handleCommentUpdate}>
-              Save Changes
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
+<EditCommentModal
+        show={editModalOpen}
+        onHide={() => setEditModalOpen(false)}
+        editComment={editComment}
+        handleCommentUpdate={handleCommentUpdate}
+        setEditComment={setEditComment}
+      />
 {/* //----------------------------------------------------------------DELETE COMMENT MODAL----------------------------------------------------------------// */}
-      <Modal show={deleteCommentModalOpen} onHide={() => setDeleteCommentModalOpen(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Are you sure you want to delete this comment?</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setDeleteArticleModalOpen(false)}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={confirmCommentDelete}>
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+<DeleteCommentModal
+        show={deleteCommentModalOpen}
+        onHide={() => setDeleteCommentModalOpen(false)}
+        confirmCommentDelete={confirmCommentDelete}
+      />
     </Container>
     <Footer/>
     </>
