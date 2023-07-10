@@ -11,20 +11,19 @@ const EditProfileModal = ({ show, onHide, user }) => {
     
     useEffect(() => {
         setEditedUser(user);
-      }, [user]);
-    
-      const handleChange = (event) => {
-        setEditedUser({
-          ...editedUser,
-          [event.target.name]: event.target.value,
-        });
-      };
+    }, [user]);
+
+    const handleChange = (event) => {
+    setEditedUser({
+        ...editedUser,
+        [event.target.name]: event.target.value,
+    });
+    };
     
 
     const handleUserSave = () => {
         const isEmpty = Object.values(editedUser).some((value) => value === "");
         if (isEmpty) {
-            // Mostra un avviso all'utente o gestisci il caso dei campi vuoti come preferisci
             alert("Empty fields are not allowed.");
             return;
             }
@@ -44,6 +43,15 @@ const EditProfileModal = ({ show, onHide, user }) => {
         </Modal.Header>
         <Modal.Body>
             <Form>
+            <Form.Group>
+            <Form.Label>Profile Image URL</Form.Label>
+            <Form.Control
+                type="text"
+                name="profileImgUrl"
+                value={editedUser.profileImgUrl}
+                onChange={handleChange}
+                />
+            </Form.Group>
             <Form.Group>
                 <Form.Label>Username</Form.Label>
                 <Form.Control

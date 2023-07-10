@@ -21,9 +21,10 @@ public class UserRegistrationPayload {
     @NotEmpty(message = "Surname is required")
     private String lastname;
 	
-	
     @Email(message = "Insert a valid email format")
     private String email;
+    
+    private String profileImgUrl;
     
 //	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\bd)(?=.*[@$!%*#?&])[A-Za-z\bd@$!%*#?&]{8,}$", 
 //			message = "Password must be at least 8 characters long and contain at least one digit, one letter, and one special character")

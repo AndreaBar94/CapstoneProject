@@ -22,8 +22,6 @@ import AndreaBarocchi.CapstoneProject.exceptions.EmailAlreadyExistsException;
 import AndreaBarocchi.CapstoneProject.exceptions.UnauthorizedException;
 import AndreaBarocchi.CapstoneProject.payloads.ArticlePayload;
 import AndreaBarocchi.CapstoneProject.payloads.UserRegistrationPayload;
-import AndreaBarocchi.CapstoneProject.repositories.CommentRepository;
-import AndreaBarocchi.CapstoneProject.repositories.LikeRepository;
 import AndreaBarocchi.CapstoneProject.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 
@@ -32,10 +30,6 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepo;
-    @Autowired
-    private CommentRepository commentRepo;
-    @Autowired
-    private LikeRepository likeRepo;
     
     public Page<User> findAllUsers(int page, int size, String sortBy) {
         if (size < 0)
@@ -83,6 +77,7 @@ public class UserService {
         foundUser.setFirstname(uPld.getFirstname());
         foundUser.setLastname(uPld.getLastname());
         foundUser.setEmail(uPld.getEmail());
+        foundUser.setProfileImgUrl(uPld.getProfileImgUrl());
         return userRepo.save(foundUser);
     }
     

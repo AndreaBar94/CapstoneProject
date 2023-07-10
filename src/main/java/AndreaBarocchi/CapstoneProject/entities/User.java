@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import AndreaBarocchi.CapstoneProject.enums.UserRole;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -39,6 +40,8 @@ public class User implements UserDetails{
 	private String lastname;
 	private String email;
 	private String password;
+	@Column(columnDefinition = "text")
+	private String profileImgUrl;
 	
 	@Enumerated(EnumType.STRING)
 	private UserRole role;

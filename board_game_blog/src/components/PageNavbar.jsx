@@ -100,12 +100,10 @@ const PageNavbar = () => {
               <div className='p-0 my-2 text-center'>
                 <Link className="text-decoration-none text-dark profileBtn" to="/profile">
                   <span className='d-none d-lg-inline'>Welcome back, {currentUser && currentUser.username}</span>
-                  <img src="https://us.123rf.com/450wm/tarasdubov/tarasdubov2211/tarasdubov221100361/194637445-dadi-d20-per-giocare-a-dnd-gioco-da-tavolo-dungeon-e-draghi-tesori-spada-del-paladino.jpg?ver=6" alt="profileImg" width="40px" className='img-fluid rounded-circle mx-1'/>
+                  <img src={currentUser && currentUser.profileImgUrl} alt="profileImg" width="40px" height="40px" className='object-fit-contain rounded-circle ms-1 border border-dark'/>
                 </Link>
               </div>
-              
             </Container>
-            
           </Navbar.Collapse>
         </Container>
       </Navbar>
