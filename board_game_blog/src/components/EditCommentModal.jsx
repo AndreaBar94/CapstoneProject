@@ -12,7 +12,7 @@ const EditCommentModal = ({ show, onHide, editComment, handleCommentUpdate, setE
     };
 
     return (
-        <Modal show={show} onHide={onHide}>
+        <Modal show={show} onHide={onHide} className='customModalShadow'>
             <Container className="p-5 customModal">
                 <Modal.Header closeButton>
                 <Modal.Title>Edit Comment</Modal.Title>

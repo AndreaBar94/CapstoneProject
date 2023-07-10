@@ -70,7 +70,7 @@ const SubmitArticle = () => {
       <Button className="bg-dark border-dark" onClick={handleModalOpen}>
         Add Article
       </Button>
-      <Modal show={showModal} onHide={handleModalClose} className="p-5">
+      <Modal show={showModal} onHide={handleModalClose} className="p-5 customModalShadow" >
         <Container className="p-5 customModal">
           <Modal.Header closeButton>
             <Modal.Title className="fw-bold">Add Your Article!</Modal.Title>
@@ -126,6 +126,7 @@ const SubmitArticle = () => {
                   name="imageUrl"
                   value={articleData.imageUrl}
                   onChange={handleInputChange}
+                  required
                 />
               </Form.Group>
               <Button variant="dark" type="submit">

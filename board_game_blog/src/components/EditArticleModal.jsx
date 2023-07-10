@@ -2,8 +2,10 @@ import React from 'react';
 import { Modal, Button, Form, Container } from 'react-bootstrap';
 
 const EditArticleModal = ({ show, onHide, articleData, handleInputChange, handleArticleUpdate }) => {
+  const { title, content, imageUrl } = articleData;
+  
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={onHide} className='customModalShadow'>
       <Container className="p-5 customModal">
         <Modal.Header closeButton>
           <Modal.Title>Edit Article</Modal.Title>
@@ -15,7 +17,7 @@ const EditArticleModal = ({ show, onHide, articleData, handleInputChange, handle
               <Form.Control
                 type="text"
                 name="title"
-                value={articleData.title}
+                value={title}
                 onChange={handleInputChange}
                 required
               />
@@ -26,7 +28,7 @@ const EditArticleModal = ({ show, onHide, articleData, handleInputChange, handle
                 as="textarea"
                 rows={3}
                 name="content"
-                value={articleData.content}
+                value={content}
                 onChange={handleInputChange}
                 required
               />
@@ -36,7 +38,7 @@ const EditArticleModal = ({ show, onHide, articleData, handleInputChange, handle
               <Form.Control
                 type="text"
                 name="imageUrl"
-                value={articleData.imageUrl}
+                value={imageUrl}
                 onChange={handleInputChange}
               />
             </Form.Group>

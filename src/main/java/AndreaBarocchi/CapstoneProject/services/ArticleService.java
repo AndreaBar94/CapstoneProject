@@ -96,6 +96,7 @@ public class ArticleService {
 
         existingArticle.setTitle(articlePayload.getTitle());
         existingArticle.setContent(articlePayload.getContent());
+        existingArticle.setImageUrl(articlePayload.getImageUrl());
         existingArticle.setPublicationDate(existingArticle.getPublicationDate());
         return articleRepo.save(existingArticle);
     }

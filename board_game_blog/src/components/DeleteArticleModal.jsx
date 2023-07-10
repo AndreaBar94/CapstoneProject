@@ -3,7 +3,7 @@ import { Modal, Button, Container } from 'react-bootstrap';
 
 const DeleteArticleModal = ({ show, onHide, confirmArticleDelete }) => {
     return (
-        <Modal show={show} onHide={onHide}>
+        <Modal show={show} onHide={onHide}  className='customModalShadow'>
             <Container className="p-5 customModal">
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>

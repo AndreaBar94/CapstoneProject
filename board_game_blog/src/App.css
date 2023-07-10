@@ -97,7 +97,7 @@ body {
 	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
 }
 .customModal {
-	background-color: #ffeb9bb7;
+	background-color: #ffeb9bd4;
 	border-radius: 10px;
 }
 /* ------------------------------------------------ARTICLE PAGE--------------------------------------------------------------- */
@@ -136,6 +136,9 @@ body {
 	padding: 2rem;
 	background: rgb(247, 160, 114);
 	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
+}
+.customModalShadow {
+	background-color: #0000009a;
 }
 /* ------------------------------------------------FOOTER--------------------------------------------------------------- */
 .footerContainer {
