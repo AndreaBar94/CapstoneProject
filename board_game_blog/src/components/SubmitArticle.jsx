@@ -71,7 +71,7 @@ const SubmitArticle = () => {
         Add Article
       </Button>
       <Modal show={showModal} onHide={handleModalClose} className="p-5">
-        <Container className="p-5 publishArticleModal">
+        <Container className="p-5 customModal">
           <Modal.Header closeButton>
             <Modal.Title className="fw-bold">Add Your Article!</Modal.Title>
           </Modal.Header>

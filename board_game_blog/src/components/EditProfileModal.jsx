@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button, Form, Container } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { deleteUser, updateUser } from '../redux/actions';
 import { useNavigate } from 'react-router';
+import DeleteUserModal from './DeleteUserModal';
 
 const EditProfileModal = ({ show, onHide, user }) => {
     const [editedUser, setEditedUser] = useState({});
+    const [confirmDelete, setConfirmDelete] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     
@@ -32,82 +34,102 @@ const EditProfileModal = ({ show, onHide, user }) => {
     };
 
     const handleDeleteUser = () => {    
+        setConfirmDelete(true);
+    };
+
+    const handleConfirmDelete = () => {
         dispatch(deleteUser(user.userId, navigate));
         onHide();
     };
 
+    const handleCancelDelete = () => {
+    setConfirmDelete(false);
+    };
+
     return (
-        <Modal show={show} onHide={onHide}>
-        <Modal.Header closeButton>
-            <Modal.Title>Edit Profile</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            <Form>
-            <Form.Group>
-            <Form.Label>Profile Image URL</Form.Label>
-            <Form.Control
-                type="text"
-                name="profileImgUrl"
-                value={editedUser.profileImgUrl}
-                onChange={handleChange}
-                />
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                required
-                type="text"
-                name="username"
-                value={editedUser.username}
-                onChange={handleChange}
-                />
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>First Name</Form.Label>
-                <Form.Control
-                required
-                type="text"
-                name="firstname"
-                value={editedUser.firstname}
-                onChange={handleChange}
-                />
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>Last Name</Form.Label>
-                <Form.Control
-                required
-                type="text"
-                name="lastname"
-                value={editedUser.lastname}
-                onChange={handleChange}
-                />
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                required
-                type="email"
-                name="email"
-                value={editedUser.email}
-                onChange={handleChange}
-                />
-            </Form.Group>
-            </Form>
-        </Modal.Body>
-        <Modal.Footer>
-            <Button variant="secondary" onClick={onHide}>
-            Close
-            </Button>
-            <Button variant="primary" onClick={handleUserSave}>
-            Save Changes
-            </Button>
-            <Button variant="danger"  onClick={handleDeleteUser}>
-                <span>
-                    Delete User (irreversible)
-                </span>
-            </Button>
-        </Modal.Footer>
+        <>
+        <Modal show={show} onHide={onHide} >
+            <Container className="p-5 customModal">
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit Profile</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                    <Form.Group>
+                    <Form.Label>Profile Image URL</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="profileImgUrl"
+                        value={editedUser.profileImgUrl}
+                        onChange={handleChange}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control
+                        required
+                        type="text"
+                        name="username"
+                        value={editedUser.username}
+                        onChange={handleChange}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control
+                        required
+                        type="text"
+                        name="firstname"
+                        value={editedUser.firstname}
+                        onChange={handleChange}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control
+                        required
+                        type="text"
+                        name="lastname"
+                        value={editedUser.lastname}
+                        onChange={handleChange}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control
+                        required
+                        type="email"
+                        name="email"
+                        value={editedUser.email}
+                        onChange={handleChange}
+                        />
+                    </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer className='flex-column'>
+                    <Button variant="success" onClick={handleUserSave}>
+                    Save Changes
+                    </Button>
+                    <Button variant="secondary" onClick={onHide} className=''>
+                    Close
+                    </Button>
+                </Modal.Footer>
+                <Modal.Footer className='flex-column pb-0'>
+                    <Button variant="danger"  onClick={handleDeleteUser}>
+                        <span>
+                            Delete User (irreversible)
+                        </span>
+                    </Button>
+                </Modal.Footer>
+            </Container>
         </Modal>
+        <DeleteUserModal
+        show={confirmDelete}
+        onHide={handleCancelDelete}
+        onConfirmDelete={handleConfirmDelete}
+        />
+        </>
+        
     );
 };
 
