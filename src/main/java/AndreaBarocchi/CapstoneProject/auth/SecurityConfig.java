@@ -82,6 +82,9 @@ public class SecurityConfig {
 		//auth category
 		http.authorizeHttpRequests(auth -> {
 			auth.requestMatchers(HttpMethod.GET, "/categories").hasAnyAuthority("USER", "ADMIN");
+			auth.requestMatchers(HttpMethod.POST, "/categories").hasAnyAuthority("ADMIN");
+			auth.requestMatchers(HttpMethod.PUT, "/categories/**").hasAnyAuthority("ADMIN");
+			auth.requestMatchers(HttpMethod.DELETE, "/categories/**").hasAnyAuthority("ADMIN");
 			auth.requestMatchers(HttpMethod.GET, "/categories/name/**").hasAnyAuthority("USER", "ADMIN");
 			auth.requestMatchers(HttpMethod.GET, "/categories/**").hasAnyAuthority("USER", "ADMIN");
 			auth.requestMatchers("/categories/**").hasAuthority("ADMIN");
