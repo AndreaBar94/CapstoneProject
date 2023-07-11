@@ -240,7 +240,7 @@ useEffect(() => {
       {/* COMMENT SUBMIT BOX */}
       <Container className='commentSection rounded p-4 mt-3'>
         <Form.Group controlId="formComment">
-          <Form.Label className='fw-bold'>Add your Comment</Form.Label>
+          <Form.Label className='fw-bold'>Add your Comment:</Form.Label>
           <Form.Control
             as="textarea"
             rows={3}
@@ -249,10 +249,12 @@ useEffect(() => {
             onChange={handleCommentInputChange}
           />
         </Form.Group>
-        <Button className='actionButton mt-2' onClick={handleCommentSubmit}>
-          Submit Comment
-          <img src={submitLogo} alt="submit-logo" className='ms-2' />
-        </Button>
+        <div className='d-flex justify-content-end mb-4'>
+          <Button className='actionButton mt-2' onClick={handleCommentSubmit}>
+            Submit Comment
+            <img src={submitLogo} alt="submit-logo" className='ms-2' />
+          </Button>
+        </div>
         {/* COMMENT MAP SECTION */}
         {comments.map((comment) => (
             <div key={comment.commentId} className='singleCommentBox rounded p-3 m-2'>

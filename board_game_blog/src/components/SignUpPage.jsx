@@ -17,11 +17,17 @@ const SignUp = () => {
     password: "",
   });
 
+  const [termsAccepted, setTermsAccepted] = useState(false);
+
   const handleInputChange = (event) => {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const handleTermsCheckboxChange = (event) => {
+    setTermsAccepted(event.target.checked);
   };
 
   const handleRegistrationSubmit = async (event) => {
@@ -100,6 +106,19 @@ const SignUp = () => {
               value={formData.password}
               onChange={handleInputChange}
             />
+          </div>
+          <div className="form-group">
+            <label>
+              <input
+                type="checkbox"
+                name="termsAccepted"
+                checked={termsAccepted}
+                onChange={handleTermsCheckboxChange}
+                className="me-2"
+                required
+              />
+              I accept the Terms and Conditions
+            </label>
           </div>
           <Button
             type="submit"
