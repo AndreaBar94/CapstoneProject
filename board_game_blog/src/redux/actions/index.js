@@ -236,7 +236,7 @@ export const editArticle = (articleId, articleData) => {
 			});
 			if (response.ok) {
 				const editedArticle = await response.json();
-				dispatch({ type: UPDATE_ARTICLE, payload: [editedArticle] });
+				dispatch({ type: UPDATE_ARTICLE, payload: editedArticle });
 			}
 		} catch (error) {
 			console.log(error);

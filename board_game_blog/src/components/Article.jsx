@@ -193,9 +193,14 @@ useEffect(() => {
 
   const handleArticleUpdate = () => {
     try {
-      dispatch(editArticle(articleId, articleData));
-      setIsModalOpen(false);
-      dispatch(getArticleById(articleId));
+      dispatch(editArticle(articleId, articleData))
+        .then(() => {
+        dispatch(getArticleById(articleId));
+        setIsModalOpen(false)
+      }).catch(error => {
+        console.log(error);
+      });
+      
     } catch (error) {
       console.log('Error trying to update article:', error);
     }
@@ -269,33 +274,33 @@ useEffect(() => {
           ))}
       </Container>
 {/* //----------------------------------------------------------------EDIT ARTICLE MODAL----------------------------------------------------------------// */}
-<EditArticleModal
-        show={isModalOpen}
-        onHide={() => setIsModalOpen(false)}
-        articleData={articleData}
-        handleInputChange={handleInputChange}
-        handleArticleUpdate={handleArticleUpdate}
-      />
+    <EditArticleModal
+            show={isModalOpen}
+            onHide={() => setIsModalOpen(false)}
+            articleData={articleData}
+            handleInputChange={handleInputChange}
+            handleArticleUpdate={handleArticleUpdate}
+          />
 {/* //----------------------------------------------------------------DELETE ARTICLE MODAL----------------------------------------------------------------// */}
-<DeleteArticleModal
-        show={deleteArticleModalOpen}
-        onHide={() => setDeleteArticleModalOpen(false)}
-        confirmArticleDelete={confirmArticleDelete}
-      />
+    <DeleteArticleModal
+            show={deleteArticleModalOpen}
+            onHide={() => setDeleteArticleModalOpen(false)}
+            confirmArticleDelete={confirmArticleDelete}
+          />
 {/* //----------------------------------------------------------------EDIT COMMENT MODAL----------------------------------------------------------------// */}
-<EditCommentModal
-        show={editModalOpen}
-        onHide={() => setEditModalOpen(false)}
-        editComment={editComment}
-        handleCommentUpdate={handleCommentUpdate}
-        setEditComment={setEditComment}
-      />
+    <EditCommentModal
+            show={editModalOpen}
+            onHide={() => setEditModalOpen(false)}
+            editComment={editComment}
+            handleCommentUpdate={handleCommentUpdate}
+            setEditComment={setEditComment}
+          />
 {/* //----------------------------------------------------------------DELETE COMMENT MODAL----------------------------------------------------------------// */}
-<DeleteCommentModal
-        show={deleteCommentModalOpen}
-        onHide={() => setDeleteCommentModalOpen(false)}
-        confirmCommentDelete={confirmCommentDelete}
-      />
+    <DeleteCommentModal
+            show={deleteCommentModalOpen}
+            onHide={() => setDeleteCommentModalOpen(false)}
+            confirmCommentDelete={confirmCommentDelete}
+          />
     </Container>
     <Footer/>
     </>

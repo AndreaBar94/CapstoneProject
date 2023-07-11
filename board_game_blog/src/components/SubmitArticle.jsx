@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Container, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { getArticles, getCategories, postArticle } from '../redux/actions';
+import plusLogo from '../assets/svgs/plusLogo.svg';
 
 const SubmitArticle = () => {
   const [showModal, setShowModal] = useState(false);
@@ -68,7 +69,8 @@ const SubmitArticle = () => {
   return (
     <Container>
       <Button className="bg-dark border-dark" onClick={handleModalOpen}>
-        Add Article
+        <img src={plusLogo} alt="plus-logo" className='me-2' />
+        Post Article!
       </Button>
       <Modal show={showModal} onHide={handleModalClose} className="p-5 customModalShadow" >
         <Container className="p-5 customModal">

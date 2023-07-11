@@ -36,26 +36,23 @@ body {
 	z-index: 100;
 	background-color: transparent;
 	transition: 0.5s ease-in-out;
+	border: 1px solid rgb(247, 160, 114);
 	font-size: 1rem;
 	background: rgb(247, 160, 114);
 	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
 }
-.pageNavbar.scrolled {
-	margin-top: 1rem;
-	background: rgb(247, 160, 114);
-	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
-	border: 1px solid rgb(247, 160, 114);
-}
+
 .homeBtn {
 	font-size: larger;
 }
+
 .profileBtn {
 	font-size: larger;
 }
 /* ------------------------------------------------HERO SECTION--------------------------------------------------------------- */
 .heroSection {
 	position: relative;
-	margin-top: 6rem;
+	margin-top: 7rem;
 	padding-bottom: 15rem;
 	background-image: url(./assets/imgs/heroSectionBg.jpg);
 	background-repeat: no-repeat;
@@ -132,7 +129,7 @@ body {
 }
 /* ------------------------------------------------PROFILE PAGE--------------------------------------------------------------- */
 .profilePage {
-	margin-top: 6rem;
+	margin-top: 7rem;
 	padding: 2rem;
 	background: rgb(247, 160, 114);
 	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
@@ -143,4 +140,17 @@ body {
 /* ------------------------------------------------FOOTER--------------------------------------------------------------- */
 .footerContainer {
 	width: 100%;
+}
+/* ------------------------------------------------NOT FOUND PAGE--------------------------------------------------------------- */
+.notFound {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	background-color: #d9e5d6;
+}
+
+.textNotFound {
+	font-size: 36px;
+	text-align: center;
 }
