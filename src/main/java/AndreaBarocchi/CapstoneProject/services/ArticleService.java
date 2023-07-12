@@ -24,6 +24,7 @@ import AndreaBarocchi.CapstoneProject.exceptions.UnauthorizedException;
 import AndreaBarocchi.CapstoneProject.payloads.ArticlePayload;
 import AndreaBarocchi.CapstoneProject.repositories.ArticleRepository;
 import AndreaBarocchi.CapstoneProject.repositories.CategoryRepository;
+import AndreaBarocchi.CapstoneProject.utils.CustomPageable;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -64,8 +65,15 @@ public class ArticleService {
             size = 10;
         if (size > 100)
             size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        return articleRepo.findAll(pageable);
+
+        Pageable pageable;
+        if (sortBy.equals("likes")) {
+            pageable = PageRequest.of(page, size);
+            return articleRepo.findAllArticlesOrderByLikes(pageable);
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sortBy));
+            return articleRepo.findAll(pageable);
+        }
     }
 
     public Article findArticleById(UUID id) throws NotFoundException {

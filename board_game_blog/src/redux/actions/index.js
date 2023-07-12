@@ -136,11 +136,11 @@ export const deleteUser = (userId, navigate) => {
 };
 
 //get all articles
-export const getArticles = (page, size, sortBy) => {
+export const getArticles = (currentPage, articlesPerPage, sortBy) => {
 	return async (dispatch, getState) => {
 		try {
 			const token = getState().loginToken.token;
-			const response = await fetch(`${articlesEndpoint}?page=${page}&size=${size}&sortBy=${sortBy}`, {
+			const response = await fetch(`${articlesEndpoint}?page=${currentPage}&size=${articlesPerPage}&sortBy=${sortBy}`, {
 				headers: {
 					Authorization: 'Bearer ' + token,
 				},

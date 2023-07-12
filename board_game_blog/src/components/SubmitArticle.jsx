@@ -44,7 +44,7 @@ const SubmitArticle = () => {
       postArticle({ ...articleData, publicationDate: formattedDate })
     )
       .then(() => {
-        dispatch(getArticles());
+        dispatch(getArticles(0, 10, "likes"));
         setArticleData({
           title: '',
           content: '',
