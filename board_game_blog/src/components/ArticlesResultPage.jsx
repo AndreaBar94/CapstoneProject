@@ -10,7 +10,7 @@ const ArticlesResultPage = () => {
     return (
         <>
         <PageNavbar />
-        <Container className="articlesContainer mb-3 pb-3">
+        <Container className="articlesContainer artResBox mb-3 pb-3">
             <h4 className="fw-bold mt-4">Our Reader's articles:</h4>
             {articles.length === 0 ? (
                 <Container className="text-center mt-5 p-5 profilePage fs-2 border border-warning rounded">Oh no, no articles found here!</Container>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Container, Card, Row, Col, Pagination, Spinner } from "react-bootstrap";
+import { Container, Card, Row, Col, Pagination } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getArticles, setLoading } from "../redux/actions";
+import { getArticles } from "../redux/actions";
 import SubmitArticle from "./SubmitArticle";
 import HeroSection from "./HeroSection";
 import PageNavbar from "./PageNavbar";

@@ -126,6 +126,9 @@ body {
 	background: rgb(247, 160, 114);
 	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
 }
+.artResBox {
+	margin-top: 8rem;
+}
 .commentSection {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	border: 1px solid #000;
