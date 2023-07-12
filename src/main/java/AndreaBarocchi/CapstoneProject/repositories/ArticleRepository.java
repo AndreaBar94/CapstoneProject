@@ -19,5 +19,8 @@ public interface ArticleRepository extends JpaRepository<Article, UUID>{
     
     @Query("SELECT a FROM Article a ORDER BY SIZE(a.likes) DESC")
     Page<Article> findAllArticlesOrderByLikes(Pageable pageable);
+    
+    @Query("SELECT a FROM Article a ORDER BY a.publicationDate DESC")
+    Page<Article> findAllArticlesOrderByPublicationDate(Pageable pageable);
 }
 

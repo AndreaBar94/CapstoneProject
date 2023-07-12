@@ -24,6 +24,7 @@ body {
 .customModalShadow {
 	background-color: #0000009a;
 }
+
 /* ------------------------------------------------LOGIN/SIGNUP PAGE--------------------------------------------------------------- */
 .loginContainer {
 	margin-top: 20vh;
@@ -60,7 +61,7 @@ body {
 /* ------------------------------------------------HERO SECTION--------------------------------------------------------------- */
 .heroSection {
 	position: relative;
-	margin-top: 7rem;
+	margin-top: 8rem;
 	padding-bottom: 15rem;
 	background-image: url(./assets/imgs/heroSectionBg.jpg);
 	background-repeat: no-repeat;

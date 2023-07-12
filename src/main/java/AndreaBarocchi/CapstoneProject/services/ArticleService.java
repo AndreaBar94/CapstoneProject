@@ -70,7 +70,10 @@ public class ArticleService {
         if (sortBy.equals("likes")) {
             pageable = PageRequest.of(page, size);
             return articleRepo.findAllArticlesOrderByLikes(pageable);
-        } else {
+        } else if (sortBy.equals("publicationDate")) {
+            pageable = PageRequest.of(page, size);
+            return articleRepo.findAllArticlesOrderByPublicationDate(pageable);
+        }else {
             pageable = PageRequest.of(page, size, Sort.by(sortBy));
             return articleRepo.findAll(pageable);
         }

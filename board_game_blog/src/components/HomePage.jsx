@@ -61,17 +61,22 @@ const HomePage = () => {
             <Container className="articlesContainer mb-3">
 
 {/* ------------------------------------------------------------ARTICLES MAIN SECTION---------------------------------------------------------- */}
-              <h4 className='fw-bold mt-4'>Our Reader's articles:</h4>
-              <p>Sort by:</p>
-              <select value={selectedSortOption} onChange={handleSortByChange}>
-                <option value="publicationDate">Publication Date</option>
-                <option value="likes">Popularity</option>
-              </select>
+              <Container className="d-column d-lg-flex align-items-center justify-content-between">
+                <h4 className='fw-bold'>Our Reader's articles:</h4>
+                <div>
+                  <span className='fw-bold'>Sort by: </span>
+                  <select className="rounded p-1" value={selectedSortOption} onChange={handleSortByChange}>
+                    <option value="publicationDate">More Recent</option>
+                    <option value="likes">Popularity</option>
+                  </select>
+                </div>
+              </Container>
+              
 
-{/* -------------------------------------------------------------PAGINATION--------------------------------------------------------------------- */}
+{/* -------------------------------------------------------------PAGINATION TOP--------------------------------------------------------------------- */}
               <Pagination className="mt-3">
                 <Pagination.Prev
-                  onClick={() => handlePageChange(currentPage)}
+                  onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 0}
                 />
                 {Array.from({ length: articles && articles.totalPages }, (_, index) => (
@@ -84,7 +89,7 @@ const HomePage = () => {
                   </Pagination.Item>
                 ))}
                 <Pagination.Next
-                  onClick={() => handlePageChange(currentPage)}
+                  onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === (articles && articles.totalPages) - 1}
                 />
               </Pagination>
@@ -115,6 +120,26 @@ const HomePage = () => {
                     </Col>
                   ))}
               </Row>
+{/* -------------------------------------------------------------PAGINATION BOTTOM--------------------------------------------------------------------- */}
+              <Pagination className="mt-3">
+                <Pagination.Prev
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 0}
+                />
+                {Array.from({ length: articles && articles.totalPages }, (_, index) => (
+                  <Pagination.Item
+                    key={index + 1}
+                    active={currentPage === index}
+                    onClick={() => handlePageChange(index)}
+                  >
+                    {index + 1}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === (articles && articles.totalPages) - 1}
+                />
+              </Pagination>
             </Container>
           </Col>
         </Row>
