@@ -21,6 +21,9 @@ body {
 	max-height: 400px;
 	overflow-y: auto;
 }
+.customModalShadow {
+	background-color: #0000009a;
+}
 /* ------------------------------------------------LOGIN/SIGNUP PAGE--------------------------------------------------------------- */
 .loginContainer {
 	margin-top: 20vh;
@@ -134,13 +137,38 @@ body {
 }
 /* ------------------------------------------------PROFILE PAGE--------------------------------------------------------------- */
 .profilePage {
-	margin-top: 7rem;
+	border-top-left-radius: 0%;
+	border-top-right-radius: 0%;
 	padding: 2rem;
 	background: rgb(247, 160, 114);
 	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
+	box-shadow: 3px 2px 3px rgba(0, 0, 0, 0.481);
 }
-.customModalShadow {
-	background-color: #0000009a;
+
+.articlesProfilePage {
+	border: 1px solid rgb(247, 160, 114);
+	border-top-left-radius: 0%;
+	border-top-right-radius: 0%;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	padding: 2rem;
+	background: rgb(247, 160, 114);
+	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
+	box-shadow: 3px 2px 3px rgba(0, 0, 0, 0.481);
+}
+
+.profileTabs {
+	margin-top: 8rem;
+	margin-bottom: 1px solid rgb(247, 160, 114);
+}
+
+.customTabs {
+	background: rgb(247, 160, 114);
+	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(254, 195, 106, 0.851) 100%);
+}
+
+.selectedTab {
+	box-shadow: 4px 0px 3px rgba(0, 0, 0, 0.481);
 }
 /* ------------------------------------------------FOOTER--------------------------------------------------------------- */
 .footerContainer {

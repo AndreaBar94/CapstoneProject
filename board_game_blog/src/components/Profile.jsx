@@ -16,6 +16,11 @@ const Profile = () => {
     const currentUser = useSelector((state) => state.userReducer.currentUser);
     const navigate = useNavigate();
     const [showEditModal, setShowEditModal] = useState(false);
+    const [activeTab, setActiveTab] = useState("profile");
+
+    const handleTabClick = (tab) => {
+        setActiveTab(tab);
+    };
 
     useEffect(() => {
     dispatch(getUser());
@@ -30,57 +35,84 @@ const Profile = () => {
     return (
         <>
             <PageNavbar/>
-            <Container className='pb-3'>
-                        <Card className='profilePage'>
-                            <Card.Body>
-                                <div className='d-flex justify-content-between align-items-center'>
-                                    <Card.Title className='fs-3'>Fellow Player, here is your profile!</Card.Title>
-                                    <Button onClick={() => setShowEditModal(true)} className='actionButton'>
-                                        Edit
-                                        <img src={editLogo} alt="edit-logo" className='ms-2' />
-                                    </Button>
-                                </div>
-                                
-                                {currentUser && (
-                                    <div className='mt-5'>
-                                    <p className='fw-bold'>Username:</p>
-                                    <p>{currentUser.username}</p>
-                                    <p className='fw-bold'>First Name:</p>
-                                    <p>{currentUser.firstname}</p>
-                                    <p className='fw-bold'>Last Name:</p>
-                                    <p>{currentUser.lastname}</p>
-                                    <p className='fw-bold'>Email:</p>
-                                    <p>{currentUser.email}</p>
-                                </div>
-                                )}
-                                <Button variant='danger' onClick={handleLogout}>
-                                    Logout
-                                    <img src={logoutLogo} alt="logout-logo" className='ms-2' />
+            <Container className='profileTabs'>
+                <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <button 
+                        className={`nav-link active rounded-top border-bottom-0"${
+                            activeTab === "profile" ? "active selectedTab" : ""
+                                } customTabs `} 
+                        onClick={() => handleTabClick("profile")}>
+                            Profile
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button 
+                        className={`nav-link active rounded-top border-bottom-0"${
+                            activeTab === "yourArticles" ? "active selectedTab" : ""
+                                } customTabs `} 
+                        onClick={() => handleTabClick("yourArticles")}>
+                            Your Articles
+                    </button>
+                </li>
+                </ul>
+            </Container>
+            
+            <Container className='pb-3 mt-0'>
+                <div className={`${activeTab === 'profile' ? "" : "d-none"}`}>
+                    <Card className='profilePage'>
+                        <Card.Body>
+                            <div className='d-flex justify-content-between align-items-center'>
+                                <Card.Title className='fs-3'>Fellow Player, here is your profile!</Card.Title>
+                                <Button onClick={() => setShowEditModal(true)} className='actionButton'>
+                                    Edit
+                                    <img src={editLogo} alt="edit-logo" className='ms-2' />
                                 </Button>
-                            </Card.Body>
-                        </Card>
-                {currentUser && currentUser.articles && (
+                            </div>
+                            
+                            {currentUser && (
+                                <div className='mt-5'>
+                                <p className='fw-bold'>Username:</p>
+                                <p>{currentUser.username}</p>
+                                <p className='fw-bold'>First Name:</p>
+                                <p>{currentUser.firstname}</p>
+                                <p className='fw-bold'>Last Name:</p>
+                                <p>{currentUser.lastname}</p>
+                                <p className='fw-bold'>Email:</p>
+                                <p>{currentUser.email}</p>
+                            </div>
+                            )}
+                            <Button variant='danger' onClick={handleLogout}>
+                                Logout
+                                <img src={logoutLogo} alt="logout-logo" className='ms-2' />
+                            </Button>
+                        </Card.Body>
+                    </Card>
+                </div>
+                <div className={`${activeTab === 'yourArticles' ? "" : "d-none"}`}>
+                    {currentUser && currentUser.articles && (
                     <>
-                    <Container className='mt-4 profilePage border rounded'>
-                        <h4 className='fs-3 pb-3'>Your Articles:</h4>
-                        {currentUser.articles.map((article) => (
-                            <Link key={article.articleId} to={`/article/${article.articleId}`} className='text-decoration-none text-dark'>
-                                <Card className='my-2'>
-                                    <Card.Body className='singleCommentBox rounded border shadow'>
-                                        <Card.Title>{article.title}</Card.Title>
-                                        <Card.Text className='text-muted font-monospace small'>Publication Date: {article.publicationDate}</Card.Text>
-                                        <Card.Text className='text-muted font-monospace small'>
-                                            <img src={likeLogo} alt="like-logo" className='me-2' />
-                                            {article.likes.length}
-                                        </Card.Text>
-                                    </Card.Body>
-                                </Card>
-                            </Link>
-                        ))}
-                    </Container>
-                    <EditProfileModal show={showEditModal} onHide={() => setShowEditModal(false)} user={currentUser}/>
-                </>
-                )}
+                        <Container className='articlesProfilePage'>
+                            <h4 className='fs-3 pb-3'>Your Articles:</h4>
+                            {currentUser.articles.map((article) => (
+                                <Link key={article.articleId} to={`/article/${article.articleId}`} className='text-decoration-none text-dark'>
+                                    <Card className='my-2'>
+                                        <Card.Body className='singleCommentBox rounded border shadow'>
+                                            <Card.Title>{article.title}</Card.Title>
+                                            <Card.Text className='text-muted font-monospace small'>Publication Date: {article.publicationDate}</Card.Text>
+                                            <Card.Text className='text-muted font-monospace small'>
+                                                <img src={likeLogo} alt="like-logo" className='me-2' />
+                                                {article.likes.length}
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                </Link>
+                            ))}
+                        </Container>
+                        <EditProfileModal show={showEditModal} onHide={() => setShowEditModal(false)} user={currentUser}/>
+                    </>
+                    )}
+                </div>
             </Container>
             <Footer/>
         </>
