@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from '../redux/actions/index';
-import { Container, Card, Button } from 'react-bootstrap';
+import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 import PageNavbar from './PageNavbar';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../redux/reducers/AuthSliceReducer';
@@ -63,24 +63,35 @@ const Profile = () => {
                     <Card className='profilePage'>
                         <Card.Body>
                             <div className='d-flex justify-content-between align-items-center'>
-                                <Card.Title className='fs-3'>Fellow Player, here is your profile!</Card.Title>
+                                <Card.Title className='fs-3 fw-bold'>Fellow Player, here is your profile!</Card.Title>
                                 <Button onClick={() => setShowEditModal(true)} className='actionButton'>
-                                    Edit
-                                    <img src={editLogo} alt="edit-logo" className='ms-2' />
+                                    <img src={editLogo} alt="edit-logo" />
                                 </Button>
                             </div>
                             
                             {currentUser && (
-                                <div className='mt-5'>
-                                <p className='fw-bold'>Username:</p>
-                                <p>{currentUser.username}</p>
-                                <p className='fw-bold'>First Name:</p>
-                                <p>{currentUser.firstname}</p>
-                                <p className='fw-bold'>Last Name:</p>
-                                <p>{currentUser.lastname}</p>
-                                <p className='fw-bold'>Email:</p>
-                                <p>{currentUser.email}</p>
-                            </div>
+                                <Row>
+                                    <Col>
+                                    <div className='mt-4'>
+                                        <p className='fw-bold'>Username:</p>
+                                        <p>{currentUser.username}</p>
+                                        <p className='fw-bold'>First Name:</p>
+                                        <p>{currentUser.firstname}</p>
+                                        <p className='fw-bold'>Last Name:</p>
+                                        <p>{currentUser.lastname}</p>
+                                        <p className='fw-bold'>Email:</p>
+                                        <p>{currentUser.email}</p>
+                                    </div>
+                                    </Col>
+                                    <Col>
+                                        <img 
+                                            src={currentUser.profileImgUrl} 
+                                            alt="profile-img"
+                                            className='img-fluid rounded-circle mt-3 border border-dark shadow'
+                                            />
+                                    </Col>
+                                </Row>
+                                
                             )}
                             <Button variant='danger' onClick={handleLogout}>
                                 Logout
@@ -96,7 +107,7 @@ const Profile = () => {
                             <h4 className='fs-3 pb-3'>Your Articles:</h4>
                             {currentUser.articles.map((article) => (
                                 <Link key={article.articleId} to={`/article/${article.articleId}`} className='text-decoration-none text-dark'>
-                                    <Card className='my-2'>
+                                    <Card className='my-2 profileArticleCard'>
                                         <Card.Body className='singleCommentBox rounded border shadow'>
                                             <Card.Title>{article.title}</Card.Title>
                                             <Card.Text className='text-muted font-monospace small'>Publication Date: {article.publicationDate}</Card.Text>

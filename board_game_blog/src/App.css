@@ -135,6 +135,14 @@ body {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	background-color: #d9e5d6;
 }
+.singleCommentBox:hover {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #d9e5d6;
+}
+.profileArticleCard:hover {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #d9e5d6;
+}
 /* ------------------------------------------------PROFILE PAGE--------------------------------------------------------------- */
 .profilePage {
 	border-top-left-radius: 0%;
