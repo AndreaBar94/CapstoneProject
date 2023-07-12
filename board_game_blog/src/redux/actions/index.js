@@ -16,6 +16,7 @@ export const UPDATE_ARTICLE = 'UPDATE_ARTICLE';
 export const SET_ARTICLE = 'SET_ARTICLE';
 export const SET_COMMENT = 'SET_COMMENT';
 export const SET_ALL_CATEGORIES = 'SET_ALL_CATEGORIES';
+export const SET_LOADING = 'SET_LOADING';
 
 //login
 export const login = (formData, navigate) => {
@@ -134,6 +135,12 @@ export const deleteUser = (userId, navigate) => {
 		}
 	};
 };
+
+//loading spinners
+export const setLoading = (loading) => ({
+	type: SET_LOADING,
+	payload: loading,
+});
 
 //get all articles
 export const getArticles = (currentPage, articlesPerPage, sortBy) => {

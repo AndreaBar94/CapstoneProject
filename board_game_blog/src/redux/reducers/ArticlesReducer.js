@@ -1,4 +1,4 @@
-import { SET_ALL_ARTICLES, UPDATE_ARTICLE, SET_ARTICLE } from '../actions';
+import { SET_ALL_ARTICLES, UPDATE_ARTICLE, SET_ARTICLE, SET_LOADING } from '../actions';
 
 const initialState = {
 	articles: null,
@@ -11,6 +11,7 @@ const articlesReducer = (state = initialState, action) => {
 			return {
 				...state,
 				articles: action.payload,
+				loading: false,
 			};
 		case UPDATE_ARTICLE:
 			const updatedArticle = action.payload;
