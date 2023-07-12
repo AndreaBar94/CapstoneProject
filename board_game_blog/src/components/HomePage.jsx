@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Container, Card, Row, Col } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Container, Card, Row, Col, Pagination } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getArticles } from "../redux/actions";
 import SubmitArticle from "./SubmitArticle";
@@ -11,10 +11,21 @@ import Footer from "./Footer";
 const HomePage = () => {
   const articles = useSelector((state) => state.articlesReducer.articles);
   const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(0);
+  const articlesPerPage = 10;
+  const [sortBy, setSortBy] = useState('publicationDate');
 
   useEffect(() => {
-    dispatch(getArticles());
-  }, [dispatch]);
+    dispatch(getArticles(currentPage, articlesPerPage, sortBy));
+  }, [dispatch, currentPage, articlesPerPage, sortBy]);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+  
+  const handleSortByChange = (event) => {
+    setSortBy(event.target.value);
+  };  
 
   return (
     <>
@@ -28,9 +39,34 @@ const HomePage = () => {
             <SubmitArticle />
             </Container>
             <Container className="articlesContainer mb-3">
+              {/* ------------------------------------------------------------ARTICLES MAIN SECTION---------------------------------------------------------- */}
               <h4 className='fw-bold mt-4'>Our Reader's articles:</h4>
+              <p>Sort by:</p>
+              <select value={sortBy} onChange={handleSortByChange}>
+                <option value="publicationDate">Sort by Publication Date</option>
+                <option value="likes">Sort by Likes</option>
+              </select>
+              <Pagination>
+                <Pagination.Prev
+                  onClick={() => handlePageChange(currentPage)}
+                  disabled={currentPage === 0}
+                />
+                {Array.from({ length: articles && articles.totalPages }, (_, index) => (
+                  <Pagination.Item
+                    key={index + 1}
+                    active={currentPage === index}
+                    onClick={() => handlePageChange(index)}
+                  >
+                    {index + 1}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next
+                  onClick={() => handlePageChange(currentPage)}
+                  disabled={currentPage === (articles && articles.totalPages) -1}
+                />
+              </Pagination>
               <Row className="mt-4 g-3">
-                {/* article card */}
+                {/*--------------------------------------------------------------article card------------------------------------------------------------- */}
                 {articles &&
                   articles.content &&
                   Array.isArray(articles.content) &&
