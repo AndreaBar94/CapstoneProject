@@ -353,6 +353,7 @@ export const editedComment = (commentId, commentData) => {
 		}
 	};
 };
+
 //delete comment
 export const deleteComment = (commentId, articleId) => {
 	return async (dispatch, getState) => {
@@ -367,6 +368,29 @@ export const deleteComment = (commentId, articleId) => {
 			});
 			if (response.ok) {
 				dispatch(getArticleById(articleId));
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
+//blame comment
+export const blameComment = (commentId) => {
+	return async (dispatch, getState) => {
+		try {
+			const token = getState().loginToken.token;
+			const response = await fetch(commentsEndpoint + `/blame/${commentId}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + token,
+				},
+			});
+			if (response.ok) {
+				const newComment = await response.json();
+				dispatch({ type: SET_COMMENT, payload: [newComment] });
+				dispatch(getArticles());
 			}
 		} catch (error) {
 			console.log(error);

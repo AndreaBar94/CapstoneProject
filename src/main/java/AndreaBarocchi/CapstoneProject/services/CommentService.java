@@ -93,4 +93,23 @@ public class CommentService {
 
         commentRepo.delete(comment);
     }
+
+
+	public Comment censorComment(UUID commentId, Authentication authentication) throws NotFoundException {
+		
+		Comment comment = findCommentById(commentId); 
+        User authenticatedUser = (User) authentication.getPrincipal();
+        
+        if (!comment.getUser().getEmail().equals(((User) authentication.getPrincipal()).getEmail())&& !authenticatedUser.getRole().equals(UserRole.ADMIN)) {
+            throw new UnauthorizedException(authenticatedUser.getFirstname() + " is not authorized to blame this comment");
+        }
+        
+        if(comment.isCensored()) {
+        	comment.setCensored(false);
+        }else {
+        	comment.setCensored(true);
+        }
+        
+       return commentRepo.save(comment);
+	}
 }

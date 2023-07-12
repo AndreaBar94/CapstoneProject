@@ -75,6 +75,7 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(auth -> {
 			auth.requestMatchers(HttpMethod.GET, "/comments").hasAnyAuthority("USER", "ADMIN");
 			auth.requestMatchers(HttpMethod.PUT, "/comments/**").hasAnyAuthority("USER", "ADMIN");
+			auth.requestMatchers(HttpMethod.PUT, "/comments/blame/**").hasAnyAuthority("ADMIN");
 			auth.requestMatchers(HttpMethod.DELETE, "/comments/**").hasAnyAuthority("USER", "ADMIN");
 			auth.requestMatchers("/comments/**").hasAnyAuthority("USER", "ADMIN");
 		});

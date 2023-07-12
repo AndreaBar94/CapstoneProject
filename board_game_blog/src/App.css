@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Condensed:wght@300;700&family=Roboto:wght@300;700&display=swap');
 
 body {
-	background-color: #e0e5d6;
+	background-color: #f6f7f5;
 	font-family: 'Montserrat', sans-serif;
 }
 
@@ -17,9 +17,14 @@ body {
 	border: 1px solid #a5dfef;
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
+.termsBody {
+	max-height: 400px;
+	overflow-y: auto;
+}
 /* ------------------------------------------------LOGIN/SIGNUP PAGE--------------------------------------------------------------- */
 .loginContainer {
 	margin-top: 20vh;
+	max-width: max-content;
 	background: rgb(247, 160, 114);
 	background: linear-gradient(90deg, rgba(247, 160, 114, 1) 0%, rgba(237, 222, 164, 1) 100%);
 }
@@ -81,7 +86,7 @@ body {
 
 /* ------------------------------------------------HOMEPAGE--------------------------------------------------------------- */
 .articlesContainer {
-	background-color: #d9e5d6;
+	background-color: #f6f7f5;
 }
 /* ------------------------------------------------SUBMIT ARTICLE LINE--------------------------------------------------------------- */
 .submitArticleSection {

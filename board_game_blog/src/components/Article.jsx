@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Container, Form } from 'react-bootstrap';
-import { deleteArticle, deleteComment, editArticle, editedComment, getArticleById, postComment, setLikes } from '../redux/actions';
+import { blameComment, deleteArticle, deleteComment, editArticle, editedComment, getArticleById, postComment, setLikes } from '../redux/actions';
 import PageNavbar from './PageNavbar';
 import LikeButton from './LikeButton';
 import Footer from './Footer';
@@ -13,6 +13,8 @@ import DeleteCommentModal from './DeleteCommentModal';
 import submitLogo from '../assets/svgs/submitLogo.svg';
 import editLogo from '../assets/svgs/editLogo.svg';
 import deleteLogo from '../assets/svgs/deleteLogo.svg';
+import blameLogo  from '../assets/svgs/blameLogo.svg';
+
 
 const Article = () => {
 
@@ -131,6 +133,16 @@ useEffect(() => {
   const handleEditComment = (comment) => {
     setEditComment(comment);
     setEditModalOpen(true);
+  };
+  
+  const handleBlameComment = (comment) => {
+    dispatch(blameComment(comment.commentId))
+    .then(() => {
+      dispatch(getArticleById(articleId));
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   };
   
   const handleCommentUpdate = () => {
@@ -258,9 +270,19 @@ useEffect(() => {
         {/* COMMENT MAP SECTION */}
         {comments.map((comment) => (
             <div key={comment.commentId} className='singleCommentBox rounded p-3 m-2'>
-              <p>"{comment.content}"</p>
+              {comment && comment.censored ? (
+                <p>*** Blamed comment ***</p>
+              ) : (
+                <p>"{comment.content}"</p>
+              )}
+              {currentUser.role === 'ADMIN' &&(
+                    <Button variant="warning" className='mb-2' onClick={() => handleBlameComment(comment)}>
+                      Blame!
+                      <img src={blameLogo} alt="blame-logo" className='ms-2' />
+                      </Button>
+                  )}
               <p className='text-muted font-monospace small'>Author: {comment.user.username}</p>
-              {comment.user.userId === currentUser.userId && (
+              {(comment.user.userId === currentUser.userId || currentUser.role === 'ADMIN') && (
                 <div className='d-flex justify-content-between'>
                   <Button onClick={() => handleEditComment(comment)} className='actionButton'>
                     Edit
@@ -270,6 +292,7 @@ useEffect(() => {
                     Delete
                     <img src={deleteLogo} alt="delete-logo" className='ms-2' />
                   </Button>
+                  
                 </div>
               )}
             </div>

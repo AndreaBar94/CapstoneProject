@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signUp } from "../redux/actions";
 import { Button, Container } from "react-bootstrap";
+import TermsModal from "./TermsModal";
 
 const SignUp = () => {
 
@@ -18,6 +19,7 @@ const SignUp = () => {
   });
 
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
 
   const handleInputChange = (event) => {
     setFormData({
@@ -39,6 +41,13 @@ const SignUp = () => {
     navigate("/");
   };
   
+  const openTermsModal = () => {
+    setShowTermsModal(true);
+  };
+
+  const closeTermsModal = () => {
+    setShowTermsModal(false);
+  };
 
   return (
     <>
@@ -117,7 +126,10 @@ const SignUp = () => {
                 className="me-2"
                 required
               />
-              I accept the Terms and Conditions
+              I accept the{" "}
+              <Button variant="link" className="ps-0" onClick={openTermsModal}>
+                Terms and Conditions
+              </Button>
             </label>
           </div>
           <Button
@@ -134,6 +146,9 @@ const SignUp = () => {
           </Link>
         </p>
       </Container>
+
+      <TermsModal show={showTermsModal} handleClose={closeTermsModal} />
+    
     </>
   );
 };

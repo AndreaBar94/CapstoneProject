@@ -37,7 +37,9 @@ public class Comment {
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties({"comments"})
     private User user;
-
+    
+    private boolean isCensored;
+    
 	public Comment(String content, LocalDate publicationDate, Article article, User user) {
 		super();
 		this.content = content;
