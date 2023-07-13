@@ -20,7 +20,7 @@ const EditCommentModal = ({ show, onHide, editComment, handleCommentUpdate, setE
                 <Modal.Body>
                     <Form>
                     <Form.Group controlId="formCommentContent">
-                        <Form.Label>Content</Form.Label>
+                        <Form.Label>Content:</Form.Label>
                         <Form.Control
                         as="textarea"
                         rows={3}

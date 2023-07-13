@@ -55,8 +55,8 @@ const EditProfileModal = ({ show, onHide, user }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                    <Form.Group>
-                    <Form.Label>Profile Image URL</Form.Label>
+                    <Form.Group className="mb-2">
+                    <Form.Label>Profile Image URL:</Form.Label>
                     <Form.Control
                         type="text"
                         name="profileImgUrl"
@@ -64,8 +64,8 @@ const EditProfileModal = ({ show, onHide, user }) => {
                         onChange={handleChange}
                         />
                     </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Username</Form.Label>
+                    <Form.Group className="mb-2">
+                        <Form.Label>Username:</Form.Label>
                         <Form.Control
                         required
                         type="text"
@@ -74,8 +74,8 @@ const EditProfileModal = ({ show, onHide, user }) => {
                         onChange={handleChange}
                         />
                     </Form.Group>
-                    <Form.Group>
-                        <Form.Label>First Name</Form.Label>
+                    <Form.Group className="mb-2">
+                        <Form.Label>First Name:</Form.Label>
                         <Form.Control
                         required
                         type="text"
@@ -84,8 +84,8 @@ const EditProfileModal = ({ show, onHide, user }) => {
                         onChange={handleChange}
                         />
                     </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Last Name</Form.Label>
+                    <Form.Group className="mb-2">
+                        <Form.Label>Last Name:</Form.Label>
                         <Form.Control
                         required
                         type="text"
@@ -94,8 +94,8 @@ const EditProfileModal = ({ show, onHide, user }) => {
                         onChange={handleChange}
                         />
                     </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Email</Form.Label>
+                    <Form.Group className="mb-2">
+                        <Form.Label>Email:</Form.Label>
                         <Form.Control
                         required
                         type="email"
