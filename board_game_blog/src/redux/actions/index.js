@@ -81,10 +81,7 @@ export const getUser = () => {
 			});
 			if (response.ok) {
 				const user = await response.json();
-				dispatch({ type: SET_CURRENT_USER, payload: user }); // Memorizza l'utente nello stato
-			} else {
-				// Gestisci il caso in cui la richiesta non sia andata a buon fine
-				console.log('Error trying to fetch user');
+				dispatch({ type: SET_CURRENT_USER, payload: user });
 			}
 		} catch (error) {
 			console.log(error);
@@ -135,12 +132,6 @@ export const deleteUser = (userId, navigate) => {
 		}
 	};
 };
-
-//loading spinners
-export const setLoading = (loading) => ({
-	type: SET_LOADING,
-	payload: loading,
-});
 
 //get all articles
 export const getArticles = (currentPage, articlesPerPage, sortBy) => {
@@ -195,7 +186,6 @@ export const getArticleById = (articleId) => {
 			});
 			if (response.ok) {
 				const article = await response.json();
-				console.log(article);
 				dispatch({ type: SET_ARTICLE, payload: article });
 			}
 		} catch (error) {

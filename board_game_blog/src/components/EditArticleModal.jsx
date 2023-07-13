@@ -13,7 +13,7 @@ const EditArticleModal = ({ show, onHide, articleData, handleInputChange, handle
         <Modal.Body>
           <Form>
             <Form.Group controlId="formTitle">
-              <Form.Label>Title</Form.Label>
+              <Form.Label>Title:</Form.Label>
               <Form.Control
                 type="text"
                 name="title"
@@ -23,7 +23,7 @@ const EditArticleModal = ({ show, onHide, articleData, handleInputChange, handle
               />
             </Form.Group>
             <Form.Group controlId="formContent">
-              <Form.Label>Content</Form.Label>
+              <Form.Label>Content:</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}

@@ -128,7 +128,7 @@ const SignUp = () => {
               />
               I accept the{" "}
               <Button variant="link" className="ps-0" onClick={openTermsModal}>
-                Terms and Conditions
+                Terms and Conditions.
               </Button>
             </label>
           </div>

@@ -1,4 +1,4 @@
-import { SET_ALL_ARTICLES, UPDATE_ARTICLE, SET_ARTICLE, SET_LOADING } from '../actions';
+import { SET_ALL_ARTICLES, UPDATE_ARTICLE, SET_ARTICLE } from '../actions';
 
 const initialState = {
 	articles: null,

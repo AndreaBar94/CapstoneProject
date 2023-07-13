@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Container, Card, Row, Col, Pagination, Spinner } from "react-bootstrap";
+import { Container, Card, Row, Col, Pagination } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getArticles, setLoading } from "../redux/actions";
+import { getArticles } from "../redux/actions";
 import SubmitArticle from "./SubmitArticle";
 import HeroSection from "./HeroSection";
 import PageNavbar from "./PageNavbar";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
 import likeLogo from "../assets/svgs/likeLogo.svg";
+import submitLogo from "../assets/svgs/submitLogo.svg";
 
 const HomePage = () => {
   const articles = useSelector((state) => state.articlesReducer.articles);
@@ -109,6 +110,8 @@ const HomePage = () => {
                               <Card.Text className='text-muted font-monospace small'>
                               <img src={likeLogo} alt="like-logo" className='me-2' />
                               {article.likes.length}
+                              <img src={submitLogo} alt="submit-logo" className='mx-2' />
+                              {article.comments.length}
                             </Card.Text>
                             <span className="text-end">
                               Read more...
