@@ -47,7 +47,7 @@ public class SecurityConfig {
 		
 		
 		http.authorizeHttpRequests(auth -> {
-			auth.requestMatchers("/auth/**", "/login/**")
+			auth.requestMatchers("/auth/**", "/login/**", "/google/**")
 			.permitAll();
 			});
 		

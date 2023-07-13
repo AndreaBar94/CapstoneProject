@@ -2,6 +2,7 @@ package AndreaBarocchi.CapstoneProject.google;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,19 +52,19 @@ public class GoogleAuthController {
 		return "Callback completed successfully";
 	}
 	
-	//this will return authorization google url
-	@GetMapping("/google/authorization-url")
-    public String getGoogleAuthorizationUrl() {
-       return googleAuthService.getAuthorizationUrl();
-        
-    }
+//	//this will return authorization google url
+//	@GetMapping("/google/authorization-url")
+//    public String getGoogleAuthorizationUrl() {
+//       return googleAuthService.getAuthorizationUrl();
+//        
+//    }
 	
 	//same as the method up here, this one will show the url in postman (cool)
-//	@GetMapping("/google/authorization-url")
-//	public ResponseEntity<String> getGoogleAuthorizationUrl() {
-//		String authURL = googleAuthService.getAuthorizationUrl();
-//		return ResponseEntity.ok(authURL);
-//	}
+	@GetMapping("/google/authorization-url")
+	public ResponseEntity<String> getGoogleAuthorizationUrl() {
+		String authURL = googleAuthService.getAuthorizationUrl();
+		return ResponseEntity.ok(authURL);
+	}
     
 }
 

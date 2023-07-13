@@ -343,7 +343,7 @@ export const editedComment = (commentId, commentData) => {
 			if (response.ok) {
 				const newComment = await response.json();
 				dispatch({ type: SET_COMMENT, payload: [newComment] });
-				dispatch(getArticles());
+				dispatch(getArticles(0, 10, 'likes'));
 			}
 		} catch (error) {
 			console.log(error);
@@ -387,7 +387,7 @@ export const blameComment = (commentId) => {
 			if (response.ok) {
 				const newComment = await response.json();
 				dispatch({ type: SET_COMMENT, payload: [newComment] });
-				dispatch(getArticles());
+				dispatch(getArticles(0, 10, 'likes'));
 			}
 		} catch (error) {
 			console.log(error);
