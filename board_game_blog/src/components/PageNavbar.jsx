@@ -46,12 +46,12 @@ const PageNavbar = () => {
               <img src={logo} alt="logo"/>
               <span className='ms-1'>BoardGameBlog</span>
               <img src={verticalPipeLogo} alt="verticalPipe-logo" className='ms-2 d-none d-lg-block' />
-              <Link className="d-none d-lg-block text-decoration-none ms-2 text-dark d-flex align-items-center homeBtn" to="/home">
+              <div className="d-none d-lg-block text-decoration-none ms-2 text-dark d-flex align-items-center homeBtn">
                 <img src={homeLogo} alt="home-logo" className='me-2' />
                 <span>
                   Home
                 </span>
-              </Link>
+              </div>
             </Navbar.Brand>
           </Link>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />

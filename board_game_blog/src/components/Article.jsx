@@ -14,6 +14,7 @@ import submitLogo from '../assets/svgs/submitLogo.svg';
 import editLogo from '../assets/svgs/editLogo.svg';
 import deleteLogo from '../assets/svgs/deleteLogo.svg';
 import blameLogo  from '../assets/svgs/blameLogo.svg';
+import profileLogo from '../assets/svgs/profileLogo.svg';
 
 
 const Article = () => {
@@ -270,7 +271,7 @@ useEffect(() => {
         {/*------------------------------------------------------------- COMMENT MAP SECTION -------------------------------------------------------------*/}
         {comments.map((comment) => (
             <div key={comment.commentId} className='singleCommentBox rounded p-3 m-2'>
-              <img src={comment.user && comment.user.profileImgUrl}
+              <img src={comment.user && comment.user.profileImgUrl ? comment.user.profileImgUrl : profileLogo}
                     alt="user-img"
                     width="40px" 
                     height="40px"
