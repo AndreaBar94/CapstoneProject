@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { signUp } from "../redux/actions";
 import { Button, Container } from "react-bootstrap";
 import TermsModal from "./TermsModal";
+import eyeSlashLogo from '../assets/svgs/eyeSlashLogo.svg';
+import eyeLogo from '../assets/svgs/eyeLogo.svg';
 
 const SignUp = () => {
 
@@ -20,6 +22,7 @@ const SignUp = () => {
 
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (event) => {
     setFormData({
@@ -105,17 +108,30 @@ const SignUp = () => {
               onChange={handleInputChange}
             />
           </div>
-          <div className="form-group">
+          <div className="form-group password-input-group">
             <label>Password:</label>
-            <input
-              required
-              type="password"
-              className="form-control shadow mb-3 border border-1 border-dark"
-              name="password"
-              placeholder="Enter password (at least 8 characters, one digit, one letter, and one special character)"
-              value={formData.password}
-              onChange={handleInputChange}
-            />
+            <div className="d-flex align-items-center mb-3">
+              <input
+                required
+                type={showPassword ? "text" : "password"}
+                className="form-control shadow border border-1 border-dark"
+                name="password"
+                placeholder="Enter password (at least 8 characters, one digit, one letter, and one special character)"
+                value={formData.password}
+                onChange={handleInputChange}
+              />
+              <button
+                type="button"
+                className="btn"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? 
+                <img src={eyeSlashLogo} alt="eye-slash-logo" />
+                : 
+                <img src={eyeLogo} alt="eye-logo" />
+                }
+              </button>
+            </div>
           </div>
           <div className="form-group">
             <label>
