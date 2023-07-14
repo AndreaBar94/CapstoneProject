@@ -106,7 +106,7 @@ useEffect(() => {
 
   const handleCommentSubmit = () => {
     if (commentContent.trim() === '') {
-      return alert('Please enter a comment');
+      return alert('You cannot submit an empty comment');
     }
     const commentData = {
       content: commentContent,

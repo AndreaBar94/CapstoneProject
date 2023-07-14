@@ -29,7 +29,7 @@ public class UserRegistrationPayload {
     @Email(message = "Invalid email format")
     private String email;
 
-    
+    @Pattern(regexp = "^[A-Za-z0-9\\-/]*$", message = "Invalid image URL")
     private String profileImgUrl;
     
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", 

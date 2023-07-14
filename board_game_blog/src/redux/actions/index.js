@@ -222,7 +222,7 @@ export const postArticle = (articleData) => {
 				const newArticle = await response.json();
 				dispatch({ type: SET_ALL_ARTICLES, payload: [newArticle] });
 				dispatch(showActionPopup('Article published!', true));
-				dispatch(getArticles());
+				dispatch(getArticles(0, 10, 'likes'));
 			} else {
 				dispatch(showActionPopup(response.message, false));
 			}
