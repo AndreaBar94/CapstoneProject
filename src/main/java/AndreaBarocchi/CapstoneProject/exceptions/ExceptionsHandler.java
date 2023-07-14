@@ -23,7 +23,7 @@ public class ExceptionsHandler {
 		List<String> errors = ex.getBindingResult().getFieldErrors().stream().map(error -> error.getDefaultMessage())
 				.collect(Collectors.toList());
 
-		ErrorsPayloadWithErrorsList payload = new ErrorsPayloadWithErrorsList("Ci sono stati errori nel body",
+		ErrorsPayloadWithErrorsList payload = new ErrorsPayloadWithErrorsList(errors.get(0),
 				new Date(), 400, errors);
 
 		return new ResponseEntity<ErrorsPayloadWithErrorsList>(payload, HttpStatus.BAD_REQUEST);
