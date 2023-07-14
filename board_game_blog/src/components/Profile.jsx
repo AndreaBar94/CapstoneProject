@@ -93,10 +93,13 @@ const Profile = () => {
                                 </Row>
                                 
                             )}
-                            <Button variant='danger' onClick={handleLogout}>
-                                Logout
-                                <img src={logoutLogo} alt="logout-logo" className='ms-2' />
-                            </Button>
+                            <div className='d-flex justify-content-end'>
+                                <Button variant='danger' onClick={handleLogout} className=''>
+                                    Logout
+                                    <img src={logoutLogo} alt="logout-logo" className='ms-2' />
+                                </Button>
+                            </div>
+                            
                         </Card.Body>
                     </Card>
                 </div>
