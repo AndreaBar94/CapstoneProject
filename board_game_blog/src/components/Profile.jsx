@@ -10,6 +10,7 @@ import EditProfileModal from './EditProfileModal';
 import editLogo from '../assets/svgs/editLogo.svg';
 import logoutLogo from '../assets/svgs/logoutLogo.svg';
 import likeLogo from '../assets/svgs/likeLogo.svg';
+import profileLogo from '../assets/svgs/profileLogo.svg';
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -85,9 +86,9 @@ const Profile = () => {
                                     </Col>
                                     <Col>
                                         <img 
-                                            src={currentUser.profileImgUrl} 
+                                            src={currentUser && currentUser.profileImgUrl ? currentUser.profileImgUrl : profileLogo}
                                             alt="profile-img"
-                                            className='img-fluid rounded-circle mt-3 border border-dark shadow'
+                                            className='img-fluid rounded-circle mt-3 border border-dark shadow '
                                             />
                                     </Col>
                                 </Row>
