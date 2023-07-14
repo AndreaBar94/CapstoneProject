@@ -49,6 +49,7 @@ const SignUp = () => {
     setShowTermsModal(false);
   };
 
+
   return (
     <>
       <Container className="mt-5 p-3 border border-1 rounded-2 border-dark shadow signUpContainer">
@@ -148,7 +149,7 @@ const SignUp = () => {
       </Container>
 
       <TermsModal show={showTermsModal} handleClose={closeTermsModal} />
-    
+
     </>
   );
 };

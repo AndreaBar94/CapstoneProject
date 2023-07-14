@@ -2,9 +2,9 @@ package AndreaBarocchi.CapstoneProject.google;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +13,7 @@ import AndreaBarocchi.CapstoneProject.payloads.UserRegistrationPayload;
 import AndreaBarocchi.CapstoneProject.services.UserService;
 
 @RestController
+@RequestMapping("/google")
 public class GoogleAuthController {
 	
 	@Autowired
@@ -21,11 +22,10 @@ public class GoogleAuthController {
 	@Autowired
 	private UserService userService;
 	
-	
-	//mandatory callback, it has to includes param "code", still not working
-	@PostMapping("/google/callback")
+	@PostMapping("/callback")
 	public String googleCallback(@RequestParam("code") String authorizationCode) throws NotFoundException {
 		
+		System.out.println("GOOGLE AUTH CODE: " + authorizationCode);
 		// using auth code from Google to get the access token
 		GoogleAccessTokenResponse accessTokenResponse = googleAuthService.getAccessToken(authorizationCode);
 		String accessToken = accessTokenResponse.getAccess_token();
@@ -47,24 +47,17 @@ public class GoogleAuthController {
 			userService.createUser(newUser);
 		}
 
-
+		System.out.println("Callback completed successfully");
 		// here to do redirect to appropriate page
-		return "Callback completed successfully";
+		return "redirect:http://localhost:3142/home";
 	}
 	
-//	//this will return authorization google url
-//	@GetMapping("/google/authorization-url")
-//    public String getGoogleAuthorizationUrl() {
-//       return googleAuthService.getAuthorizationUrl();
-//        
-//    }
-	
-	//same as the method up here, this one will show the url in postman (cool)
-	@GetMapping("/google/authorization-url")
-	public ResponseEntity<String> getGoogleAuthorizationUrl() {
-		String authURL = googleAuthService.getAuthorizationUrl();
-		return ResponseEntity.ok(authURL);
-	}
+	//this will return authorization google url
+	@GetMapping("/authorization-url")
+    public String getGoogleAuthorizationUrl() {
+       return googleAuthService.getAuthorizationUrl();
+        
+    }
     
 }
 

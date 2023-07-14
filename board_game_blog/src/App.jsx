@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Provider, useSelector } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import { store } from './redux/store';
 import LoginPage from './components/LoginPage';
 import HomePage from './components/HomePage';
@@ -12,13 +12,30 @@ import Article from './components/Article';
 import { Container } from 'react-bootstrap';
 import ArticlesResultPage from './components/ArticlesResultPage';
 import NotFoundPage from './components/NotFoundPage';
+import { hideActionPopup } from './redux/actions';
+import ActionDetailPopup from './components/ActionDetailPopup';
 
 const App = () => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const showPopup = useSelector(state => state.popupReducer.showPopup);
+  const popupMessage = useSelector(state => state.popupReducer.popupMessage);
+  const isSuccess = useSelector((state) => state.popupReducer.isSuccess);
+  const dispatch = useDispatch();
+
+  const closeActionPopup = () => {
+    dispatch(hideActionPopup());
+  };
 
   return (
     <Container fluid className='app px-0'>
       <Provider store={store}>
+      {showPopup && (
+        <ActionDetailPopup
+          message={popupMessage}
+          onClose={closeActionPopup}
+          isSuccess={isSuccess}
+        />
+      )}
         <Router>
           <Routes>
             <Route path='/' element={<LoginPage />} />

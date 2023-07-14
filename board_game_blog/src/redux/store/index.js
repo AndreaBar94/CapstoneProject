@@ -8,6 +8,7 @@ import articlesReducer from '../reducers/ArticlesReducer';
 import commentsReducer from '../reducers/CommentReducer';
 import categoriesReducer from '../reducers/CategoriesReducer';
 import AuthSliceReducer from '../reducers/AuthSliceReducer';
+import popupReducer from '../reducers/PopupReducer';
 
 const persistConfig = {
 	key: 'root',
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
 	articlesReducer: articlesReducer,
 	commentsReducer: commentsReducer,
 	categoriesReducer: categoriesReducer,
+	popupReducer: popupReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

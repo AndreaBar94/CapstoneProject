@@ -24,7 +24,23 @@ body {
 .customModalShadow {
 	background-color: #0000009a;
 }
+.popup-success {
+	background-color: rgb(36, 156, 36);
+	border-radius: 5px;
+}
+.popup-failure {
+	background-color: rgb(193, 37, 37);
+	border-radius: 5px;
+}
 
+.action-popup {
+	position: fixed;
+	bottom: 40px;
+	left: 50px;
+}
+.modal-content {
+	border: none;
+}
 /* ------------------------------------------------LOGIN/SIGNUP PAGE--------------------------------------------------------------- */
 .loginContainer {
 	margin-top: 20vh;

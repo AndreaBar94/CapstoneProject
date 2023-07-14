@@ -7,7 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -39,8 +38,8 @@ public class GoogleAuthService {
         authorizationUrl += "&response_type=code";
         authorizationUrl += "&state=state_parameter_passthrough_value";
         authorizationUrl += "&scope=email%20profile";
-        
-        return authorizationUrl;
+        System.out.println(authorizationUrl);
+        return authorizationUrl; 
     }
     
     public GoogleAccessTokenResponse getAccessToken(String authorizationCode) {
@@ -55,7 +54,6 @@ public class GoogleAuthService {
         body.add("client_secret", clientSecret);
         body.add("redirect_uri", redirectUri);
         body.add("grant_type", "authorization_code");
-        
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(body, headers);
         
         ResponseEntity<GoogleAccessTokenResponse> responseEntity = restTemplate.exchange(

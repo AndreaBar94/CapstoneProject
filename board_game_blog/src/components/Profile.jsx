@@ -36,8 +36,8 @@ const Profile = () => {
         <>
             <PageNavbar/>
             <Container className='profileTabs'>
-                <ul class="nav nav-tabs">
-                <li class="nav-item">
+                <ul className="nav nav-tabs">
+                <li className="nav-item">
                     <button 
                         className={`nav-link active rounded-top border-bottom-0"${
                             activeTab === "profile" ? "active selectedTab" : ""
@@ -46,7 +46,7 @@ const Profile = () => {
                             Profile
                     </button>
                 </li>
-                <li class="nav-item">
+                <li className="nav-item">
                     <button 
                         className={`nav-link active rounded-top border-bottom-0"${
                             activeTab === "yourArticles" ? "active selectedTab" : ""
