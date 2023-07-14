@@ -88,7 +88,9 @@ const Profile = () => {
                                         <img 
                                             src={currentUser && currentUser.profileImgUrl ? currentUser.profileImgUrl : profileLogo}
                                             alt="profile-img"
-                                            className='img-fluid rounded-circle mt-3 border border-dark shadow '
+                                            width="150px" 
+                                            height="150px" 
+                                            className='object-fit-cover rounded-circle mt-5 border border-secondary profileImg'
                                             />
                                     </Col>
                                 </Row>

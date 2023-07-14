@@ -274,19 +274,19 @@ useEffect(() => {
                     alt="user-img"
                     width="40px" 
                     height="40px"
-                    className='object-fit-cover rounded-circle me-1 border border-secondary'/>
+                    className='object-fit-cover rounded-circle me-3 border border-secondary'/>
               {comment && comment.censored ? (
                 <span>*** Censored ***</span>
               ) : (
                 <span>"{comment.content}"</span>
               )}
+              <p className='mt-2 text-muted font-monospace small'>Author: {comment.user && comment.user.username}</p>
               {currentUser.role === 'ADMIN' &&(
-                    <Button variant="warning" className='mb-2' onClick={() => handleBlameComment(comment)}>
+                    <Button variant="warning" className='my-2 d-block' onClick={() => handleBlameComment(comment)}>
                       Blame!
                       <img src={blameLogo} alt="blame-logo" className='ms-2' />
                       </Button>
                   )}
-              <p className='text-muted font-monospace small'>Author: {comment.user && comment.user.username}</p>
               {((comment.user && comment.user.userId) === currentUser.userId || currentUser.role === 'ADMIN') && (
                 <div className='d-flex justify-content-between'>
                   <Button onClick={() => handleEditComment(comment)} className='actionButton'>
