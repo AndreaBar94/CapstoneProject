@@ -72,7 +72,7 @@ public class ExceptionsHandler {
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorsPayload> handleGeneric(Exception e) {
 
-		ErrorsPayload payload = new ErrorsPayload("Errore generico", new Date(), 500);
+		ErrorsPayload payload = new ErrorsPayload("General error", new Date(), 500);
 
 		return new ResponseEntity<ErrorsPayload>(payload, HttpStatus.INTERNAL_SERVER_ERROR);
 	}

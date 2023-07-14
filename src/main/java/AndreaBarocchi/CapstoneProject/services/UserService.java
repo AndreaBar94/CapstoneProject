@@ -22,6 +22,8 @@ import AndreaBarocchi.CapstoneProject.exceptions.EmailAlreadyExistsException;
 import AndreaBarocchi.CapstoneProject.exceptions.UnauthorizedException;
 import AndreaBarocchi.CapstoneProject.payloads.ArticlePayload;
 import AndreaBarocchi.CapstoneProject.payloads.UserRegistrationPayload;
+import AndreaBarocchi.CapstoneProject.repositories.ArticleRepository;
+import AndreaBarocchi.CapstoneProject.repositories.CommentRepository;
 import AndreaBarocchi.CapstoneProject.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 
@@ -30,6 +32,10 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepo;
+    @Autowired
+    private CommentRepository commentRepo;
+    @Autowired
+    private ArticleRepository articleRepo;
     
     public Page<User> findAllUsers(int page, int size, String sortBy) {
         if (size < 0)
@@ -98,20 +104,27 @@ public class UserService {
         }
         
         User defaultUser = getDefaultUser();
-
+        
+        //remove pairing with comments
         for (Comment comment : foundUser.getComments()) {
-            comment.setUser(null);
+        	comment.setUser(defaultUser);
+        	
         }
+        defaultUser.setComments(foundUser.getComments());
+        
         foundUser.getComments().clear();
-
+        
+        //remove pairing with likes
         for (Like like : foundUser.getLikes()) {
             like.setUser(null);
         }
         foundUser.getLikes().clear();
         
+        //set defaultUser as owner of foundUser's articles (don't wanna lost all my nice articles)
         for (Article article : foundUser.getArticles()) {
         	article.setUser(defaultUser);
         	defaultUser.addArticle(article);
+        	articleRepo.save(article);
         }
         foundUser.getArticles().clear();
         

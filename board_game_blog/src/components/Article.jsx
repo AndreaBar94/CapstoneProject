@@ -281,8 +281,8 @@ useEffect(() => {
                       <img src={blameLogo} alt="blame-logo" className='ms-2' />
                       </Button>
                   )}
-              <p className='text-muted font-monospace small'>Author: {comment.user.username}</p>
-              {(comment.user.userId === currentUser.userId || currentUser.role === 'ADMIN') && (
+              <p className='text-muted font-monospace small'>Author: {comment.user && comment.user.username}</p>
+              {((comment.user && comment.user.userId) === currentUser.userId || currentUser.role === 'ADMIN') && (
                 <div className='d-flex justify-content-between'>
                   <Button onClick={() => handleEditComment(comment)} className='actionButton'>
                     Edit

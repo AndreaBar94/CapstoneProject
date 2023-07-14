@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,8 +56,9 @@ public class User implements UserDetails{
     @JsonIgnoreProperties({"user", "comments"})
     private List<Article> articles = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"user"})
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Comment> comments;
 
 	public User(String username, String firstname, String lastname, String email, String password, List<Article> articles) {
