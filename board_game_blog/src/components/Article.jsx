@@ -223,7 +223,7 @@ useEffect(() => {
     <PageNavbar />
     <Container className='pb-3'>
       <Container className='articlePage rounded p-4'>
-        {/* ARTICLE DETAIL BOX */}
+        {/*------------------------------------------------------------- ARTICLE DETAIL BOX -------------------------------------------------------------*/}
         <h4 className='fw-bold'>{article && article.title}</h4>
         <p className='text-muted font-monospace small'>Author: {article && article.user && article.user.username}</p>
         <img src={article && article.imageUrl} alt="article-img" className='mb-3 img-fluid img-thumbnail'/>
@@ -249,7 +249,7 @@ useEffect(() => {
           </>
         )}
       </Container>
-      {/* COMMENT SUBMIT BOX */}
+      {/*------------------------------------------------------------- COMMENT SUBMIT BOX -------------------------------------------------------------*/}
       <Container className='commentSection rounded p-4 mt-3'>
         <Form.Group controlId="formComment">
           <Form.Label className='fw-bold'>Add your Comment:</Form.Label>
@@ -267,13 +267,18 @@ useEffect(() => {
             <img src={submitLogo} alt="submit-logo" className='ms-2' />
           </Button>
         </div>
-        {/* COMMENT MAP SECTION */}
+        {/*------------------------------------------------------------- COMMENT MAP SECTION -------------------------------------------------------------*/}
         {comments.map((comment) => (
             <div key={comment.commentId} className='singleCommentBox rounded p-3 m-2'>
+              <img src={comment.user && comment.user.profileImgUrl}
+                    alt="user-img"
+                    width="40px" 
+                    height="40px"
+                    className='object-fit-cover rounded-circle me-1 border border-secondary'/>
               {comment && comment.censored ? (
-                <p>*** Blamed comment ***</p>
+                <span>*** Censored ***</span>
               ) : (
-                <p>"{comment.content}"</p>
+                <span>"{comment.content}"</span>
               )}
               {currentUser.role === 'ADMIN' &&(
                     <Button variant="warning" className='mb-2' onClick={() => handleBlameComment(comment)}>

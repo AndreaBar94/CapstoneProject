@@ -90,7 +90,7 @@ const PageNavbar = () => {
                     alt="profileImg" 
                     width="40px" 
                     height="40px" 
-                    className='object-fit-contain rounded-circle ms-1 border border-secondary profileImg'/>
+                    className='object-fit-cover rounded-circle ms-1 border border-secondary profileImg'/>
                 </Link>
               </div>
             </Navbar.Collapse>
