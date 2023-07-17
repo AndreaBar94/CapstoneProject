@@ -30,6 +30,7 @@ import AndreaBarocchi.CapstoneProject.entities.Category;
 import AndreaBarocchi.CapstoneProject.entities.Comment;
 import AndreaBarocchi.CapstoneProject.entities.Like;
 import AndreaBarocchi.CapstoneProject.entities.User;
+import AndreaBarocchi.CapstoneProject.enums.UserRole;
 import AndreaBarocchi.CapstoneProject.exceptions.UnauthorizedException;
 import AndreaBarocchi.CapstoneProject.payloads.ArticlePayload;
 import AndreaBarocchi.CapstoneProject.payloads.UserRegistrationPayload;
@@ -166,7 +167,19 @@ class CapstoneProjectApplicationTests {
         });
     }
 
-
+    @Test
+    public void testGetDefaultUser() {
+    	
+    	User defaultUser = new User();
+    	defaultUser.setEmail("defaultUser@email.it");
+    	when(userRepository.getUserByEmail("defaultUser@email.it"))
+        .thenReturn(defaultUser);
+		
+		// Chiama il metodo getDefaultUser() e verifica il risultato
+		User result = userService.getDefaultUser();
+		assertEquals(defaultUser, result);
+    }
+    
     @Test
     public void testDeleteUser() throws org.springframework.data.crossstore.ChangeSetPersister.NotFoundException {
         UUID userId = UUID.randomUUID();
@@ -174,7 +187,12 @@ class CapstoneProjectApplicationTests {
         User foundUser = new User();
         foundUser.setUserId(userId);
         foundUser.setEmail("testuser@example.com");
-
+        
+        User defaultUser = new User();
+    	defaultUser.setEmail("defaultUser@email.it");
+    	when(userRepository.getUserByEmail("defaultUser@email.it"))
+        .thenReturn(defaultUser);
+        
         Comment comment = new Comment();
         comment.setCommentId(UUID.randomUUID());
         comment.setContent("Test comment");
@@ -184,8 +202,14 @@ class CapstoneProjectApplicationTests {
         like.setLikeId(UUID.randomUUID());
         like.setUser(foundUser);
 
-        foundUser.setComments(Collections.singletonList(comment));
-        foundUser.setLikes(Collections.singletonList(like));
+        List<Comment> comments = new ArrayList<>();
+        comments.add(comment);
+
+        List<Like> likes = new ArrayList<>();
+        likes.add(like);
+
+        foundUser.setComments(comments);
+        foundUser.setLikes(likes);
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(foundUser));
         when(commentRepository.findByUserUserId(userId)).thenReturn(Collections.singletonList(comment));
@@ -200,6 +224,8 @@ class CapstoneProjectApplicationTests {
 
         verify(userRepository).delete(foundUser);
     }
+
+
 
     @Test
     public void testDeleteUserUnauthorized() {
@@ -363,6 +389,7 @@ class CapstoneProjectApplicationTests {
         user1.setUserId(UUID.randomUUID());
 
         User user2 = new User();
+        user2.setRole(UserRole.USER);
         user2.setUserId(UUID.randomUUID());
 
         Article existingArticle = new Article();
@@ -420,6 +447,7 @@ class CapstoneProjectApplicationTests {
         user1.setUserId(UUID.randomUUID());
 
         User user2 = new User();
+        user2.setRole(UserRole.USER);
         user2.setUserId(UUID.randomUUID());
 
         Article existingArticle = new Article();
