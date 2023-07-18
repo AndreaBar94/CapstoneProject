@@ -11,6 +11,7 @@ import editLogo from '../assets/svgs/editLogo.svg';
 import logoutLogo from '../assets/svgs/logoutLogo.svg';
 import likeLogo from '../assets/svgs/likeLogo.svg';
 import profileLogo from '../assets/svgs/profileLogo.svg';
+import SubmitArticle from './SubmitArticle';
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -111,20 +112,29 @@ const Profile = () => {
                     <>
                         <Container className='articlesProfilePage'>
                             <h4 className='fs-3 pb-3'>Your Articles:</h4>
-                            {currentUser.articles.map((article) => (
-                                <Link key={article.articleId} to={`/article/${article.articleId}`} className='text-decoration-none text-dark'>
-                                    <Card className='my-2 profileArticleCard'>
-                                        <Card.Body className='singleCommentBox rounded border shadow'>
-                                            <Card.Title>{article.title}</Card.Title>
-                                            <Card.Text className='text-muted font-monospace small'>Publication Date: {article.publicationDate}</Card.Text>
-                                            <Card.Text className='text-muted font-monospace small'>
-                                                <img src={likeLogo} alt="like-logo" className='me-2' />
-                                                {article.likes.length}
-                                            </Card.Text>
-                                        </Card.Body>
-                                    </Card>
-                                </Link>
-                            ))}
+                            {currentUser.articles.length === 0
+                                ?
+                                <>
+                                <p>Oh, it looks like you're new here! Let us ear your voice!</p>
+                                <SubmitArticle/>
+                                </>
+                                : 
+                                currentUser.articles.map((article) => (
+                                    <Link key={article.articleId} to={`/article/${article.articleId}`} className='text-decoration-none text-dark'>
+                                        <Card className='my-2 profileArticleCard'>
+                                            <Card.Body className='singleCommentBox rounded border shadow'>
+                                                <Card.Title>{article.title}</Card.Title>
+                                                <Card.Text className='text-muted font-monospace small'>Publication Date: {article.publicationDate}</Card.Text>
+                                                <Card.Text className='text-muted font-monospace small'>
+                                                    <img src={likeLogo} alt="like-logo" className='me-2' />
+                                                    {article.likes.length}
+                                                </Card.Text>
+                                            </Card.Body>
+                                        </Card>
+                                    </Link>
+                                ))
+                            }
+                            
                         </Container>
                         <EditProfileModal show={showEditModal} onHide={() => setShowEditModal(false)} user={currentUser}/>
                     </>
