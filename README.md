@@ -23,3 +23,7 @@ BoardGameBlog is a full-stack blogging platform dedicated to board games. It all
 - Frontend: [React](https://reactjs.org/), [Redux](https://redux.js.org/), [Bootstrap](https://getbootstrap.com/), HTML5, CSS3
 - Backend: [Spring Boot](https://spring.io/projects/spring-boot) (Java)
 - Database: [PostgreSQL](https://www.postgresql.org/)
+
+## Contacts
+- Email: andreabarocchi@gmail.com
+- LinkedIn: https://www.linkedin.com/in/andrea-barocchi/
