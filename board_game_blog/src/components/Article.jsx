@@ -271,6 +271,7 @@ useEffect(() => {
         {/*------------------------------------------------------------- COMMENT MAP SECTION -------------------------------------------------------------*/}
         {comments.map((comment) => (
             <div key={comment.commentId} className='singleCommentBox rounded p-3 m-2'>
+              {/* if ther's not a profile image, it gets a default img */}
               <img src={comment.user && comment.user.profileImgUrl ? comment.user.profileImgUrl : profileLogo}
                     alt="user-img"
                     width="40px" 

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { Modal } from 'react-bootstrap'
 
+//pop up for user actions in the app (success or failure)
 const ActionDetailPopup = ({message, onClose, isSuccess}) => {
     useEffect(() => {
         const timer = setTimeout(() => {
