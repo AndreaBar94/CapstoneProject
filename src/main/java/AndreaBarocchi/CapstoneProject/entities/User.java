@@ -61,7 +61,7 @@ public class User implements UserDetails{
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Comment> comments;
 
-	public User(String username, String firstname, String lastname, String email, String password, List<Article> articles) {
+	public User(String username, String firstname, String lastname, String email, String password, List<Article> articles, String profileImgUrl) {
 		super();
 		this.username = username;
 		this.firstname = firstname;
@@ -70,6 +70,7 @@ public class User implements UserDetails{
 		this.password = password;
 		this.role = UserRole.USER;
 		this.articles = articles;
+		this.profileImgUrl = profileImgUrl;
 	}
 	
 	public void addArticle(Article article) {

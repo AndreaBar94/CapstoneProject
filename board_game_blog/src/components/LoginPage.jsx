@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../redux/actions";
+import { googleAuthUrl, login } from "../redux/actions";
 import { Button, Container } from "react-bootstrap";
 import eyeSlashLogo from '../assets/svgs/eyeSlashLogo.svg';
 import eyeLogo from '../assets/svgs/eyeLogo.svg';
@@ -32,6 +32,10 @@ const LoginPage = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleLoginWithGoogle = () => {
+    dispatch(googleAuthUrl(navigate));
   };
 
   return (
@@ -89,6 +93,13 @@ const LoginPage = () => {
             </Link>
           </p>
         </form>
+        <div className="d-flex align-items-center justify-content-center">
+          Or 
+          <div className="ms-2 align-items-center google-btn-wrapper">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="google-logo" className="google-icon"/>
+            <button type="submit" className="btn google-btn" onClick={handleLoginWithGoogle}>Sign in with Google</button>
+          </div>
+        </div>
       </Container>
     </>
     

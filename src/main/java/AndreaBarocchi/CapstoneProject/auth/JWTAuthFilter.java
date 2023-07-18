@@ -60,7 +60,8 @@ public class JWTAuthFilter extends OncePerRequestFilter{
 				}catch (NotFoundException e){
 					//se non trova l'utente lancia un not found
 					e.printStackTrace();
-				} catch (org.springframework.data.crossstore.ChangeSetPersister.NotFoundException e) {
+				} 
+				catch (org.springframework.data.crossstore.ChangeSetPersister.NotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

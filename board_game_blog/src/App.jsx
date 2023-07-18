@@ -14,6 +14,7 @@ import ArticlesResultPage from './components/ArticlesResultPage';
 import NotFoundPage from './components/NotFoundPage';
 import { hideActionPopup } from './redux/actions';
 import ActionDetailPopup from './components/ActionDetailPopup';
+import GoogleCallback from './components/GoogleCallback';
 
 const App = () => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
@@ -40,6 +41,7 @@ const App = () => {
           <Routes>
             <Route path='/' element={<LoginPage />} />
             <Route path='/signUp' element={<SignUpPage />} />
+            <Route path='/google/callback' element={<GoogleCallback />} />
             {isAuthenticated && (
               <Route path='/home' element={<HomePage />} />
             )}
