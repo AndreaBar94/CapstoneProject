@@ -93,6 +93,7 @@ const LoginPage = () => {
             </Link>
           </p>
         </form>
+        <hr />
         <div className="d-flex align-items-center justify-content-center">
           Or 
           <div className="ms-2 align-items-center google-btn-wrapper">
