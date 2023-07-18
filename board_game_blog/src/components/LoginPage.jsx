@@ -93,8 +93,12 @@ const LoginPage = () => {
             </Link>
           </p>
         </form>
-        <div>
-          Or <Button type="submit" className="btn" onClick={handleLoginWithGoogle}>Login With Google</Button>
+        <div className="d-flex align-items-center justify-content-center">
+          Or 
+          <div className="ms-2 align-items-center google-btn-wrapper">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="google-logo" className="google-icon"/>
+            <button type="submit" className="btn google-btn" onClick={handleLoginWithGoogle}>Sign in with Google</button>
+          </div>
         </div>
       </Container>
     </>
