@@ -32,8 +32,7 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepo;
-    @Autowired
-    private CommentRepository commentRepo;
+
     @Autowired
     private ArticleRepository articleRepo;
     
@@ -52,7 +51,7 @@ public class UserService {
         });
         List<Article> articles = convertToArticles(uPld.getArticles());
         User newUser = new User(uPld.getUsername(), uPld.getFirstname(), uPld.getLastname(), uPld.getEmail(),
-                uPld.getPassword(), articles);
+                uPld.getPassword(), articles, uPld.getProfileImgUrl());
         return userRepo.save(newUser);
     }
 
@@ -139,7 +138,6 @@ public class UserService {
             throw new NotFoundException();
         }
     }
-
 
     public void deleteAllUsers() {
         userRepo.deleteAll();

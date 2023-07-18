@@ -39,7 +39,8 @@ public class SecurityConfig {
 		http
         .authorizeHttpRequests(auth -> {
             auth.requestMatchers("/").permitAll();
-            auth.requestMatchers("/google/**").permitAll();//if i comment this one i can see the login oauth page
+            auth.requestMatchers("/google/**").permitAll();
+            auth.requestMatchers("/google/callback").permitAll();
 			auth.requestMatchers(HttpMethod.POST, "/google/callback/**").permitAll();
         })
         .oauth2Login(withDefaults())

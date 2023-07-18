@@ -11,6 +11,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
+
 
 @Service
 public class GoogleAuthService {
@@ -23,7 +25,6 @@ public class GoogleAuthService {
     
     @Value("${spring.security.oauth2.client.registration.google.redirect-uri}")
     private String redirectUri;
-    
     private RestTemplate restTemplate;
     
     public GoogleAuthService() {
@@ -38,7 +39,6 @@ public class GoogleAuthService {
         authorizationUrl += "&response_type=code";
         authorizationUrl += "&state=state_parameter_passthrough_value";
         authorizationUrl += "&scope=email%20profile";
-        System.out.println(authorizationUrl);
         return authorizationUrl; 
     }
     

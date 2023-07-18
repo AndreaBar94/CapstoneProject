@@ -79,6 +79,22 @@ export const signUp = (formData, navigateToLogin) => {
 	};
 };
 
+//google login
+export const googleAuthUrl = (navigate) => {
+	return async (dispatch) => {
+		try {
+			const response = await fetch('http://localhost:3142/google/authorization-url');
+			const data = await response.text();
+			if (response.ok) {
+				window.location.href = data;
+			} else {
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
 //current user
 export const getUser = () => {
 	return async (dispatch, getState) => {
