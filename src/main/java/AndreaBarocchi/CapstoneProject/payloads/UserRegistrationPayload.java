@@ -12,6 +12,8 @@ import lombok.Data;
 @Data
 public class UserRegistrationPayload {
 	
+	//used regexp in @Pattern to prevent basic forms of SQL injections
+	
 	@Pattern(regexp = "^[^<>{}$`]*$", message = "Username contains invalid characters")
     @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
     private String username;

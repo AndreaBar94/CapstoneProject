@@ -27,16 +27,17 @@ public class JWTTools {
 	private static String secret;
 	private static int expiration;
 	
+	//get  secret key and expiration values from env.properties
 	@Value("${spring.application.jwt.secret}")
 	public void setSecret(String secretKey) {
 		secret = secretKey;
 	}
-
 	@Value("${spring.application.jwt.expirationindays}")
 	public void setExpiration(String expirationInDays) {
 		expiration = Integer.parseInt(expirationInDays) * 24 * 60 * 60 * 1000;
 	}
-
+	
+	//create a token with email as subject, using expiration and secret key from before
 	static public String createToken(User u) {
 		String token = Jwts.builder().setSubject(u.getEmail()).setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + expiration))
@@ -44,7 +45,8 @@ public class JWTTools {
 		return token;
 		
 	}
-
+	
+	//check for token validity
 	static public void isTokenValid(String token) {
 		try {
 			Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(secret.getBytes())).build().parse(token);
@@ -58,18 +60,7 @@ public class JWTTools {
 		}
 	}
 	
-	private static String getPublicKey(String url) throws IOException, java.io.IOException {
-        URL publicKeyUrl = new URL(url);
-        return IOUtils.toString(publicKeyUrl, "UTF-8");
-    }
-
-    private static PublicKey stringToPublicKey(String publicKey) throws GeneralSecurityException {
-        byte[] keyBytes = Base64.getDecoder().decode(publicKey);
-        X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        return keyFactory.generatePublic(spec);
-    }
-	//utilizzo la mail come subject dell'utente
+	//extract subject from token (email)
 	static public String extractSubject(String token) { 
 		return Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(secret.getBytes())).build().parseClaimsJws(token)
 				.getBody().getSubject();

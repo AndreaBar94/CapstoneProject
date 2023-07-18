@@ -15,18 +15,17 @@ public class DataEntryRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Genera 10 categorie per giochi da tavola con nomi in inglese
+        // create 10 starting categories in database
         String[] categoryNames = {"Strategy", "Party", "Cooperative", "Deck-building", "Tile Placement", "Card Game",
                 "Dexterity", "Role-playing", "Adventure", "Family"};
 
         for (String categoryName : categoryNames) {
+        	//check if category already exist
             if (categoryRepository.findByCategoryName(categoryName) == null) {
+            	//if not create new category and save
                 Category category = new Category();
                 category.setCategoryName(categoryName);
                 categoryRepository.save(category);
-                System.out.println("Categoria creata: " + categoryName);
-            } else {
-                System.out.println("Categoria già presente nel database: " + categoryName);
             }
         }
     }

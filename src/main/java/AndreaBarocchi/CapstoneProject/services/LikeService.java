@@ -28,13 +28,18 @@ public class LikeService {
 	public Like addLike(Like like, UUID articleId, UUID userId) throws NotFoundException {
 	    Article article = articleRepo.findById(articleId).orElse(null);
 	    User user = userService.findUserById(userId);
+	    
 	    if (article != null) {
 	    	
+	    	//check if user has already liked this article
 	        Like existingLike = likeRepo.findByArticleArticleIdAndUserUserId(articleId, userId);
+	        
 	        if (existingLike != null) {
+	        	//delete the like if user already liked
 	        	deleteLike(articleId, userId);
 	        	return null;
 	        }
+	        //if not, set the like and save
 	        like.setArticle(article);
 	        like.setUser(user);
 	        return likeRepo.save(like);

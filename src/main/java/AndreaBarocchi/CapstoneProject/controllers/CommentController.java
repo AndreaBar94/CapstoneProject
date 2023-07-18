@@ -54,6 +54,7 @@ public class CommentController {
         return ResponseEntity.ok(updatedComment);
     }
 	
+	//admin only
 	@PutMapping("blame/{id}")
 	public ResponseEntity<Comment> censorComment(@PathVariable UUID id, Authentication authentication) throws NotFoundException {
 		Comment updatedComment = commentService.censorComment(id, authentication);

@@ -29,40 +29,37 @@ public class JWTAuthFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-		if (!request.getMethod().equals("OPTIONS")) {
-			
+		if (!request.getMethod().equals("OPTIONS")) {			
 				 String requestPath = request.getServletPath();
-				 
 				 //exclude google callback from filter
 				 if (requestPath.startsWith("/google/callback")) {	
 					 filterChain.doFilter(request, response);
 					 return;
 				 }			
-				 
+				//search for Authorization header
 				String authHeader = request.getHeader("Authorization");
-				//controllo validità del token
-				if(authHeader == null || !authHeader.startsWith("Bearer ")) throw new UnauthorizedException("Remember to include the token in the request");				
-				//faccio il substring per saltare la stringa "Bearer " (7 caratteri) e ottengo il token pulito
-				String accesToken = authHeader.substring(7);				
+				//check token validity
+				if(authHeader == null || !authHeader.startsWith("Bearer ")) throw new UnauthorizedException("Remember to include the token in the request");
+				//skip 'Bearer ' string to get the token
+				String accesToken = authHeader.substring(7);	
+				//check token validity
 				JWTTools.isTokenValid(accesToken);
-				//se va tutto bene lavoro sul token
+				//if token is ok extract info
 				String email = JWTTools.extractSubject(accesToken);
 				
 				try {
 					User user = usersService.findUserByEmail(email);
-					//una volta trovato l'utente lo aggiungo al SecurityContextHolder
+					//add user to SecurityContextHolder
 					UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 					authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 					SecurityContextHolder.getContext().setAuthentication(authToken);
-					// accedo al prossimo blocco della filterChain
+					//next block in filterChain
 					filterChain.doFilter(request, response);
 					
 				}catch (NotFoundException e){
-					//se non trova l'utente lancia un not found
 					e.printStackTrace();
 				} 
 				catch (org.springframework.data.crossstore.ChangeSetPersister.NotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				 
@@ -73,7 +70,7 @@ public class JWTAuthFilter extends OncePerRequestFilter{
 		
 	}
 	
-	//questo serve ad evitare che il filtro venga eseguito per ogni richiesta
+	//exclude this endpoints from this filter
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) {
 	    String servletPath = request.getServletPath();

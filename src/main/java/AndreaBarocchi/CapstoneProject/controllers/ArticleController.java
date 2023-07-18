@@ -45,7 +45,7 @@ public class ArticleController {
     @GetMapping("/search/{filter}/{keyword}")
     public ResponseEntity<List<Article>> searchArticles(@PathVariable String filter, @PathVariable String keyword) {
         List<Article> articles;
-
+        //cases for search input
         if (filter.equalsIgnoreCase("title")) {
             articles = articleService.searchByTitle(keyword);
         } else if (filter.equalsIgnoreCase("user")) {

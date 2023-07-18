@@ -17,6 +17,7 @@ import ch.qos.logback.core.net.SyslogOutputStream;
 @Service
 public class GoogleAuthService {
     
+	//get id, secret and redirect uri from env.properties
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String clientId;
     
@@ -42,6 +43,8 @@ public class GoogleAuthService {
         return authorizationUrl; 
     }
     
+    //retrieves an access token from Google using an authorization code.
+    //GoogleAccessTokenResponse object containing the access token.
     public GoogleAccessTokenResponse getAccessToken(String authorizationCode) {
         String tokenUrl = "https://oauth2.googleapis.com/token";
         
@@ -66,6 +69,8 @@ public class GoogleAuthService {
         return responseEntity.getBody();
     }
     
+    //retrieves Google's user info using the access token
+    //GoogleUserInfoResponse objects containing the user informations
     public GoogleUserInfoResponse getUserInfo(String accessToken) {
         String userInfoUrl = "https://www.googleapis.com/oauth2/v2/userinfo";
         

@@ -24,7 +24,6 @@ import AndreaBarocchi.CapstoneProject.exceptions.UnauthorizedException;
 import AndreaBarocchi.CapstoneProject.payloads.ArticlePayload;
 import AndreaBarocchi.CapstoneProject.repositories.ArticleRepository;
 import AndreaBarocchi.CapstoneProject.repositories.CategoryRepository;
-import AndreaBarocchi.CapstoneProject.utils.CustomPageable;
 import jakarta.transaction.Transactional;
 
 @Service

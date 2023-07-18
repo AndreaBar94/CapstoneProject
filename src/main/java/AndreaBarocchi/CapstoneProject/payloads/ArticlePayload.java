@@ -9,6 +9,8 @@ import lombok.Data;
 @Data
 public class ArticlePayload {
 	
+	//used regexp in @Pattern to prevent basic forms of SQL injections
+	
 	@Pattern(regexp = "^[^<>{}$`]*$", message = "Title contains invalid characters")
     @NotEmpty(message = "Title is required")
     private String title;

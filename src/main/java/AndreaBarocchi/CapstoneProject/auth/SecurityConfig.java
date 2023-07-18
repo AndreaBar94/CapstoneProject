@@ -35,7 +35,7 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(c -> c.disable());
 		
-		//work in progress, trying to implement login with Google
+		//auth for google
 		http
         .authorizeHttpRequests(auth -> {
             auth.requestMatchers("/").permitAll();

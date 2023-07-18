@@ -54,7 +54,8 @@ public class UserService {
                 uPld.getPassword(), articles, uPld.getProfileImgUrl());
         return userRepo.save(newUser);
     }
-
+    
+    //create a List<Article> (utility for create user method)
     private List<Article> convertToArticles(List<ArticlePayload> articlePayloads) {
         List<Article> articles = new ArrayList<>();
         if (articlePayloads != null) {
@@ -87,6 +88,7 @@ public class UserService {
     }
     
     public User getDefaultUser() {
+    	//get my defaultUser from database
         User defaultUser = userRepo.getUserByEmail("defaultUser@email.it");
         return defaultUser;
     }

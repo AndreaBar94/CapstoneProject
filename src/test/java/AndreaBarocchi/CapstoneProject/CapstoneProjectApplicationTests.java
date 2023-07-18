@@ -175,7 +175,6 @@ class CapstoneProjectApplicationTests {
     	when(userRepository.getUserByEmail("defaultUser@email.it"))
         .thenReturn(defaultUser);
 		
-		// Chiama il metodo getDefaultUser() e verifica il risultato
 		User result = userService.getDefaultUser();
 		assertEquals(defaultUser, result);
     }

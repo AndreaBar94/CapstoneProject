@@ -66,13 +66,13 @@ public class CommentService {
     
     public Comment updateComment(UUID commentId, CommentPayload commentPayload, Authentication authentication)
             throws NotFoundException {
-    	//trovo il commento
+    	//search comment
         Comment existingComment = findCommentById(commentId);
         User authenticatedUser = (User) authentication.getPrincipal();
         
-        // Verifica se l'utente autenticato è l'autore del commento
+        // check if authenticated user is comment's owner
         if (!existingComment.getUser().getEmail().equals(((User) authentication.getPrincipal()).getEmail())&& !authenticatedUser.getRole().equals(UserRole.ADMIN)) {
-        	//passo le info dello user non autorizzato al messaggio di errore
+        	//if not i use user's name in the error message
             throw new UnauthorizedException(authenticatedUser.getFirstname() + " is not authorized to update this comment");
         }
         
@@ -85,7 +85,7 @@ public class CommentService {
         
         User authenticatedUser = (User) authentication.getPrincipal();
         
-        // Verifica se l'utente autenticato è l'autore del commento
+        // check if authenticated user is comment's owner
         if (!comment.getUser().getEmail().equals(((User) authentication.getPrincipal()).getEmail())&& !authenticatedUser.getRole().equals(UserRole.ADMIN)) {
             throw new UnauthorizedException(authenticatedUser.getFirstname() + " is not authorized to delete this comment");
         }
@@ -94,12 +94,13 @@ public class CommentService {
         commentRepo.delete(comment);
     }
 
-
+    //custom method for admins
 	public Comment censorComment(UUID commentId, Authentication authentication) throws NotFoundException {
-		
-		Comment comment = findCommentById(commentId); 
+		//find the comment
+		Comment comment = findCommentById(commentId);
+		//get the authenticated user
         User authenticatedUser = (User) authentication.getPrincipal();
-        
+        //check if authenticated user has ADMIN role
         if (!comment.getUser().getEmail().equals(((User) authentication.getPrincipal()).getEmail())&& !authenticatedUser.getRole().equals(UserRole.ADMIN)) {
             throw new UnauthorizedException(authenticatedUser.getFirstname() + " is not authorized to blame this comment");
         }

@@ -33,7 +33,9 @@ public class AuthController {
 	
 	@PostMapping("/signup")
 	public ResponseEntity<User> register(@RequestBody @Validated UserRegistrationPayload body) {
+		//encode the password
 		body.setPassword(bcrypt.encode(body.getPassword()));
+		//create new user
 		User createdUser = userService.createUser(body);
 		return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
 	}
@@ -41,10 +43,10 @@ public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity<AuthenticationSuccessfullPayload> login(@RequestBody UserLoginPayload body) throws NotFoundException, org.springframework.data.crossstore.ChangeSetPersister.NotFoundException{
 		
-		//cerco la mail inserita nel login tra quelle degli utenti
+		//search for the email if is in database 
 		User user = userService.findUserByEmail(body.getEmail());
 		
-		//se la trovo faccio il check sulla password, se non corrisponde lancio errore 401
+		//if is there, check the password
 		String plainPW = body.getPassword();
 		String hashedPW = user.getPassword(); 
 		
@@ -53,6 +55,7 @@ public class AuthController {
 		//se corrisponde creo token
 		String token = JWTTools.createToken(user);
 		
+		//return the token
 		return new ResponseEntity<>(new AuthenticationSuccessfullPayload(token), HttpStatus.OK);
 	}
 	

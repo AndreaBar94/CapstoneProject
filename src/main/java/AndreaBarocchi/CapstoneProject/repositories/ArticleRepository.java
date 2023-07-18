@@ -13,6 +13,7 @@ import AndreaBarocchi.CapstoneProject.entities.Article;
 
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, UUID>{
+	//custom queries
     List<Article> findByTitleContainingIgnoreCase(String keyword);
     List<Article> findByUserUsernameContainingIgnoreCase(String keyword);
     List<Article> findByCategoryCategoryNameContainingIgnoreCase(String keyword);
