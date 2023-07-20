@@ -9,6 +9,7 @@ const DeleteUserModal = ({ show, onHide, onConfirmDelete }) => {
         setUsername(event.target.value);
     };
 
+    // inspired by github repo delete action, user have to insert their username to delete their account
     const handleConfirmDelete = () => {
         if (username === currentUser.username) {
         onConfirmDelete();

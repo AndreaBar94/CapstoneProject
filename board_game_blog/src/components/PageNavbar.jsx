@@ -41,6 +41,7 @@ const PageNavbar = () => {
     <>
       <Navbar expand="lg" className="py-2 pageNavbar" fixed="top">
         <Container fluid className=' justify-content-between'>
+          {/* ------------------------------------------------------------NAVBAR LEFT SECTION------------------------------------------------------- */}
           <Link to="/home" className="text-decoration-none ps-4">
             <Navbar.Brand className='d-flex align-items-center'>
               <img src={logo} alt="logo"/>
@@ -54,6 +55,7 @@ const PageNavbar = () => {
               </div>
             </Navbar.Brand>
           </Link>
+          {/* ------------------------------------------------------------NAVBAR SEARCH SECTION------------------------------------------------------- */}
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Container className='d-column d-lg-flex align-items-center px-0'>
@@ -62,6 +64,7 @@ const PageNavbar = () => {
                     <Form.Select className="my-2 me-2" value={selectedFilter} onChange={handleFilterChange}>
                       {filterOptions.map((filter) => (
                         <option key={filter} value={filter}>
+                          {/* capitalize to have a nicer text render */}
                           {capitalizeFirstLetter(filter)}
                         </option>
                       ))}
@@ -81,11 +84,13 @@ const PageNavbar = () => {
                   </Form>
                 </Nav>
               </Container>
+              {/* ------------------------------------------------------------NAVBAR RIGHT SECTION------------------------------------------------------- */}
               <div className='p-0 my-2 text-center'>
                 <Link className="text-decoration-none text-dark profileBtn" to="/profile">
                   <span className='d-none d-lg-inline me-1'>Welcome back, {currentUser && currentUser.username}!</span>
                   <span className='d-inline d-lg-none me-1'>Profile</span>
                   <img 
+                  // ternary src, if user has a profile img it gets loaded, otherwise it gets a default logo image
                     src={currentUser && currentUser.profileImgUrl ? currentUser.profileImgUrl : profileLogo}
                     alt="profileImg" 
                     width="40px" 

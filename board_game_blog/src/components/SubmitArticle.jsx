@@ -34,6 +34,7 @@ const SubmitArticle = () => {
 
   const handleArticleSubmit = (event) => {
     event.preventDefault();
+    //handle the date to submit a valid date format to backend
     const currentDate = getCurrentDate();
     const formattedDate = `${currentDate.getFullYear()}-${(
       currentDate.getMonth() + 1

@@ -37,6 +37,7 @@ const Profile = () => {
     return (
         <>
             <PageNavbar/>
+            {/* tabs control buttons */}
             <Container className='profileTabs'>
                 <ul className="nav nav-tabs">
                 <li className="nav-item">
@@ -59,7 +60,7 @@ const Profile = () => {
                 </li>
                 </ul>
             </Container>
-            
+            {/* profile tab */}
             <Container className='pb-3 mt-0'>
                 <div className={`${activeTab === 'profile' ? "" : "d-none"}`}>
                     <Card className='profilePage'>
@@ -107,6 +108,7 @@ const Profile = () => {
                         </Card.Body>
                     </Card>
                 </div>
+                {/* articles tab */}
                 <div className={`${activeTab === 'yourArticles' ? "" : "d-none"}`}>
                     {currentUser && currentUser.articles && (
                     <>

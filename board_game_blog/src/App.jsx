@@ -42,6 +42,7 @@ const App = () => {
             <Route path='/' element={<LoginPage />} />
             <Route path='/signUp' element={<SignUpPage />} />
             <Route path='/google/callback' element={<GoogleCallback />} />
+            {/* isAuthenticated protect my routes from render in page, users must login to view the app */}
             {isAuthenticated && (
               <Route path='/home' element={<HomePage />} />
             )}

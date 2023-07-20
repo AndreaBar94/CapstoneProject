@@ -1,6 +1,7 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
+//with this terms and condition my website can preserve the articles from user that want to delete their account, saving them under the username of "The Librarian" (default user in database, is the official user of this app)
 const TermsModal = ({ show, handleClose }) => {
     return (
         <Modal show={show} onHide={handleClose}>

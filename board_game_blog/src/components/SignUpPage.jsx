@@ -20,8 +20,10 @@ const SignUp = () => {
     password: "",
   });
 
+  //states for modals
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
+  //state for password show button
   const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (event) => {
@@ -55,6 +57,7 @@ const SignUp = () => {
 
   return (
     <>
+    {/* registration form */}
       <Container className="mt-5 p-3 border border-1 rounded-2 border-dark shadow signUpContainer">
         <div className="d-flex justify-content-between">
           <h2 className="fw-bold">Registration</h2>
@@ -113,6 +116,7 @@ const SignUp = () => {
             <div className="d-flex align-items-center mb-3">
               <input
                 required
+                // switch for password show, nice
                 type={showPassword ? "text" : "password"}
                 className="form-control shadow border border-1 border-dark"
                 name="password"

@@ -1,5 +1,6 @@
 import { loginSuccess } from '../reducers/AuthSliceReducer';
 
+//endpoints
 const loginEndpoint = 'http://localhost:3142/auth/login';
 const signUpEndpoint = 'http://localhost:3142/auth/signup';
 const articlesEndpoint = 'http://localhost:3142/articles';
@@ -8,6 +9,7 @@ const userEndpoint = 'http://localhost:3142/users';
 const commentsEndpoint = 'http://localhost:3142/comments';
 const categoriesEndpoint = 'http://localhost:3142/categories';
 
+//reducers actions
 export const SET_TOKEN = 'SET_TOKEN';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const SET_AUTHENTICATED = 'SET_AUTHENTICATED';
@@ -20,6 +22,7 @@ export const SET_LOADING = 'SET_LOADING';
 export const SHOW_ACTION_POPUP = 'SHOW_ACTION_POPUP';
 export const HIDE_ACTION_POPUP = 'HIDE_ACTION_POPUP';
 
+//popup actions
 export const showActionPopup = (message, isSuccess) => {
 	return { type: SHOW_ACTION_POPUP, payload: { message, isSuccess } };
 };
@@ -41,9 +44,13 @@ export const login = (formData, navigate) => {
 			});
 			const data = await response.json();
 			if (response.ok) {
+				//set the token
 				dispatch({ type: SET_TOKEN, payload: data.accessToken });
+				//dispatch action that will set isAuthenticated on true
 				dispatch(loginSuccess(data));
+				//redirect to home page
 				navigate('/home');
+				//set logged user to current user
 				dispatch(getUser(data.accessToken));
 			} else {
 				dispatch(showActionPopup(data.message, false));
@@ -80,8 +87,8 @@ export const signUp = (formData, navigateToLogin) => {
 };
 
 //google login
-export const googleAuthUrl = (navigate) => {
-	return async (dispatch) => {
+export const googleAuthUrl = () => {
+	return async () => {
 		try {
 			const response = await fetch('http://localhost:3142/google/authorization-url');
 			const data = await response.text();
@@ -141,7 +148,7 @@ export const updateUser = (userData, userId) => {
 
 //delete user
 export const deleteUser = (userId, navigate) => {
-	return async (dipatch, getState) => {
+	return async (getState) => {
 		try {
 			const token = getState().loginToken.token;
 			const response = await fetch(userEndpoint + `/${userId}`, {

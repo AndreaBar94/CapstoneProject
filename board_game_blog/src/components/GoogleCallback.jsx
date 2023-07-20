@@ -4,6 +4,9 @@ import { SET_TOKEN, getUser } from '../redux/actions';
 import { loginSuccess } from '../redux/reducers/AuthSliceReducer';
 import { useNavigate } from 'react-router';
 
+// this is the google callback page, it starts the callback action 
+//to obtain google token, showing a loading spinner, then redirects user to homepage
+
 const GoogleCallback = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();

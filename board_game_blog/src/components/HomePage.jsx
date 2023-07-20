@@ -23,6 +23,7 @@ const HomePage = () => {
   }, [dispatch, currentPage, articlesPerPage, selectedSortOption]);
   
   useEffect(() => {
+    // check for articles validity then sort them according to the selected sort option
     if (articles && articles.content && Array.isArray(articles.content)) {
       let sortedArticles = [...articles.content];
       if (currentPage === 0) {

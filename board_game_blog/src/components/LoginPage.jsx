@@ -17,6 +17,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
+  //catch the form data property and value name and set with setState
   const handleInputChange = (event) => {
     setFormData({
       ...formData,
@@ -69,6 +70,7 @@ const LoginPage = () => {
               value={formData.password}
               onChange={handleInputChange}
             />
+            {/* button for show/hide password */}
             <button
                 type="button"
                 className="btn"
@@ -97,6 +99,7 @@ const LoginPage = () => {
         <div className="d-flex align-items-center justify-content-center">
           Or 
           <div className="ms-2 align-items-center google-btn-wrapper">
+            {/* login google button */}
             <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="google-logo" className="google-icon"/>
             <button type="submit" className="btn google-btn" onClick={handleLoginWithGoogle}>Sign in with Google</button>
           </div>
