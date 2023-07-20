@@ -21,6 +21,7 @@ import AndreaBarocchi.CapstoneProject.payloads.CommentPayload;
 import AndreaBarocchi.CapstoneProject.repositories.ArticleRepository;
 import AndreaBarocchi.CapstoneProject.repositories.CommentRepository;
 import AndreaBarocchi.CapstoneProject.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class CommentService {
@@ -79,19 +80,22 @@ public class CommentService {
         existingComment.setContent(commentPayload.getContent());
         return commentRepo.save(existingComment);
     }
-
+    
+    @Transactional
     public void deleteComment(UUID commentId, Authentication authentication) throws NotFoundException {
         Comment comment = findCommentById(commentId);
         
         User authenticatedUser = (User) authentication.getPrincipal();
-        
+
         // check if authenticated user is comment's owner
-        if (!comment.getUser().getEmail().equals(((User) authentication.getPrincipal()).getEmail())&& !authenticatedUser.getRole().equals(UserRole.ADMIN)) {
+        if (!comment.getUser().getEmail().equals(((User) authentication.getPrincipal()).getEmail()) && !authenticatedUser.getRole().equals(UserRole.ADMIN)) {
             throw new UnauthorizedException(authenticatedUser.getFirstname() + " is not authorized to delete this comment");
         }
         comment.getArticle().getComments().remove(comment);
-
+        articleRepo.save(comment.getArticle());
+        comment.setArticle(null);
         commentRepo.delete(comment);
+        
     }
 
     //custom method for admins

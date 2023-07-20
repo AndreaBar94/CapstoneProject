@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import AndreaBarocchi.CapstoneProject.entities.Comment;
 import AndreaBarocchi.CapstoneProject.payloads.CommentPayload;
 import AndreaBarocchi.CapstoneProject.services.CommentService;
+import jakarta.transaction.Transactional;
 
 @RestController
 @RequestMapping("/comments")
@@ -62,6 +63,7 @@ public class CommentController {
 	}
 	
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> deleteComment(@PathVariable UUID id, Authentication authentication)
             throws NotFoundException {
         commentService.deleteComment(id, authentication);

@@ -40,6 +40,7 @@ import AndreaBarocchi.CapstoneProject.repositories.CommentRepository;
 import AndreaBarocchi.CapstoneProject.repositories.LikeRepository;
 import AndreaBarocchi.CapstoneProject.repositories.UserRepository;
 import AndreaBarocchi.CapstoneProject.services.ArticleService;
+import AndreaBarocchi.CapstoneProject.services.CommentService;
 import AndreaBarocchi.CapstoneProject.services.UserService;
 
 @SpringBootTest
@@ -66,6 +67,9 @@ class CapstoneProjectApplicationTests {
     
     @InjectMocks
     private UserService userService;
+    
+    @InjectMocks
+    private CommentService commentService;
     
 
     @Test
@@ -461,6 +465,6 @@ class CapstoneProjectApplicationTests {
         });
     }
 
-    
+
 
 }
