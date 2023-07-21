@@ -148,7 +148,7 @@ export const updateUser = (userData, userId) => {
 
 //delete user
 export const deleteUser = (userId, navigate) => {
-	return async (getState) => {
+	return async (dispatch, getState) => {
 		try {
 			const token = getState().loginToken.token;
 			const response = await fetch(userEndpoint + `/${userId}`, {
