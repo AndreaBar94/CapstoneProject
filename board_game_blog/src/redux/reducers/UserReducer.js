@@ -11,7 +11,6 @@ const userReducer = (state = initialState, action) => {
 				...state,
 				currentUser: action.payload,
 			};
-		// Altri casi di riduttori
 		default:
 			return state;
 	}
